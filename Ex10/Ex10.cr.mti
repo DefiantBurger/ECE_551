@@ -1,0 +1,25 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/saturate.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/saturate.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/Ex10.mpf' is used as the ini file.
+-- Compiling module saturate
+
+Top level modules:
+	saturate
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/PID.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/PID.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/Ex10.mpf' is used as the ini file.
+-- Compiling module PID
+
+Top level modules:
+	PID
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/PID_dbg_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/PID_dbg_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex10/Ex10.mpf' is used as the ini file.
+-- Compiling module PID_dbg_tb
+
+Top level modules:
+	PID_dbg_tb
+
+} {} {}}

@@ -1,0 +1,245 @@
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading project Ex04
+# reading /home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini
+# Loading project Ex05
+# Compile of saturate.sv failed with 1 errors.
+# Compile of saturate_tb.sv failed with 1 errors.
+# 2 compiles, 2 failed with 2 errors.
+# Compile of saturate.sv failed with 2 errors.
+# Compile of saturate_tb.sv failed with 1 errors.
+# 2 compiles, 2 failed with 3 errors.
+# Compile of saturate.sv failed with 2 errors.
+# Compile of saturate_tb.sv was successful with warnings.
+# 2 compiles, 1 failed with 2 errors.
+# Compile of saturate.sv failed with 1 errors.
+# Compile of saturate.sv was successful with warnings.
+vsim work.saturate_tb -voptargs=+acc
+# ** Note: (vsim-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# vsim work.saturate_tb -voptargs="+acc" 
+# Start time: 10:21:12 on Sep 16,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Error (suppressible): /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate.sv(13): (vopt-7063) Failed to find 'conditions' in hierarchical name 'conditions'.
+#         Region: saturate_tb.iSATURATE
+# ** Error (suppressible): /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate.sv(13): (vopt-7063) Failed to find 'conditions' in hierarchical name 'conditions.$$'.
+#         Region: saturate_tb.iSATURATE
+# Optimization failed
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=2, Warnings=1.
+# Error loading design
+# End time: 10:21:13 on Sep 16,2026, Elapsed time: 0:00:01
+# Errors: 2, Warnings: 10
+# Compile of saturate_tb.sv was successful with warnings.
+vsim -voptargs=+acc work.saturate_tb
+# ** Note: (vsim-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# vsim -voptargs="+acc" work.saturate_tb 
+# Start time: 10:21:59 on Sep 16,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Error (suppressible): /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate.sv(13): (vopt-7063) Failed to find 'conditions' in hierarchical name 'conditions'.
+#         Region: saturate_tb.iSATURATE
+# ** Error (suppressible): /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate.sv(13): (vopt-7063) Failed to find 'conditions' in hierarchical name 'conditions.$$'.
+#         Region: saturate_tb.iSATURATE
+# Optimization failed
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=2, Warnings=1.
+# Error loading design
+# End time: 10:22:00 on Sep 16,2026, Elapsed time: 0:00:01
+# Errors: 2, Warnings: 3
+# Compile of saturate.sv was successful with warnings.
+vsim -voptargs=+acc work.saturate_tb
+# ** Note: (vsim-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# vsim -voptargs="+acc" work.saturate_tb 
+# Start time: 10:22:34 on Sep 16,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+add wave -position insertpoint sim:/saturate_tb/*
+run -all
+# All tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(30)
+#    Time: 5 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 30
+# Compile of saturate.sv was successful with warnings.
+# Compile of saturate_tb.sv was successful with warnings.
+# 2 compiles, 0 failed with no errors.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# All tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(40)
+#    Time: 10 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 40
+# Compile of saturate_tb.sv was successful with warnings.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# All tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(60)
+#    Time: 20 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 60
+# Compile of saturate_tb.sv was successful with warnings.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# Test 5 failed: in=32767, out1023, expected= 511
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(66)
+#    Time: 25 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 66
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# Test 5 failed: in=32767, out1023, expected= 511
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(66)
+#    Time: 25 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 66
+# Compile of saturate_tb.sv was successful with warnings.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# Test 5 failed: in=32767, out=1023, expected= 511
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(66)
+#    Time: 25 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 66
+# Compile of saturate.sv was successful with warnings.
+# Compile of saturate_tb.sv was successful with warnings.
+# 2 compiles, 0 failed with no errors.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# All tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(70)
+#    Time: 25 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 70
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# All tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(70)
+#    Time: 25 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 70
+view source
+# .main_pane.source.interior.cs.body.srcobj
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# All tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(70)
+#    Time: 25 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 70
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+# Compile of saturate_tb.sv was successful with warnings.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+run -all
+# All tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(102)
+#    Time: 40 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 102
+# Compile of saturate_tb.sv was successful with warnings.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/Ex05.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.saturate_tb(fast)
+# Loading work.saturate(fast)
+# Warning in wave window restart: (vish-4014) No objects found matching '/saturate_tb/expected_9b'. 
+# Warning in wave window restart: (vish-4014) No objects found matching '/saturate_tb/expected_6b'. 
+run -all
+# All tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv(102)
+#    Time: 40 ns  Iteration: 0  Instance: /saturate_tb
+# Break in Module saturate_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex05/saturate_tb.sv line 102
+quit -sim
+# End time: 10:48:00 on Sep 16,2026, Elapsed time: 0:25:26
+# Errors: 0, Warnings: 2

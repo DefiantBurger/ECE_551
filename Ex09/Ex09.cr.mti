@@ -1,0 +1,58 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/up_dwn_cnt4.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/up_dwn_cnt4.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/Ex09.mpf' is used as the ini file.
+-- Compiling module up_dwn_cnt4
+
+Top level modules:
+	up_dwn_cnt4
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/PWM11_test.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/PWM11_test.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/Ex09.mpf' is used as the ini file.
+-- Compiling module PWM11_test
+
+Top level modules:
+	PWM11_test
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/rst_synch.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/rst_synch.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/Ex09.mpf' is used as the ini file.
+-- Compiling module rst_synch
+
+Top level modules:
+	rst_synch
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/PWM11.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/PWM11.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/Ex09.mpf' is used as the ini file.
+-- Compiling module sr_ff
+-- Compiling module PWM11
+
+Top level modules:
+	PWM11
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/PB_release.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/PB_release.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/Ex09.mpf' is used as the ini file.
+-- Compiling module PB_release
+
+Top level modules:
+	PB_release
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/d_ff.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/d_ff.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/Ex09.mpf' is used as the ini file.
+-- Compiling module d_ff
+
+Top level modules:
+	d_ff
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/PWM11_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/PWM11_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex09/Ex09.mpf' is used as the ini file.
+-- Compiling module PWM11_tb
+
+Top level modules:
+	PWM11_tb
+
+} {} {}}

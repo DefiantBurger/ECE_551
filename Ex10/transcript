@@ -1,0 +1,44 @@
+# ** Note: (vsim-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# vsim -c -do "run -all; quit" PID_dbg_tb 
+# Start time: 21:37:48 on Oct 12,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vopt-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.PID_dbg_tb(fast)
+# run -all
+# GOOD1: zero in should give zero out
+# GOOD2: PID_cntrl should be P_term only
+# GOOD3: ss_tmr should be 0x00 since pwr_up=0
+# GOOD4: D_term in proper range
+# GOOD5: I_term should be 5
+# GOOD6: I_term should be 0x11
+# GOOD7: I_term should be saturated at 0x7FF
+# GOOD8: I_term should be 5
+# GOOD9: I_term should be 0, P_term should be 0x0090
+# GOOD10: I_term should be 0x7FFA, P_term should be 0x7B80
+# GOOD11: PID_cntrl should be saturated negative
+# GOOD12: I_term should be 0x7801, P_term should be 0x0240
+# GOOD13: ss_tmr should be 0x01
+# YAHOO!! all tests passed...my name is Joseph Cicalese
+# 
+# ** Note: $stop    : PID_dbg_tb.sv(179)
+#    Time: 10948195 ns  Iteration: 1  Instance: /PID_dbg_tb
+# Break at PID_dbg_tb.sv line 179
+# Stopped at PID_dbg_tb.sv line 179
+#  quit
+# End time: 21:37:52 on Oct 12,2026, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0

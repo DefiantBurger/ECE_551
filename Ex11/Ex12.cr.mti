@@ -1,0 +1,33 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex12/UART_tx.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex12/UART_tx.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex11/Ex12.mpf' is used as the ini file.
+-- Compiling module UART_tx
+
+Top level modules:
+	UART_tx
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex12/sr_ff.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex12/sr_ff.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex11/Ex12.mpf' is used as the ini file.
+-- Compiling module sr_ff
+
+Top level modules:
+	sr_ff
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex12/UART_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex12/UART_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex11/Ex12.mpf' is used as the ini file.
+-- Compiling module UART_tb
+
+Top level modules:
+	UART_tb
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex12/UART_rx.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex12/UART_rx.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex11/Ex12.mpf' is used as the ini file.
+-- Compiling module UART_rx
+
+Top level modules:
+	UART_rx
+
+} {} {}}

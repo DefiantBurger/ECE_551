@@ -1,0 +1,33 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/ring_osc.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/ring_osc.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/Ex02.mpf' is used as the ini file.
+-- Compiling module ring_osc
+
+Top level modules:
+	ring_osc
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/MSFF.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/MSFF.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/Ex02.mpf' is used as the ini file.
+-- Compiling module MSFF
+
+Top level modules:
+	MSFF
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/MSFF_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/MSFF_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/Ex02.mpf' is used as the ini file.
+-- Compiling module MSFF_tb
+
+Top level modules:
+	MSFF_tb
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/ring_osc_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/ring_osc_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex02/Ex02.mpf' is used as the ini file.
+-- Compiling module ring_osc_tb
+
+Top level modules:
+	ring_osc_tb
+
+} {} {}}

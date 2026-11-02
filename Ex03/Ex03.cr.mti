@@ -1,0 +1,25 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/dff.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/dff.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+-- Compiling module dff
+
+Top level modules:
+	dff
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+-- Compiling module synch_detect
+
+Top level modules:
+	synch_detect
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+-- Compiling module synch_detect_tb
+
+Top level modules:
+	synch_detect_tb
+
+} {} {}}

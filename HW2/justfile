@@ -1,0 +1,3 @@
+run:
+	vlog adder.sv
+	vlog adder_tb.sv 

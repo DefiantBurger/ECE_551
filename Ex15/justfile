@@ -1,0 +1,5 @@
+compile:
+	vlog *.sv
+
+run:
+	vlog *.sv && vsim -c -do "run -all; quit" SPI_main_tb

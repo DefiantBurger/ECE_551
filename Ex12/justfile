@@ -1,0 +1,5 @@
+test: compile
+    vsim -c -do "run -all; quit" UART_tb
+
+compile:
+    vlog *.sv

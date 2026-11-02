@@ -1,0 +1,2867 @@
+/////////////////////////////////////////////////////////////
+// Created by: Synopsys DC Expert(TM) in wire load mode
+// Version   : Y-2026.03
+// Date      : Wed Oct 28 11:43:28 2026
+/////////////////////////////////////////////////////////////
+
+
+module balance_cntrl ( clk, rst_n, vld, pwr_up, rider_off, en_steer, ptch, 
+        ptch_rt, steer_pot, lft_spd, rght_spd, too_fast );
+  input [15:0] ptch;
+  input [15:0] ptch_rt;
+  input [11:0] steer_pot;
+  output [11:0] lft_spd;
+  output [11:0] rght_spd;
+  input clk, rst_n, vld, pwr_up, rider_off, en_steer;
+  output too_fast;
+  wire   n1, n2, \i_PID/n31 , \i_PID/n30 , \i_PID/n29 , \i_PID/n28 ,
+         \i_PID/n27 , \i_PID/n26 , \i_PID/n25 , \i_PID/n24 , \i_PID/n23 ,
+         \i_PID/n22 , \i_PID/n13 , \i_PID/n12 , \i_PID/n11 , \i_PID/n10 ,
+         \i_PID/n9 , \i_PID/n8 , \i_PID/n7 , \i_PID/n6 , \i_PID/n5 ,
+         \i_PID/n4 , \i_PID/n3 , \i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[10] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[9] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[8] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[7] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[6] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[5] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[4] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[3] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[2] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[1] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/A[0] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[15] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[14] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[13] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[12] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[11] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[10] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[9] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[8] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[7] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[6] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[5] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[4] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[3] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[2] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[1] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[0] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[15] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[14] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[13] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[12] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[11] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[10] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[9] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[8] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[7] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[6] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[5] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[4] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[3] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[2] ,
+         \i_PID/sub_2_root_sub_1_root_add_83_2/carry[1] , \i_PID/P_term[0] ,
+         \i_PID/P_term[10] , \i_PID/P_term[11] , \i_PID/P_term[12] ,
+         \i_PID/P_term[13] , \i_PID/P_term[14] , \i_PID/P_term[1] ,
+         \i_PID/P_term[2] , \i_PID/P_term[3] , \i_PID/P_term[4] ,
+         \i_PID/P_term[5] , \i_PID/P_term[6] , \i_PID/P_term[7] ,
+         \i_PID/P_term[8] , \i_PID/P_term[9] , \i_PID/n21 , \i_PID/n20 ,
+         \i_PID/n19 , \i_PID/n18 , \i_PID/n17 , \i_PID/n16 , \i_PID/n15 ,
+         \i_PID/n14 , \i_PID/N53 , \i_PID/N52 , \i_PID/N51 , \i_PID/N50 ,
+         \i_PID/N49 , \i_PID/N48 , \i_PID/N47 , \i_PID/N46 , \i_PID/N45 ,
+         \i_PID/N44 , \i_PID/N43 , \i_PID/N42 , \i_PID/N41 , \i_PID/N40 ,
+         \i_PID/N39 , \i_PID/N38 , \i_PID/N37 , \i_PID/N36 , \i_PID/N35 ,
+         \i_PID/N34 , \i_PID/N33 , \i_PID/N32 , \i_PID/N31 , \i_PID/N30 ,
+         \i_PID/N29 , \i_PID/N28 , \i_PID/N27 , \i_PID/i_sat_pitch/n6 ,
+         \i_PID/i_sat_pitch/n5 , \i_PID/i_sat_pitch/n4 ,
+         \i_PID/i_sat_pitch/n3 , \i_PID/i_sat_pitch/n2 ,
+         \i_PID/i_sat_pitch/n1 , \i_PID/i_sat_pid/n6 , \i_PID/i_sat_pid/n5 ,
+         \i_PID/i_sat_pid/n4 , \i_PID/i_sat_pid/n3 , \i_PID/i_sat_pid/n2 ,
+         \i_PID/i_sat_pid/n1 , \i_PID/add_103/n1 , \i_PID/mult_28/n20 ,
+         \i_PID/mult_28/n19 , \i_PID/mult_28/n18 , \i_PID/mult_28/n17 ,
+         \i_PID/mult_28/n16 , \i_PID/mult_28/n15 , \i_PID/mult_28/n14 ,
+         \i_PID/mult_28/n13 , \i_PID/mult_28/n12 , \i_PID/mult_28/n11 ,
+         \i_PID/mult_28/n10 , \i_PID/mult_28/n9 , \i_PID/mult_28/n8 ,
+         \i_PID/mult_28/n7 , \i_PID/mult_28/n5 , \i_PID/mult_28/A2[8] ,
+         \i_PID/mult_28/A2[9] , \i_PID/mult_28/A2[10] , \i_PID/mult_28/A1[8] ,
+         \i_PID/mult_28/A1[9] , \i_PID/mult_28/SUMB[9][0] ,
+         \i_PID/mult_28/SUMB[9][1] , \i_PID/mult_28/SUMB[9][2] ,
+         \i_PID/mult_28/CARRYB[3][0] , \i_PID/mult_28/CARRYB[4][0] ,
+         \i_PID/mult_28/CARRYB[5][0] , \i_PID/mult_28/CARRYB[6][0] ,
+         \i_PID/mult_28/CARRYB[7][0] , \i_PID/mult_28/CARRYB[8][0] ,
+         \i_PID/mult_28/CARRYB[9][0] , \i_PID/mult_28/CARRYB[9][1] ,
+         \i_PID/mult_28/CARRYB[9][2] , \i_SegwayMath/n59 , \i_SegwayMath/n58 ,
+         \i_SegwayMath/n57 , \i_SegwayMath/n54 , \i_SegwayMath/n53 ,
+         \i_SegwayMath/n52 , \i_SegwayMath/n51 , \i_SegwayMath/n50 ,
+         \i_SegwayMath/n49 , \i_SegwayMath/n48 , \i_SegwayMath/n47 ,
+         \i_SegwayMath/n46 , \i_SegwayMath/n45 , \i_SegwayMath/n44 ,
+         \i_SegwayMath/n43 , \i_SegwayMath/n42 , \i_SegwayMath/n41 ,
+         \i_SegwayMath/n40 , \i_SegwayMath/n39 , \i_SegwayMath/n38 ,
+         \i_SegwayMath/n37 , \i_SegwayMath/n36 , \i_SegwayMath/n35 ,
+         \i_SegwayMath/n34 , \i_SegwayMath/n33 , \i_SegwayMath/n32 ,
+         \i_SegwayMath/n31 , \i_SegwayMath/n30 , \i_SegwayMath/n29 ,
+         \i_SegwayMath/n28 , \i_SegwayMath/n27 , \i_SegwayMath/n26 ,
+         \i_SegwayMath/n25 , \i_SegwayMath/n24 , \i_SegwayMath/n23 ,
+         \i_SegwayMath/n22 , \i_SegwayMath/n21 , \i_SegwayMath/n20 ,
+         \i_SegwayMath/n19 , \i_SegwayMath/n18 , \i_SegwayMath/n17 ,
+         \i_SegwayMath/n16 , \i_SegwayMath/n15 , \i_SegwayMath/n14 ,
+         \i_SegwayMath/n13 , \i_SegwayMath/n12 , \i_SegwayMath/n11 ,
+         \i_SegwayMath/n10 , \i_SegwayMath/n9 , \i_SegwayMath/n8 ,
+         \i_SegwayMath/n7 , \i_SegwayMath/n6 , \i_SegwayMath/n5 ,
+         \i_SegwayMath/n4 , \i_SegwayMath/n3 , \i_SegwayMath/n2 ,
+         \i_SegwayMath/n1 , \i_SegwayMath/sub_25/carry[10] ,
+         \i_SegwayMath/sub_25/carry[9] , \i_SegwayMath/sub_25/carry[8] ,
+         \i_SegwayMath/sub_25/carry[7] , \i_SegwayMath/sub_25/carry[6] ,
+         \i_SegwayMath/sub_25/carry[5] , \i_SegwayMath/sub_25/carry[4] ,
+         \i_SegwayMath/sub_25/carry[3] , \i_SegwayMath/add_26/carry[7] ,
+         \i_SegwayMath/add_26/carry[6] , \i_SegwayMath/add_26/carry[5] ,
+         \i_SegwayMath/add_26/carry[4] , \i_SegwayMath/add_26/carry[3] ,
+         \i_SegwayMath/add_26/carry[2] , \i_SegwayMath/add_26/carry[1] ,
+         \i_SegwayMath/sub_49/carry[12] , \i_SegwayMath/sub_49/carry[11] ,
+         \i_SegwayMath/sub_49/carry[10] , \i_SegwayMath/sub_49/carry[9] ,
+         \i_SegwayMath/sub_49/carry[8] , \i_SegwayMath/sub_49/carry[7] ,
+         \i_SegwayMath/sub_49/carry[6] , \i_SegwayMath/sub_49/carry[5] ,
+         \i_SegwayMath/add_49/carry[12] , \i_SegwayMath/add_49/carry[11] ,
+         \i_SegwayMath/add_49/carry[10] , \i_SegwayMath/add_49/carry[9] ,
+         \i_SegwayMath/add_49/carry[8] , \i_SegwayMath/add_49/carry[7] ,
+         \i_SegwayMath/add_49/carry[6] , \i_SegwayMath/add_49/carry[5] ,
+         \i_SegwayMath/sub_60/carry[12] , \i_SegwayMath/sub_60/carry[11] ,
+         \i_SegwayMath/sub_60/carry[10] , \i_SegwayMath/sub_60/carry[9] ,
+         \i_SegwayMath/sub_60/carry[8] , \i_SegwayMath/sub_60/carry[7] ,
+         \i_SegwayMath/sub_60/carry[6] , \i_SegwayMath/sub_60/carry[5] ,
+         \i_SegwayMath/add_60/carry[12] , \i_SegwayMath/add_60/carry[11] ,
+         \i_SegwayMath/add_60/carry[10] , \i_SegwayMath/add_60/carry[9] ,
+         \i_SegwayMath/add_60/carry[8] , \i_SegwayMath/add_60/carry[7] ,
+         \i_SegwayMath/add_60/carry[6] , \i_SegwayMath/add_60/carry[5] ,
+         \i_SegwayMath/lft_torque[11] , \i_SegwayMath/rght_torque[11] ,
+         \i_SegwayMath/steer_val_unscaled[10] ,
+         \i_SegwayMath/steer_val_unscaled[3] ,
+         \i_SegwayMath/steer_val_unscaled[4] ,
+         \i_SegwayMath/steer_val_unscaled[5] ,
+         \i_SegwayMath/steer_val_unscaled[6] ,
+         \i_SegwayMath/steer_val_unscaled[7] ,
+         \i_SegwayMath/steer_val_unscaled[8] ,
+         \i_SegwayMath/steer_val_unscaled[9] , \i_SegwayMath/N74 ,
+         \i_SegwayMath/N73 , \i_SegwayMath/N72 , \i_SegwayMath/N71 ,
+         \i_SegwayMath/N70 , \i_SegwayMath/N69 , \i_SegwayMath/N68 ,
+         \i_SegwayMath/N67 , \i_SegwayMath/N66 , \i_SegwayMath/N65 ,
+         \i_SegwayMath/N61 , \i_SegwayMath/N60 , \i_SegwayMath/N59 ,
+         \i_SegwayMath/N58 , \i_SegwayMath/N57 , \i_SegwayMath/N56 ,
+         \i_SegwayMath/N55 , \i_SegwayMath/N54 , \i_SegwayMath/N53 ,
+         \i_SegwayMath/N51 , \i_SegwayMath/N50 , \i_SegwayMath/N49 ,
+         \i_SegwayMath/N42 , \i_SegwayMath/N41 , \i_SegwayMath/N40 ,
+         \i_SegwayMath/N39 , \i_SegwayMath/N38 , \i_SegwayMath/N37 ,
+         \i_SegwayMath/N36 , \i_SegwayMath/N35 , \i_SegwayMath/N34 ,
+         \i_SegwayMath/N33 , \i_SegwayMath/N29 , \i_SegwayMath/N28 ,
+         \i_SegwayMath/N27 , \i_SegwayMath/N26 , \i_SegwayMath/N25 ,
+         \i_SegwayMath/N24 , \i_SegwayMath/N23 , \i_SegwayMath/N22 ,
+         \i_SegwayMath/N21 , \i_SegwayMath/N19 , \i_SegwayMath/N18 ,
+         \i_SegwayMath/N17 , \i_SegwayMath/steer_val_11 ,
+         \i_SegwayMath/steer_pot_clamped[0] ,
+         \i_SegwayMath/steer_pot_clamped[1] ,
+         \i_SegwayMath/steer_pot_clamped[2] ,
+         \i_SegwayMath/steer_pot_clamped[3] ,
+         \i_SegwayMath/steer_pot_clamped[4] ,
+         \i_SegwayMath/steer_pot_clamped[5] ,
+         \i_SegwayMath/steer_pot_clamped[6] ,
+         \i_SegwayMath/steer_pot_clamped[7] ,
+         \i_SegwayMath/steer_pot_clamped[8] ,
+         \i_SegwayMath/steer_pot_clamped[9] , \i_SegwayMath/i_lft_spd_sat/n6 ,
+         \i_SegwayMath/i_lft_spd_sat/n5 , \i_SegwayMath/i_lft_spd_sat/n4 ,
+         \i_SegwayMath/i_lft_spd_sat/n3 , \i_SegwayMath/i_lft_spd_sat/n2 ,
+         \i_SegwayMath/i_rght_spd_sat/n9 , \i_SegwayMath/i_rght_spd_sat/n8 ,
+         \i_SegwayMath/i_rght_spd_sat/n7 , \i_SegwayMath/i_rght_spd_sat/n6 ,
+         \i_SegwayMath/i_rght_spd_sat/n5 , \i_SegwayMath/sub_38/n11 ,
+         \i_SegwayMath/sub_38/n10 , \i_SegwayMath/sub_38/n9 ,
+         \i_SegwayMath/sub_38/n8 , \i_SegwayMath/sub_38/n7 ,
+         \i_SegwayMath/sub_38/n6 , \i_SegwayMath/sub_38/n5 ,
+         \i_SegwayMath/sub_38/n4 , \i_SegwayMath/sub_38/n3 ,
+         \i_SegwayMath/sub_38/n2 , \i_SegwayMath/sub_38/n1 ,
+         \i_SegwayMath/mult_13/n12 , \i_SegwayMath/mult_13/n11 ,
+         \i_SegwayMath/mult_13/n10 , \i_SegwayMath/mult_13/n9 ,
+         \i_SegwayMath/mult_13/n8 , \i_SegwayMath/mult_13/n7 ,
+         \i_SegwayMath/mult_13/n6 , \i_SegwayMath/mult_13/n5 ,
+         \i_SegwayMath/mult_13/n4 , \i_SegwayMath/mult_13/n3 ,
+         \i_SegwayMath/mult_13/n2 , \i_SegwayMath/mult_13/A2[8] ,
+         \i_SegwayMath/mult_13/A2[9] , \i_SegwayMath/mult_13/A2[10] ,
+         \i_SegwayMath/mult_13/A2[11] , \i_SegwayMath/mult_13/A2[12] ,
+         \i_SegwayMath/mult_13/A2[13] , \i_SegwayMath/mult_13/A2[14] ,
+         \i_SegwayMath/mult_13/A2[15] , \i_SegwayMath/mult_13/A2[16] ,
+         \i_SegwayMath/mult_13/A2[17] , \i_SegwayMath/mult_13/A1[7] ,
+         \i_SegwayMath/mult_13/A1[8] , \i_SegwayMath/mult_13/A1[9] ,
+         \i_SegwayMath/mult_13/A1[10] , \i_SegwayMath/mult_13/A1[11] ,
+         \i_SegwayMath/mult_13/A1[12] , \i_SegwayMath/mult_13/A1[13] ,
+         \i_SegwayMath/mult_13/A1[14] , \i_SegwayMath/mult_13/A1[15] ,
+         \i_SegwayMath/mult_13/A1[16] , \i_SegwayMath/mult_13/A1[17] ,
+         \i_SegwayMath/mult_13/SUMB[1][1] , \i_SegwayMath/mult_13/SUMB[1][2] ,
+         \i_SegwayMath/mult_13/SUMB[1][3] , \i_SegwayMath/mult_13/SUMB[1][4] ,
+         \i_SegwayMath/mult_13/SUMB[1][5] , \i_SegwayMath/mult_13/SUMB[1][6] ,
+         \i_SegwayMath/mult_13/SUMB[1][7] , \i_SegwayMath/mult_13/SUMB[1][8] ,
+         \i_SegwayMath/mult_13/SUMB[1][9] , \i_SegwayMath/mult_13/SUMB[1][10] ,
+         \i_SegwayMath/mult_13/SUMB[2][1] , \i_SegwayMath/mult_13/SUMB[2][2] ,
+         \i_SegwayMath/mult_13/SUMB[2][3] , \i_SegwayMath/mult_13/SUMB[2][4] ,
+         \i_SegwayMath/mult_13/SUMB[2][5] , \i_SegwayMath/mult_13/SUMB[2][6] ,
+         \i_SegwayMath/mult_13/SUMB[2][7] , \i_SegwayMath/mult_13/SUMB[2][8] ,
+         \i_SegwayMath/mult_13/SUMB[2][9] , \i_SegwayMath/mult_13/SUMB[2][10] ,
+         \i_SegwayMath/mult_13/SUMB[3][1] , \i_SegwayMath/mult_13/SUMB[3][2] ,
+         \i_SegwayMath/mult_13/SUMB[3][3] , \i_SegwayMath/mult_13/SUMB[3][4] ,
+         \i_SegwayMath/mult_13/SUMB[3][5] , \i_SegwayMath/mult_13/SUMB[3][6] ,
+         \i_SegwayMath/mult_13/SUMB[3][7] , \i_SegwayMath/mult_13/SUMB[3][8] ,
+         \i_SegwayMath/mult_13/SUMB[3][9] , \i_SegwayMath/mult_13/SUMB[3][10] ,
+         \i_SegwayMath/mult_13/SUMB[4][1] , \i_SegwayMath/mult_13/SUMB[4][2] ,
+         \i_SegwayMath/mult_13/SUMB[4][3] , \i_SegwayMath/mult_13/SUMB[4][4] ,
+         \i_SegwayMath/mult_13/SUMB[4][5] , \i_SegwayMath/mult_13/SUMB[4][6] ,
+         \i_SegwayMath/mult_13/SUMB[4][7] , \i_SegwayMath/mult_13/SUMB[4][8] ,
+         \i_SegwayMath/mult_13/SUMB[4][9] , \i_SegwayMath/mult_13/SUMB[4][10] ,
+         \i_SegwayMath/mult_13/SUMB[5][1] , \i_SegwayMath/mult_13/SUMB[5][2] ,
+         \i_SegwayMath/mult_13/SUMB[5][3] , \i_SegwayMath/mult_13/SUMB[5][4] ,
+         \i_SegwayMath/mult_13/SUMB[5][5] , \i_SegwayMath/mult_13/SUMB[5][6] ,
+         \i_SegwayMath/mult_13/SUMB[5][7] , \i_SegwayMath/mult_13/SUMB[5][8] ,
+         \i_SegwayMath/mult_13/SUMB[5][9] , \i_SegwayMath/mult_13/SUMB[5][10] ,
+         \i_SegwayMath/mult_13/SUMB[6][1] , \i_SegwayMath/mult_13/SUMB[6][2] ,
+         \i_SegwayMath/mult_13/SUMB[6][3] , \i_SegwayMath/mult_13/SUMB[6][4] ,
+         \i_SegwayMath/mult_13/SUMB[6][5] , \i_SegwayMath/mult_13/SUMB[6][6] ,
+         \i_SegwayMath/mult_13/SUMB[6][7] , \i_SegwayMath/mult_13/SUMB[6][8] ,
+         \i_SegwayMath/mult_13/SUMB[6][9] , \i_SegwayMath/mult_13/SUMB[6][10] ,
+         \i_SegwayMath/mult_13/SUMB[7][1] , \i_SegwayMath/mult_13/SUMB[7][2] ,
+         \i_SegwayMath/mult_13/SUMB[7][3] , \i_SegwayMath/mult_13/SUMB[7][4] ,
+         \i_SegwayMath/mult_13/SUMB[7][5] , \i_SegwayMath/mult_13/SUMB[7][6] ,
+         \i_SegwayMath/mult_13/SUMB[7][7] , \i_SegwayMath/mult_13/SUMB[7][8] ,
+         \i_SegwayMath/mult_13/SUMB[7][9] , \i_SegwayMath/mult_13/SUMB[7][10] ,
+         \i_SegwayMath/mult_13/SUMB[8][0] , \i_SegwayMath/mult_13/SUMB[8][1] ,
+         \i_SegwayMath/mult_13/SUMB[8][2] , \i_SegwayMath/mult_13/SUMB[8][3] ,
+         \i_SegwayMath/mult_13/SUMB[8][4] , \i_SegwayMath/mult_13/SUMB[8][5] ,
+         \i_SegwayMath/mult_13/SUMB[8][6] , \i_SegwayMath/mult_13/SUMB[8][7] ,
+         \i_SegwayMath/mult_13/SUMB[8][8] , \i_SegwayMath/mult_13/SUMB[8][9] ,
+         \i_SegwayMath/mult_13/SUMB[8][10] ,
+         \i_SegwayMath/mult_13/CARRYB[1][0] ,
+         \i_SegwayMath/mult_13/CARRYB[1][1] ,
+         \i_SegwayMath/mult_13/CARRYB[1][2] ,
+         \i_SegwayMath/mult_13/CARRYB[1][3] ,
+         \i_SegwayMath/mult_13/CARRYB[1][4] ,
+         \i_SegwayMath/mult_13/CARRYB[1][5] ,
+         \i_SegwayMath/mult_13/CARRYB[1][6] ,
+         \i_SegwayMath/mult_13/CARRYB[1][7] ,
+         \i_SegwayMath/mult_13/CARRYB[1][8] ,
+         \i_SegwayMath/mult_13/CARRYB[1][9] ,
+         \i_SegwayMath/mult_13/CARRYB[1][10] ,
+         \i_SegwayMath/mult_13/CARRYB[2][0] ,
+         \i_SegwayMath/mult_13/CARRYB[2][1] ,
+         \i_SegwayMath/mult_13/CARRYB[2][2] ,
+         \i_SegwayMath/mult_13/CARRYB[2][3] ,
+         \i_SegwayMath/mult_13/CARRYB[2][4] ,
+         \i_SegwayMath/mult_13/CARRYB[2][5] ,
+         \i_SegwayMath/mult_13/CARRYB[2][6] ,
+         \i_SegwayMath/mult_13/CARRYB[2][7] ,
+         \i_SegwayMath/mult_13/CARRYB[2][8] ,
+         \i_SegwayMath/mult_13/CARRYB[2][9] ,
+         \i_SegwayMath/mult_13/CARRYB[2][10] ,
+         \i_SegwayMath/mult_13/CARRYB[3][0] ,
+         \i_SegwayMath/mult_13/CARRYB[3][1] ,
+         \i_SegwayMath/mult_13/CARRYB[3][2] ,
+         \i_SegwayMath/mult_13/CARRYB[3][3] ,
+         \i_SegwayMath/mult_13/CARRYB[3][4] ,
+         \i_SegwayMath/mult_13/CARRYB[3][5] ,
+         \i_SegwayMath/mult_13/CARRYB[3][6] ,
+         \i_SegwayMath/mult_13/CARRYB[3][7] ,
+         \i_SegwayMath/mult_13/CARRYB[3][8] ,
+         \i_SegwayMath/mult_13/CARRYB[3][9] ,
+         \i_SegwayMath/mult_13/CARRYB[3][10] ,
+         \i_SegwayMath/mult_13/CARRYB[4][0] ,
+         \i_SegwayMath/mult_13/CARRYB[4][1] ,
+         \i_SegwayMath/mult_13/CARRYB[4][2] ,
+         \i_SegwayMath/mult_13/CARRYB[4][3] ,
+         \i_SegwayMath/mult_13/CARRYB[4][4] ,
+         \i_SegwayMath/mult_13/CARRYB[4][5] ,
+         \i_SegwayMath/mult_13/CARRYB[4][6] ,
+         \i_SegwayMath/mult_13/CARRYB[4][7] ,
+         \i_SegwayMath/mult_13/CARRYB[4][8] ,
+         \i_SegwayMath/mult_13/CARRYB[4][9] ,
+         \i_SegwayMath/mult_13/CARRYB[4][10] ,
+         \i_SegwayMath/mult_13/CARRYB[5][0] ,
+         \i_SegwayMath/mult_13/CARRYB[5][1] ,
+         \i_SegwayMath/mult_13/CARRYB[5][2] ,
+         \i_SegwayMath/mult_13/CARRYB[5][3] ,
+         \i_SegwayMath/mult_13/CARRYB[5][4] ,
+         \i_SegwayMath/mult_13/CARRYB[5][5] ,
+         \i_SegwayMath/mult_13/CARRYB[5][6] ,
+         \i_SegwayMath/mult_13/CARRYB[5][7] ,
+         \i_SegwayMath/mult_13/CARRYB[5][8] ,
+         \i_SegwayMath/mult_13/CARRYB[5][9] ,
+         \i_SegwayMath/mult_13/CARRYB[5][10] ,
+         \i_SegwayMath/mult_13/CARRYB[6][0] ,
+         \i_SegwayMath/mult_13/CARRYB[6][1] ,
+         \i_SegwayMath/mult_13/CARRYB[6][2] ,
+         \i_SegwayMath/mult_13/CARRYB[6][3] ,
+         \i_SegwayMath/mult_13/CARRYB[6][4] ,
+         \i_SegwayMath/mult_13/CARRYB[6][5] ,
+         \i_SegwayMath/mult_13/CARRYB[6][6] ,
+         \i_SegwayMath/mult_13/CARRYB[6][7] ,
+         \i_SegwayMath/mult_13/CARRYB[6][8] ,
+         \i_SegwayMath/mult_13/CARRYB[6][9] ,
+         \i_SegwayMath/mult_13/CARRYB[6][10] ,
+         \i_SegwayMath/mult_13/CARRYB[7][0] ,
+         \i_SegwayMath/mult_13/CARRYB[7][1] ,
+         \i_SegwayMath/mult_13/CARRYB[7][2] ,
+         \i_SegwayMath/mult_13/CARRYB[7][3] ,
+         \i_SegwayMath/mult_13/CARRYB[7][4] ,
+         \i_SegwayMath/mult_13/CARRYB[7][5] ,
+         \i_SegwayMath/mult_13/CARRYB[7][6] ,
+         \i_SegwayMath/mult_13/CARRYB[7][7] ,
+         \i_SegwayMath/mult_13/CARRYB[7][8] ,
+         \i_SegwayMath/mult_13/CARRYB[7][9] ,
+         \i_SegwayMath/mult_13/CARRYB[7][10] ,
+         \i_SegwayMath/mult_13/CARRYB[8][0] ,
+         \i_SegwayMath/mult_13/CARRYB[8][1] ,
+         \i_SegwayMath/mult_13/CARRYB[8][2] ,
+         \i_SegwayMath/mult_13/CARRYB[8][3] ,
+         \i_SegwayMath/mult_13/CARRYB[8][4] ,
+         \i_SegwayMath/mult_13/CARRYB[8][5] ,
+         \i_SegwayMath/mult_13/CARRYB[8][6] ,
+         \i_SegwayMath/mult_13/CARRYB[8][7] ,
+         \i_SegwayMath/mult_13/CARRYB[8][8] ,
+         \i_SegwayMath/mult_13/CARRYB[8][9] ,
+         \i_SegwayMath/mult_13/CARRYB[8][10] , \i_SegwayMath/mult_13/ab[0][2] ,
+         \i_SegwayMath/mult_13/ab[0][3] , \i_SegwayMath/mult_13/ab[0][4] ,
+         \i_SegwayMath/mult_13/ab[0][5] , \i_SegwayMath/mult_13/ab[0][6] ,
+         \i_SegwayMath/mult_13/ab[0][7] , \i_SegwayMath/mult_13/ab[0][8] ,
+         \i_SegwayMath/mult_13/ab[0][9] , \i_SegwayMath/mult_13/ab[0][10] ,
+         \i_SegwayMath/mult_13/ab[0][11] , \i_SegwayMath/mult_13/ab[1][1] ,
+         \i_SegwayMath/mult_13/ab[1][2] , \i_SegwayMath/mult_13/ab[1][3] ,
+         \i_SegwayMath/mult_13/ab[1][4] , \i_SegwayMath/mult_13/ab[1][5] ,
+         \i_SegwayMath/mult_13/ab[1][6] , \i_SegwayMath/mult_13/ab[1][7] ,
+         \i_SegwayMath/mult_13/ab[1][8] , \i_SegwayMath/mult_13/ab[1][9] ,
+         \i_SegwayMath/mult_13/ab[1][10] , \i_SegwayMath/mult_13/ab[1][11] ,
+         \i_SegwayMath/mult_13/ab[2][0] , \i_SegwayMath/mult_13/ab[2][1] ,
+         \i_SegwayMath/mult_13/ab[2][2] , \i_SegwayMath/mult_13/ab[2][3] ,
+         \i_SegwayMath/mult_13/ab[2][4] , \i_SegwayMath/mult_13/ab[2][5] ,
+         \i_SegwayMath/mult_13/ab[2][6] , \i_SegwayMath/mult_13/ab[2][7] ,
+         \i_SegwayMath/mult_13/ab[2][8] , \i_SegwayMath/mult_13/ab[2][9] ,
+         \i_SegwayMath/mult_13/ab[2][10] , \i_SegwayMath/mult_13/ab[2][11] ,
+         \i_SegwayMath/mult_13/ab[3][0] , \i_SegwayMath/mult_13/ab[3][1] ,
+         \i_SegwayMath/mult_13/ab[3][2] , \i_SegwayMath/mult_13/ab[3][3] ,
+         \i_SegwayMath/mult_13/ab[3][4] , \i_SegwayMath/mult_13/ab[3][5] ,
+         \i_SegwayMath/mult_13/ab[3][6] , \i_SegwayMath/mult_13/ab[3][7] ,
+         \i_SegwayMath/mult_13/ab[3][8] , \i_SegwayMath/mult_13/ab[3][9] ,
+         \i_SegwayMath/mult_13/ab[3][10] , \i_SegwayMath/mult_13/ab[3][11] ,
+         \i_SegwayMath/mult_13/ab[4][0] , \i_SegwayMath/mult_13/ab[4][1] ,
+         \i_SegwayMath/mult_13/ab[4][2] , \i_SegwayMath/mult_13/ab[4][3] ,
+         \i_SegwayMath/mult_13/ab[4][4] , \i_SegwayMath/mult_13/ab[4][5] ,
+         \i_SegwayMath/mult_13/ab[4][6] , \i_SegwayMath/mult_13/ab[4][7] ,
+         \i_SegwayMath/mult_13/ab[4][8] , \i_SegwayMath/mult_13/ab[4][9] ,
+         \i_SegwayMath/mult_13/ab[4][10] , \i_SegwayMath/mult_13/ab[4][11] ,
+         \i_SegwayMath/mult_13/ab[5][0] , \i_SegwayMath/mult_13/ab[5][1] ,
+         \i_SegwayMath/mult_13/ab[5][2] , \i_SegwayMath/mult_13/ab[5][3] ,
+         \i_SegwayMath/mult_13/ab[5][4] , \i_SegwayMath/mult_13/ab[5][5] ,
+         \i_SegwayMath/mult_13/ab[5][6] , \i_SegwayMath/mult_13/ab[5][7] ,
+         \i_SegwayMath/mult_13/ab[5][8] , \i_SegwayMath/mult_13/ab[5][9] ,
+         \i_SegwayMath/mult_13/ab[5][10] , \i_SegwayMath/mult_13/ab[5][11] ,
+         \i_SegwayMath/mult_13/ab[6][0] , \i_SegwayMath/mult_13/ab[6][1] ,
+         \i_SegwayMath/mult_13/ab[6][2] , \i_SegwayMath/mult_13/ab[6][3] ,
+         \i_SegwayMath/mult_13/ab[6][4] , \i_SegwayMath/mult_13/ab[6][5] ,
+         \i_SegwayMath/mult_13/ab[6][6] , \i_SegwayMath/mult_13/ab[6][7] ,
+         \i_SegwayMath/mult_13/ab[6][8] , \i_SegwayMath/mult_13/ab[6][9] ,
+         \i_SegwayMath/mult_13/ab[6][10] , \i_SegwayMath/mult_13/ab[6][11] ,
+         \i_SegwayMath/mult_13/ab[7][0] , \i_SegwayMath/mult_13/ab[7][1] ,
+         \i_SegwayMath/mult_13/ab[7][2] , \i_SegwayMath/mult_13/ab[7][3] ,
+         \i_SegwayMath/mult_13/ab[7][4] , \i_SegwayMath/mult_13/ab[7][5] ,
+         \i_SegwayMath/mult_13/ab[7][6] , \i_SegwayMath/mult_13/ab[7][7] ,
+         \i_SegwayMath/mult_13/ab[7][8] , \i_SegwayMath/mult_13/ab[7][9] ,
+         \i_SegwayMath/mult_13/ab[7][10] , \i_SegwayMath/mult_13/ab[7][11] ,
+         \i_SegwayMath/mult_13/FS_1/n49 , \i_SegwayMath/mult_13/FS_1/n48 ,
+         \i_SegwayMath/mult_13/FS_1/n47 , \i_SegwayMath/mult_13/FS_1/n46 ,
+         \i_SegwayMath/mult_13/FS_1/n45 , \i_SegwayMath/mult_13/FS_1/n44 ,
+         \i_SegwayMath/mult_13/FS_1/n43 , \i_SegwayMath/mult_13/FS_1/n42 ,
+         \i_SegwayMath/mult_13/FS_1/n41 , \i_SegwayMath/mult_13/FS_1/n40 ,
+         \i_SegwayMath/mult_13/FS_1/n39 , \i_SegwayMath/mult_13/FS_1/n38 ,
+         \i_SegwayMath/mult_13/FS_1/n37 , \i_SegwayMath/mult_13/FS_1/n36 ,
+         \i_SegwayMath/mult_13/FS_1/n35 , \i_SegwayMath/mult_13/FS_1/n34 ,
+         \i_SegwayMath/mult_13/FS_1/n33 , \i_SegwayMath/mult_13/FS_1/n32 ,
+         \i_SegwayMath/mult_13/FS_1/n31 , \i_SegwayMath/mult_13/FS_1/n30 ,
+         \i_SegwayMath/mult_13/FS_1/n29 , \i_SegwayMath/mult_13/FS_1/n28 ,
+         \i_SegwayMath/mult_13/FS_1/n27 , \i_SegwayMath/mult_13/FS_1/n26 ,
+         \i_SegwayMath/mult_13/FS_1/n25 , \i_SegwayMath/mult_13/FS_1/n24 ,
+         \i_SegwayMath/mult_13/FS_1/n23 , \i_SegwayMath/mult_13/FS_1/n22 ,
+         \i_SegwayMath/mult_13/FS_1/n21 , \i_SegwayMath/mult_13/FS_1/n20 ,
+         \i_SegwayMath/mult_13/FS_1/n19 , \i_SegwayMath/mult_13/FS_1/n18 ,
+         \i_SegwayMath/mult_13/FS_1/n17 , \i_SegwayMath/mult_13/FS_1/n16 ,
+         \i_SegwayMath/mult_13/FS_1/n15 , \i_SegwayMath/mult_13/FS_1/n14 ,
+         \i_SegwayMath/mult_13/FS_1/n13 , \i_SegwayMath/mult_13/FS_1/n12 ,
+         \i_SegwayMath/mult_13/FS_1/n11 , \i_SegwayMath/mult_13/FS_1/n10 ,
+         \i_SegwayMath/mult_13/FS_1/n9 , \i_SegwayMath/mult_13/FS_1/n8 ,
+         \i_SegwayMath/mult_13/FS_1/n7 , \i_SegwayMath/mult_13/FS_1/n6 ,
+         \i_SegwayMath/mult_13/FS_1/n5 , \i_SegwayMath/mult_13/FS_1/n4 ;
+  wire   [11:0] PID_cntrl;
+  wire   [7:0] ss_tmr;
+  wire   [26:0] \i_PID/nxt_tmr ;
+  wire   [18:0] \i_PID/long_tmr ;
+  wire   [15:0] \i_PID/sum ;
+  wire   [17:0] \i_PID/next_accum ;
+  wire   [17:0] \i_PID/accum_sum ;
+  wire   [17:0] \i_PID/I_term ;
+  wire   [9:0] \i_PID/pitch_err_sat ;
+  wire   [26:1] \i_PID/add_103/carry ;
+  wire   [17:1] \i_PID/add_38/carry ;
+  wire   [15:1] \i_PID/add_0_root_sub_1_root_add_83_2/carry ;
+  wire   [12:0] \i_SegwayMath/rght_shaped ;
+  wire   [12:0] \i_SegwayMath/lft_shaped ;
+  wire   [12:0] \i_SegwayMath/rght_torque ;
+  wire   [12:0] \i_SegwayMath/lft_torque ;
+  wire   [12:0] \i_SegwayMath/steer_val_ext_en ;
+  wire   [8:0] \i_SegwayMath/steer_val ;
+  wire   [11:0] \i_SegwayMath/PID_ss ;
+  wire   [13:0] \i_SegwayMath/sub_38/carry ;
+  wire   [12:1] \i_SegwayMath/add_37/carry ;
+
+  INVX1_RVT U1 ( .A(n2), .Y(n1) );
+  INVX1_RVT U2 ( .A(pwr_up), .Y(n2) );
+  INVX2_RVT \i_PID/U79  ( .A(ptch_rt[15]), .Y(\i_PID/n30 ) );
+  AOI21X2_RVT \i_PID/U78  ( .A1(vld), .A2(\i_PID/n16 ), .A3(rider_off), .Y(
+        \i_PID/n15 ) );
+  AND3X2_RVT \i_PID/U77  ( .A1(\i_PID/n16 ), .A2(\i_PID/n31 ), .A3(vld), .Y(
+        \i_PID/n14 ) );
+  NBUFFX4_RVT \i_PID/U76  ( .A(\i_PID/pitch_err_sat [9]), .Y(\i_PID/n6 ) );
+  NBUFFX2_RVT \i_PID/U75  ( .A(\i_PID/pitch_err_sat [9]), .Y(\i_PID/n5 ) );
+  NAND2X0_RVT \i_PID/U74  ( .A1(\i_PID/n3 ), .A2(ptch_rt[6]), .Y(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[1] ) );
+  NBUFFX2_RVT \i_PID/U73  ( .A(rst_n), .Y(\i_PID/n12 ) );
+  NBUFFX2_RVT \i_PID/U72  ( .A(rst_n), .Y(\i_PID/n11 ) );
+  NBUFFX2_RVT \i_PID/U71  ( .A(rst_n), .Y(\i_PID/n10 ) );
+  NBUFFX2_RVT \i_PID/U70  ( .A(rst_n), .Y(\i_PID/n9 ) );
+  NBUFFX2_RVT \i_PID/U69  ( .A(\i_PID/pitch_err_sat [3]), .Y(\i_PID/n4 ) );
+  XOR2X1_RVT \i_PID/U68  ( .A1(\i_PID/accum_sum [17]), .A2(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), .Y(\i_PID/n18 ) );
+  XNOR2X1_RVT \i_PID/U67  ( .A1(\i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), 
+        .A2(\i_PID/n6 ), .Y(\i_PID/n17 ) );
+  INVX1_RVT \i_PID/U66  ( .A(rider_off), .Y(\i_PID/n31 ) );
+  XNOR2X1_RVT \i_PID/U65  ( .A1(\i_PID/sub_2_root_sub_1_root_add_83_2/A[0] ), 
+        .A2(\i_PID/n13 ), .Y(\i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[0] )
+         );
+  INVX1_RVT \i_PID/U64  ( .A(ptch_rt[6]), .Y(\i_PID/n13 ) );
+  INVX1_RVT \i_PID/U63  ( .A(ptch_rt[14]), .Y(\i_PID/n29 ) );
+  INVX1_RVT \i_PID/U62  ( .A(ptch_rt[13]), .Y(\i_PID/n28 ) );
+  INVX1_RVT \i_PID/U61  ( .A(ptch_rt[12]), .Y(\i_PID/n27 ) );
+  INVX1_RVT \i_PID/U60  ( .A(ptch_rt[11]), .Y(\i_PID/n26 ) );
+  INVX1_RVT \i_PID/U59  ( .A(ptch_rt[10]), .Y(\i_PID/n25 ) );
+  INVX1_RVT \i_PID/U58  ( .A(ptch_rt[9]), .Y(\i_PID/n24 ) );
+  INVX1_RVT \i_PID/U57  ( .A(ptch_rt[8]), .Y(\i_PID/n23 ) );
+  INVX1_RVT \i_PID/U54  ( .A(ptch_rt[7]), .Y(\i_PID/n22 ) );
+  NBUFFX2_RVT \i_PID/U53  ( .A(n1), .Y(\i_PID/n8 ) );
+  NBUFFX2_RVT \i_PID/U5  ( .A(n1), .Y(\i_PID/n7 ) );
+  NAND4X1_RVT \i_PID/U4  ( .A1(ss_tmr[3]), .A2(ss_tmr[2]), .A3(ss_tmr[1]), 
+        .A4(ss_tmr[0]), .Y(\i_PID/n19 ) );
+  NAND4X1_RVT \i_PID/U3  ( .A1(ss_tmr[7]), .A2(ss_tmr[6]), .A3(ss_tmr[5]), 
+        .A4(ss_tmr[4]), .Y(\i_PID/n20 ) );
+  DFFARX2_RVT \i_PID/long_tmr_reg[25]  ( .D(\i_PID/nxt_tmr [25]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(ss_tmr[6]) );
+  DFFARX2_RVT \i_PID/long_tmr_reg[24]  ( .D(\i_PID/nxt_tmr [24]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(ss_tmr[5]) );
+  DFFARX2_RVT \i_PID/long_tmr_reg[21]  ( .D(\i_PID/nxt_tmr [21]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(ss_tmr[2]) );
+  DFFARX2_RVT \i_PID/I_term_reg[17]  ( .D(\i_PID/next_accum [17]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[15] )
+         );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_15  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), .B(\i_PID/n30 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[15] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[15] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_14  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), .B(\i_PID/n30 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[14] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[15] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[14] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_13  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), .B(\i_PID/n30 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[13] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[14] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[13] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_12  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), .B(\i_PID/n30 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[12] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[13] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[12] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_11  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), .B(\i_PID/n30 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[11] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[12] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[11] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_10  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[10] ), .B(\i_PID/n30 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[10] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[11] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[10] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_9  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[9] ), .B(\i_PID/n30 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[9] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[10] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[9] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_8  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[8] ), .B(\i_PID/n29 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[8] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[9] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[8] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_7  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[7] ), .B(\i_PID/n28 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[7] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[8] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[7] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_6  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[6] ), .B(\i_PID/n27 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[6] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[7] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[6] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_5  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[5] ), .B(\i_PID/n26 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[5] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[6] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[5] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_4  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[4] ), .B(\i_PID/n25 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[4] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[5] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[4] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_3  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[3] ), .B(\i_PID/n24 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[3] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[4] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[3] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_2  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[2] ), .B(\i_PID/n23 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[2] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[3] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[2] ) );
+  FADDX1_RVT \i_PID/sub_2_root_sub_1_root_add_83_2/U2_1  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[1] ), .B(\i_PID/n22 ), .CI(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[1] ), .CO(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/carry[2] ), .S(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[1] ) );
+  OR2X1_RVT \i_PID/U56  ( .A1(\i_PID/n19 ), .A2(\i_PID/n20 ), .Y(\i_PID/n21 )
+         );
+  NAND2X0_RVT \i_PID/U55  ( .A1(\i_PID/n17 ), .A2(\i_PID/n18 ), .Y(\i_PID/n16 ) );
+  AO22X1_RVT \i_PID/U52  ( .A1(\i_PID/accum_sum [0]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/I_term [0]), .A4(\i_PID/n15 ), .Y(\i_PID/next_accum [0]) );
+  AO22X1_RVT \i_PID/U51  ( .A1(\i_PID/accum_sum [10]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[4] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [10]) );
+  AO22X1_RVT \i_PID/U50  ( .A1(\i_PID/accum_sum [11]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[5] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [11]) );
+  AO22X1_RVT \i_PID/U49  ( .A1(\i_PID/accum_sum [12]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[6] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [12]) );
+  AO22X1_RVT \i_PID/U48  ( .A1(\i_PID/accum_sum [13]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[7] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [13]) );
+  AO22X1_RVT \i_PID/U47  ( .A1(\i_PID/accum_sum [14]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[8] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [14]) );
+  AO22X1_RVT \i_PID/U46  ( .A1(\i_PID/accum_sum [15]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[9] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [15]) );
+  AO22X1_RVT \i_PID/U45  ( .A1(\i_PID/accum_sum [16]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[10] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [16]) );
+  AO22X1_RVT \i_PID/U44  ( .A1(\i_PID/n14 ), .A2(\i_PID/accum_sum [17]), .A3(
+        \i_PID/n15 ), .A4(\i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), .Y(
+        \i_PID/next_accum [17]) );
+  AO22X1_RVT \i_PID/U43  ( .A1(\i_PID/accum_sum [1]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/I_term [1]), .A4(\i_PID/n15 ), .Y(\i_PID/next_accum [1]) );
+  AO22X1_RVT \i_PID/U42  ( .A1(\i_PID/accum_sum [2]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/I_term [2]), .A4(\i_PID/n15 ), .Y(\i_PID/next_accum [2]) );
+  AO22X1_RVT \i_PID/U41  ( .A1(\i_PID/accum_sum [3]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/I_term [3]), .A4(\i_PID/n15 ), .Y(\i_PID/next_accum [3]) );
+  AO22X1_RVT \i_PID/U40  ( .A1(\i_PID/accum_sum [4]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/I_term [4]), .A4(\i_PID/n15 ), .Y(\i_PID/next_accum [4]) );
+  AO22X1_RVT \i_PID/U39  ( .A1(\i_PID/accum_sum [5]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/I_term [5]), .A4(\i_PID/n15 ), .Y(\i_PID/next_accum [5]) );
+  AO22X1_RVT \i_PID/U38  ( .A1(\i_PID/accum_sum [6]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[0] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [6]) );
+  AO22X1_RVT \i_PID/U37  ( .A1(\i_PID/accum_sum [7]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[1] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [7]) );
+  AO22X1_RVT \i_PID/U36  ( .A1(\i_PID/accum_sum [8]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[2] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [8]) );
+  AO22X1_RVT \i_PID/U35  ( .A1(\i_PID/accum_sum [9]), .A2(\i_PID/n14 ), .A3(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[3] ), .A4(\i_PID/n15 ), .Y(
+        \i_PID/next_accum [9]) );
+  AND2X1_RVT \i_PID/U34  ( .A1(\i_PID/N27 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [0]) );
+  AND2X1_RVT \i_PID/U33  ( .A1(\i_PID/N37 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [10]) );
+  AND2X1_RVT \i_PID/U32  ( .A1(\i_PID/N38 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [11]) );
+  AND2X1_RVT \i_PID/U31  ( .A1(\i_PID/N39 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [12]) );
+  AND2X1_RVT \i_PID/U30  ( .A1(\i_PID/N40 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [13]) );
+  AND2X1_RVT \i_PID/U29  ( .A1(\i_PID/N41 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [14]) );
+  AND2X1_RVT \i_PID/U28  ( .A1(\i_PID/N42 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [15]) );
+  AND2X1_RVT \i_PID/U27  ( .A1(\i_PID/N43 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [16]) );
+  AND2X1_RVT \i_PID/U26  ( .A1(\i_PID/N44 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [17]) );
+  AND2X1_RVT \i_PID/U25  ( .A1(\i_PID/N45 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [18]) );
+  AND2X1_RVT \i_PID/U24  ( .A1(\i_PID/N46 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [19]) );
+  AND2X1_RVT \i_PID/U23  ( .A1(\i_PID/N28 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [1]) );
+  AND2X1_RVT \i_PID/U22  ( .A1(\i_PID/N47 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [20]) );
+  AND2X1_RVT \i_PID/U21  ( .A1(\i_PID/N48 ), .A2(\i_PID/n8 ), .Y(
+        \i_PID/nxt_tmr [21]) );
+  AND2X1_RVT \i_PID/U20  ( .A1(\i_PID/N49 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [22]) );
+  AND2X1_RVT \i_PID/U19  ( .A1(\i_PID/N50 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [23]) );
+  AND2X1_RVT \i_PID/U18  ( .A1(\i_PID/N51 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [24]) );
+  AND2X1_RVT \i_PID/U17  ( .A1(\i_PID/N52 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [25]) );
+  AND2X1_RVT \i_PID/U16  ( .A1(\i_PID/N53 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [26]) );
+  AND2X1_RVT \i_PID/U15  ( .A1(\i_PID/N29 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [2]) );
+  AND2X1_RVT \i_PID/U14  ( .A1(\i_PID/N30 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [3]) );
+  AND2X1_RVT \i_PID/U13  ( .A1(\i_PID/N31 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [4]) );
+  AND2X1_RVT \i_PID/U12  ( .A1(\i_PID/N32 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [5]) );
+  AND2X1_RVT \i_PID/U11  ( .A1(\i_PID/N33 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [6]) );
+  AND2X1_RVT \i_PID/U10  ( .A1(\i_PID/N34 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [7]) );
+  AND2X1_RVT \i_PID/U9  ( .A1(\i_PID/N35 ), .A2(\i_PID/n7 ), .Y(
+        \i_PID/nxt_tmr [8]) );
+  AND2X1_RVT \i_PID/U8  ( .A1(\i_PID/n7 ), .A2(\i_PID/N36 ), .Y(
+        \i_PID/nxt_tmr [9]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[26]  ( .D(\i_PID/nxt_tmr [26]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(ss_tmr[7]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[23]  ( .D(\i_PID/nxt_tmr [23]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(ss_tmr[4]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[22]  ( .D(\i_PID/nxt_tmr [22]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(ss_tmr[3]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[20]  ( .D(\i_PID/nxt_tmr [20]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(ss_tmr[1]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[19]  ( .D(\i_PID/nxt_tmr [19]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(ss_tmr[0]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[18]  ( .D(\i_PID/nxt_tmr [18]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(\i_PID/long_tmr [18]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[17]  ( .D(\i_PID/nxt_tmr [17]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(\i_PID/long_tmr [17]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[16]  ( .D(\i_PID/nxt_tmr [16]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(\i_PID/long_tmr [16]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[15]  ( .D(\i_PID/nxt_tmr [15]), .CLK(clk), 
+        .RSTB(\i_PID/n9 ), .Q(\i_PID/long_tmr [15]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[14]  ( .D(\i_PID/nxt_tmr [14]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [14]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[13]  ( .D(\i_PID/nxt_tmr [13]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [13]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[12]  ( .D(\i_PID/nxt_tmr [12]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [12]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[11]  ( .D(\i_PID/nxt_tmr [11]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [11]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[10]  ( .D(\i_PID/nxt_tmr [10]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [10]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[9]  ( .D(\i_PID/nxt_tmr [9]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [9]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[8]  ( .D(\i_PID/nxt_tmr [8]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [8]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[7]  ( .D(\i_PID/nxt_tmr [7]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [7]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[6]  ( .D(\i_PID/nxt_tmr [6]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [6]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[5]  ( .D(\i_PID/nxt_tmr [5]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [5]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[4]  ( .D(\i_PID/nxt_tmr [4]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [4]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[3]  ( .D(\i_PID/nxt_tmr [3]), .CLK(clk), 
+        .RSTB(\i_PID/n10 ), .Q(\i_PID/long_tmr [3]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[2]  ( .D(\i_PID/nxt_tmr [2]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/long_tmr [2]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[1]  ( .D(\i_PID/nxt_tmr [1]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/long_tmr [1]) );
+  DFFARX1_RVT \i_PID/long_tmr_reg[0]  ( .D(\i_PID/nxt_tmr [0]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/long_tmr [0]) );
+  DFFARX1_RVT \i_PID/I_term_reg[10]  ( .D(\i_PID/next_accum [10]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[4] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[11]  ( .D(\i_PID/next_accum [11]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[5] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[12]  ( .D(\i_PID/next_accum [12]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[6] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[13]  ( .D(\i_PID/next_accum [13]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[7] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[14]  ( .D(\i_PID/next_accum [14]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[8] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[15]  ( .D(\i_PID/next_accum [15]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[9] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[16]  ( .D(\i_PID/next_accum [16]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[10] )
+         );
+  DFFARX1_RVT \i_PID/I_term_reg[1]  ( .D(\i_PID/next_accum [1]), .CLK(clk), 
+        .RSTB(\i_PID/n11 ), .Q(\i_PID/I_term [1]) );
+  DFFARX1_RVT \i_PID/I_term_reg[2]  ( .D(\i_PID/next_accum [2]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/I_term [2]) );
+  DFFARX1_RVT \i_PID/I_term_reg[3]  ( .D(\i_PID/next_accum [3]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/I_term [3]) );
+  DFFARX1_RVT \i_PID/I_term_reg[4]  ( .D(\i_PID/next_accum [4]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/I_term [4]) );
+  DFFARX1_RVT \i_PID/I_term_reg[5]  ( .D(\i_PID/next_accum [5]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/I_term [5]) );
+  DFFARX1_RVT \i_PID/I_term_reg[6]  ( .D(\i_PID/next_accum [6]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[0] ), 
+        .QN(\i_PID/n3 ) );
+  DFFARX1_RVT \i_PID/I_term_reg[7]  ( .D(\i_PID/next_accum [7]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[1] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[8]  ( .D(\i_PID/next_accum [8]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[2] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[9]  ( .D(\i_PID/next_accum [9]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/sub_2_root_sub_1_root_add_83_2/A[3] ) );
+  DFFARX1_RVT \i_PID/I_term_reg[0]  ( .D(\i_PID/next_accum [0]), .CLK(clk), 
+        .RSTB(\i_PID/n12 ), .Q(\i_PID/I_term [0]) );
+  NBUFFX2_RVT \i_PID/i_sat_pitch/U18  ( .A(ptch[15]), .Y(
+        \i_PID/pitch_err_sat [9]) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U14  ( .A1(ptch[5]), .A2(
+        \i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(
+        \i_PID/pitch_err_sat [5]) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U13  ( .A1(ptch[2]), .A2(
+        \i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(
+        \i_PID/pitch_err_sat [2]) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U12  ( .A1(ptch[1]), .A2(
+        \i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(
+        \i_PID/pitch_err_sat [1]) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U11  ( .A1(ptch[4]), .A2(
+        \i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(
+        \i_PID/pitch_err_sat [4]) );
+  OR4X1_RVT \i_PID/i_sat_pitch/U10  ( .A1(ptch[13]), .A2(ptch[14]), .A3(
+        ptch[15]), .A4(ptch[9]), .Y(\i_PID/i_sat_pitch/n5 ) );
+  NOR2X1_RVT \i_PID/i_sat_pitch/U8  ( .A1(\i_PID/i_sat_pitch/n1 ), .A2(
+        ptch[15]), .Y(\i_PID/i_sat_pitch/n2 ) );
+  OAI22X1_RVT \i_PID/i_sat_pitch/U7  ( .A1(\i_PID/i_sat_pitch/n3 ), .A2(
+        \i_PID/i_sat_pitch/n4 ), .A3(\i_PID/i_sat_pitch/n6 ), .A4(
+        \i_PID/i_sat_pitch/n5 ), .Y(\i_PID/i_sat_pitch/n1 ) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U3  ( .A1(ptch[0]), .A2(\i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(\i_PID/pitch_err_sat [0]) );
+  NAND4X0_RVT \i_PID/i_sat_pitch/U17  ( .A1(ptch[13]), .A2(ptch[12]), .A3(
+        ptch[11]), .A4(ptch[10]), .Y(\i_PID/i_sat_pitch/n3 ) );
+  NAND3X0_RVT \i_PID/i_sat_pitch/U16  ( .A1(ptch[15]), .A2(ptch[14]), .A3(
+        ptch[9]), .Y(\i_PID/i_sat_pitch/n4 ) );
+  OR3X1_RVT \i_PID/i_sat_pitch/U15  ( .A1(ptch[11]), .A2(ptch[12]), .A3(
+        ptch[10]), .Y(\i_PID/i_sat_pitch/n6 ) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U9  ( .A1(ptch[3]), .A2(\i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(\i_PID/pitch_err_sat [3]) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U6  ( .A1(ptch[6]), .A2(\i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(\i_PID/pitch_err_sat [6]) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U5  ( .A1(ptch[7]), .A2(\i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(\i_PID/pitch_err_sat [7]) );
+  AO21X1_RVT \i_PID/i_sat_pitch/U4  ( .A1(ptch[8]), .A2(\i_PID/i_sat_pitch/n1 ), .A3(\i_PID/i_sat_pitch/n2 ), .Y(\i_PID/pitch_err_sat [8]) );
+  NOR2X2_RVT \i_PID/i_sat_pid/U20  ( .A1(\i_PID/i_sat_pid/n1 ), .A2(
+        PID_cntrl[11]), .Y(\i_PID/i_sat_pid/n2 ) );
+  OAI22X2_RVT \i_PID/i_sat_pid/U19  ( .A1(\i_PID/i_sat_pid/n3 ), .A2(
+        \i_PID/i_sat_pid/n4 ), .A3(\i_PID/i_sat_pid/n6 ), .A4(
+        \i_PID/i_sat_pid/n5 ), .Y(\i_PID/i_sat_pid/n1 ) );
+  NBUFFX2_RVT \i_PID/i_sat_pid/U15  ( .A(\i_PID/sum [15]), .Y(PID_cntrl[11])
+         );
+  AO21X2_RVT \i_PID/i_sat_pid/U14  ( .A1(\i_PID/sum [0]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[0]) );
+  NAND3X0_RVT \i_PID/i_sat_pid/U13  ( .A1(\i_PID/sum [12]), .A2(
+        \i_PID/sum [11]), .A3(\i_PID/sum [13]), .Y(\i_PID/i_sat_pid/n3 ) );
+  AO21X1_RVT \i_PID/i_sat_pid/U11  ( .A1(\i_PID/sum [1]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[1]) );
+  AO21X1_RVT \i_PID/i_sat_pid/U10  ( .A1(\i_PID/sum [2]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[2]) );
+  AO21X1_RVT \i_PID/i_sat_pid/U9  ( .A1(\i_PID/sum [3]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[3]) );
+  AO21X1_RVT \i_PID/i_sat_pid/U8  ( .A1(\i_PID/sum [4]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[4]) );
+  AO21X1_RVT \i_PID/i_sat_pid/U7  ( .A1(\i_PID/sum [5]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[5]) );
+  AO21X1_RVT \i_PID/i_sat_pid/U6  ( .A1(\i_PID/sum [6]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[6]) );
+  AO21X1_RVT \i_PID/i_sat_pid/U5  ( .A1(\i_PID/sum [9]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[9]) );
+  AO21X1_RVT \i_PID/i_sat_pid/U4  ( .A1(\i_PID/sum [7]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[7]) );
+  AO21X1_RVT \i_PID/i_sat_pid/U3  ( .A1(\i_PID/sum [8]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[8]) );
+  NAND2X0_RVT \i_PID/i_sat_pid/U18  ( .A1(\i_PID/sum [15]), .A2(
+        \i_PID/sum [14]), .Y(\i_PID/i_sat_pid/n4 ) );
+  OR3X1_RVT \i_PID/i_sat_pid/U17  ( .A1(\i_PID/sum [14]), .A2(\i_PID/sum [15]), 
+        .A3(\i_PID/sum [13]), .Y(\i_PID/i_sat_pid/n5 ) );
+  OR2X1_RVT \i_PID/i_sat_pid/U16  ( .A1(\i_PID/sum [11]), .A2(\i_PID/sum [12]), 
+        .Y(\i_PID/i_sat_pid/n6 ) );
+  AO21X1_RVT \i_PID/i_sat_pid/U12  ( .A1(\i_PID/sum [10]), .A2(
+        \i_PID/i_sat_pid/n1 ), .A3(\i_PID/i_sat_pid/n2 ), .Y(PID_cntrl[10]) );
+  AND2X1_RVT \i_PID/add_103/U54  ( .A1(\i_PID/long_tmr [0]), .A2(\i_PID/n21 ), 
+        .Y(\i_PID/add_103/carry [1]) );
+  AND2X1_RVT \i_PID/add_103/U53  ( .A1(\i_PID/long_tmr [1]), .A2(
+        \i_PID/add_103/carry [1]), .Y(\i_PID/add_103/carry [2]) );
+  AND2X1_RVT \i_PID/add_103/U52  ( .A1(\i_PID/long_tmr [2]), .A2(
+        \i_PID/add_103/carry [2]), .Y(\i_PID/add_103/carry [3]) );
+  AND2X1_RVT \i_PID/add_103/U51  ( .A1(\i_PID/long_tmr [3]), .A2(
+        \i_PID/add_103/carry [3]), .Y(\i_PID/add_103/carry [4]) );
+  AND2X1_RVT \i_PID/add_103/U50  ( .A1(\i_PID/long_tmr [4]), .A2(
+        \i_PID/add_103/carry [4]), .Y(\i_PID/add_103/carry [5]) );
+  AND2X1_RVT \i_PID/add_103/U49  ( .A1(\i_PID/long_tmr [5]), .A2(
+        \i_PID/add_103/carry [5]), .Y(\i_PID/add_103/carry [6]) );
+  AND2X1_RVT \i_PID/add_103/U48  ( .A1(\i_PID/long_tmr [6]), .A2(
+        \i_PID/add_103/carry [6]), .Y(\i_PID/add_103/carry [7]) );
+  AND2X1_RVT \i_PID/add_103/U47  ( .A1(\i_PID/long_tmr [7]), .A2(
+        \i_PID/add_103/carry [7]), .Y(\i_PID/add_103/carry [8]) );
+  AND2X1_RVT \i_PID/add_103/U46  ( .A1(\i_PID/long_tmr [8]), .A2(
+        \i_PID/add_103/carry [8]), .Y(\i_PID/add_103/carry [9]) );
+  AND2X1_RVT \i_PID/add_103/U45  ( .A1(\i_PID/long_tmr [9]), .A2(
+        \i_PID/add_103/carry [9]), .Y(\i_PID/add_103/carry [10]) );
+  AND2X1_RVT \i_PID/add_103/U44  ( .A1(\i_PID/long_tmr [10]), .A2(
+        \i_PID/add_103/carry [10]), .Y(\i_PID/add_103/carry [11]) );
+  AND2X1_RVT \i_PID/add_103/U43  ( .A1(\i_PID/long_tmr [11]), .A2(
+        \i_PID/add_103/carry [11]), .Y(\i_PID/add_103/carry [12]) );
+  AND2X1_RVT \i_PID/add_103/U42  ( .A1(\i_PID/long_tmr [12]), .A2(
+        \i_PID/add_103/carry [12]), .Y(\i_PID/add_103/carry [13]) );
+  AND2X1_RVT \i_PID/add_103/U41  ( .A1(\i_PID/long_tmr [13]), .A2(
+        \i_PID/add_103/carry [13]), .Y(\i_PID/add_103/carry [14]) );
+  AND2X1_RVT \i_PID/add_103/U40  ( .A1(\i_PID/long_tmr [14]), .A2(
+        \i_PID/add_103/carry [14]), .Y(\i_PID/add_103/carry [15]) );
+  AND2X1_RVT \i_PID/add_103/U39  ( .A1(\i_PID/long_tmr [15]), .A2(
+        \i_PID/add_103/carry [15]), .Y(\i_PID/add_103/carry [16]) );
+  AND2X1_RVT \i_PID/add_103/U38  ( .A1(\i_PID/long_tmr [16]), .A2(
+        \i_PID/add_103/carry [16]), .Y(\i_PID/add_103/carry [17]) );
+  AND2X1_RVT \i_PID/add_103/U37  ( .A1(\i_PID/long_tmr [17]), .A2(
+        \i_PID/add_103/carry [17]), .Y(\i_PID/add_103/carry [18]) );
+  AND2X1_RVT \i_PID/add_103/U36  ( .A1(\i_PID/long_tmr [18]), .A2(
+        \i_PID/add_103/carry [18]), .Y(\i_PID/add_103/carry [19]) );
+  AND2X1_RVT \i_PID/add_103/U35  ( .A1(ss_tmr[0]), .A2(
+        \i_PID/add_103/carry [19]), .Y(\i_PID/add_103/carry [20]) );
+  AND2X1_RVT \i_PID/add_103/U34  ( .A1(ss_tmr[1]), .A2(
+        \i_PID/add_103/carry [20]), .Y(\i_PID/add_103/carry [21]) );
+  AND2X1_RVT \i_PID/add_103/U33  ( .A1(ss_tmr[2]), .A2(
+        \i_PID/add_103/carry [21]), .Y(\i_PID/add_103/carry [22]) );
+  AND2X1_RVT \i_PID/add_103/U32  ( .A1(ss_tmr[5]), .A2(
+        \i_PID/add_103/carry [24]), .Y(\i_PID/add_103/carry [25]) );
+  AND2X1_RVT \i_PID/add_103/U31  ( .A1(ss_tmr[6]), .A2(
+        \i_PID/add_103/carry [25]), .Y(\i_PID/add_103/carry [26]) );
+  INVX1_RVT \i_PID/add_103/U30  ( .A(\i_PID/n21 ), .Y(\i_PID/add_103/n1 ) );
+  XNOR2X1_RVT \i_PID/add_103/U29  ( .A1(\i_PID/add_103/n1 ), .A2(
+        \i_PID/long_tmr [0]), .Y(\i_PID/N27 ) );
+  XOR2X1_RVT \i_PID/add_103/U28  ( .A1(\i_PID/add_103/carry [1]), .A2(
+        \i_PID/long_tmr [1]), .Y(\i_PID/N28 ) );
+  XOR2X1_RVT \i_PID/add_103/U27  ( .A1(\i_PID/add_103/carry [2]), .A2(
+        \i_PID/long_tmr [2]), .Y(\i_PID/N29 ) );
+  XOR2X1_RVT \i_PID/add_103/U26  ( .A1(\i_PID/add_103/carry [3]), .A2(
+        \i_PID/long_tmr [3]), .Y(\i_PID/N30 ) );
+  XOR2X1_RVT \i_PID/add_103/U25  ( .A1(\i_PID/add_103/carry [4]), .A2(
+        \i_PID/long_tmr [4]), .Y(\i_PID/N31 ) );
+  XOR2X1_RVT \i_PID/add_103/U24  ( .A1(\i_PID/add_103/carry [5]), .A2(
+        \i_PID/long_tmr [5]), .Y(\i_PID/N32 ) );
+  XOR2X1_RVT \i_PID/add_103/U23  ( .A1(\i_PID/add_103/carry [6]), .A2(
+        \i_PID/long_tmr [6]), .Y(\i_PID/N33 ) );
+  XOR2X1_RVT \i_PID/add_103/U22  ( .A1(\i_PID/add_103/carry [7]), .A2(
+        \i_PID/long_tmr [7]), .Y(\i_PID/N34 ) );
+  XOR2X1_RVT \i_PID/add_103/U21  ( .A1(\i_PID/add_103/carry [8]), .A2(
+        \i_PID/long_tmr [8]), .Y(\i_PID/N35 ) );
+  XOR2X1_RVT \i_PID/add_103/U20  ( .A1(\i_PID/add_103/carry [9]), .A2(
+        \i_PID/long_tmr [9]), .Y(\i_PID/N36 ) );
+  XOR2X1_RVT \i_PID/add_103/U19  ( .A1(\i_PID/add_103/carry [10]), .A2(
+        \i_PID/long_tmr [10]), .Y(\i_PID/N37 ) );
+  XOR2X1_RVT \i_PID/add_103/U18  ( .A1(\i_PID/add_103/carry [11]), .A2(
+        \i_PID/long_tmr [11]), .Y(\i_PID/N38 ) );
+  XOR2X1_RVT \i_PID/add_103/U17  ( .A1(\i_PID/add_103/carry [12]), .A2(
+        \i_PID/long_tmr [12]), .Y(\i_PID/N39 ) );
+  XOR2X1_RVT \i_PID/add_103/U16  ( .A1(\i_PID/add_103/carry [13]), .A2(
+        \i_PID/long_tmr [13]), .Y(\i_PID/N40 ) );
+  XOR2X1_RVT \i_PID/add_103/U15  ( .A1(\i_PID/add_103/carry [14]), .A2(
+        \i_PID/long_tmr [14]), .Y(\i_PID/N41 ) );
+  XOR2X1_RVT \i_PID/add_103/U14  ( .A1(\i_PID/add_103/carry [15]), .A2(
+        \i_PID/long_tmr [15]), .Y(\i_PID/N42 ) );
+  XOR2X1_RVT \i_PID/add_103/U13  ( .A1(\i_PID/add_103/carry [16]), .A2(
+        \i_PID/long_tmr [16]), .Y(\i_PID/N43 ) );
+  XOR2X1_RVT \i_PID/add_103/U12  ( .A1(\i_PID/add_103/carry [17]), .A2(
+        \i_PID/long_tmr [17]), .Y(\i_PID/N44 ) );
+  XOR2X1_RVT \i_PID/add_103/U11  ( .A1(\i_PID/add_103/carry [18]), .A2(
+        \i_PID/long_tmr [18]), .Y(\i_PID/N45 ) );
+  XOR2X1_RVT \i_PID/add_103/U10  ( .A1(\i_PID/add_103/carry [19]), .A2(
+        ss_tmr[0]), .Y(\i_PID/N46 ) );
+  XOR2X1_RVT \i_PID/add_103/U9  ( .A1(\i_PID/add_103/carry [20]), .A2(
+        ss_tmr[1]), .Y(\i_PID/N47 ) );
+  XOR2X1_RVT \i_PID/add_103/U8  ( .A1(\i_PID/add_103/carry [21]), .A2(
+        ss_tmr[2]), .Y(\i_PID/N48 ) );
+  XOR2X1_RVT \i_PID/add_103/U7  ( .A1(\i_PID/add_103/carry [22]), .A2(
+        ss_tmr[3]), .Y(\i_PID/N49 ) );
+  XOR2X1_RVT \i_PID/add_103/U6  ( .A1(\i_PID/add_103/carry [23]), .A2(
+        ss_tmr[4]), .Y(\i_PID/N50 ) );
+  XOR2X1_RVT \i_PID/add_103/U5  ( .A1(\i_PID/add_103/carry [24]), .A2(
+        ss_tmr[5]), .Y(\i_PID/N51 ) );
+  XOR2X1_RVT \i_PID/add_103/U4  ( .A1(\i_PID/add_103/carry [25]), .A2(
+        ss_tmr[6]), .Y(\i_PID/N52 ) );
+  XOR2X1_RVT \i_PID/add_103/U3  ( .A1(\i_PID/add_103/carry [26]), .A2(
+        ss_tmr[7]), .Y(\i_PID/N53 ) );
+  AND2X4_RVT \i_PID/add_103/U2  ( .A1(ss_tmr[3]), .A2(
+        \i_PID/add_103/carry [22]), .Y(\i_PID/add_103/carry [23]) );
+  AND2X4_RVT \i_PID/add_103/U1  ( .A1(ss_tmr[4]), .A2(
+        \i_PID/add_103/carry [23]), .Y(\i_PID/add_103/carry [24]) );
+  AND2X1_RVT \i_PID/add_38/U2  ( .A1(\i_PID/I_term [0]), .A2(
+        \i_PID/pitch_err_sat [0]), .Y(\i_PID/add_38/carry [1]) );
+  XOR2X1_RVT \i_PID/add_38/U1  ( .A1(\i_PID/pitch_err_sat [0]), .A2(
+        \i_PID/I_term [0]), .Y(\i_PID/accum_sum [0]) );
+  FADDX1_RVT \i_PID/add_38/U1_1  ( .A(\i_PID/I_term [1]), .B(
+        \i_PID/pitch_err_sat [1]), .CI(\i_PID/add_38/carry [1]), .CO(
+        \i_PID/add_38/carry [2]), .S(\i_PID/accum_sum [1]) );
+  FADDX1_RVT \i_PID/add_38/U1_2  ( .A(\i_PID/I_term [2]), .B(
+        \i_PID/pitch_err_sat [2]), .CI(\i_PID/add_38/carry [2]), .CO(
+        \i_PID/add_38/carry [3]), .S(\i_PID/accum_sum [2]) );
+  FADDX1_RVT \i_PID/add_38/U1_3  ( .A(\i_PID/I_term [3]), .B(\i_PID/n4 ), .CI(
+        \i_PID/add_38/carry [3]), .CO(\i_PID/add_38/carry [4]), .S(
+        \i_PID/accum_sum [3]) );
+  FADDX1_RVT \i_PID/add_38/U1_4  ( .A(\i_PID/I_term [4]), .B(
+        \i_PID/pitch_err_sat [4]), .CI(\i_PID/add_38/carry [4]), .CO(
+        \i_PID/add_38/carry [5]), .S(\i_PID/accum_sum [4]) );
+  FADDX1_RVT \i_PID/add_38/U1_5  ( .A(\i_PID/I_term [5]), .B(
+        \i_PID/pitch_err_sat [5]), .CI(\i_PID/add_38/carry [5]), .CO(
+        \i_PID/add_38/carry [6]), .S(\i_PID/accum_sum [5]) );
+  FADDX1_RVT \i_PID/add_38/U1_6  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[0] ), .B(
+        \i_PID/pitch_err_sat [6]), .CI(\i_PID/add_38/carry [6]), .CO(
+        \i_PID/add_38/carry [7]), .S(\i_PID/accum_sum [6]) );
+  FADDX1_RVT \i_PID/add_38/U1_7  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[1] ), .B(
+        \i_PID/pitch_err_sat [7]), .CI(\i_PID/add_38/carry [7]), .CO(
+        \i_PID/add_38/carry [8]), .S(\i_PID/accum_sum [7]) );
+  FADDX1_RVT \i_PID/add_38/U1_8  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[2] ), .B(
+        \i_PID/pitch_err_sat [8]), .CI(\i_PID/add_38/carry [8]), .CO(
+        \i_PID/add_38/carry [9]), .S(\i_PID/accum_sum [8]) );
+  FADDX1_RVT \i_PID/add_38/U1_9  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[3] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [9]), .CO(\i_PID/add_38/carry [10]), .S(
+        \i_PID/accum_sum [9]) );
+  FADDX1_RVT \i_PID/add_38/U1_10  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[4] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [10]), .CO(\i_PID/add_38/carry [11]), .S(
+        \i_PID/accum_sum [10]) );
+  FADDX1_RVT \i_PID/add_38/U1_11  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[5] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [11]), .CO(\i_PID/add_38/carry [12]), .S(
+        \i_PID/accum_sum [11]) );
+  FADDX1_RVT \i_PID/add_38/U1_12  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[6] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [12]), .CO(\i_PID/add_38/carry [13]), .S(
+        \i_PID/accum_sum [12]) );
+  FADDX1_RVT \i_PID/add_38/U1_13  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[7] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [13]), .CO(\i_PID/add_38/carry [14]), .S(
+        \i_PID/accum_sum [13]) );
+  FADDX1_RVT \i_PID/add_38/U1_14  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[8] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [14]), .CO(\i_PID/add_38/carry [15]), .S(
+        \i_PID/accum_sum [14]) );
+  FADDX1_RVT \i_PID/add_38/U1_15  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[9] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [15]), .CO(\i_PID/add_38/carry [16]), .S(
+        \i_PID/accum_sum [15]) );
+  FADDX1_RVT \i_PID/add_38/U1_16  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[10] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [16]), .CO(\i_PID/add_38/carry [17]), .S(
+        \i_PID/accum_sum [16]) );
+  FADDX1_RVT \i_PID/add_38/U1_17  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/A[15] ), .B(\i_PID/n6 ), .CI(
+        \i_PID/add_38/carry [17]), .S(\i_PID/accum_sum [17]) );
+  NAND2X0_RVT \i_PID/mult_28/U38  ( .A1(\i_PID/n5 ), .A2(\i_PID/mult_28/n20 ), 
+        .Y(\i_PID/mult_28/n12 ) );
+  XOR2X1_RVT \i_PID/mult_28/U37  ( .A1(\i_PID/mult_28/n17 ), .A2(
+        \i_PID/mult_28/n5 ), .Y(\i_PID/P_term[11] ) );
+  NAND2X0_RVT \i_PID/mult_28/U36  ( .A1(\i_PID/mult_28/n15 ), .A2(
+        \i_PID/mult_28/n14 ), .Y(\i_PID/mult_28/n17 ) );
+  OA21X1_RVT \i_PID/mult_28/U35  ( .A1(\i_PID/mult_28/n10 ), .A2(
+        \i_PID/mult_28/n18 ), .A3(\i_PID/mult_28/n9 ), .Y(\i_PID/mult_28/n11 )
+         );
+  XOR2X1_RVT \i_PID/mult_28/U34  ( .A1(\i_PID/mult_28/n7 ), .A2(
+        \i_PID/mult_28/n10 ), .Y(\i_PID/P_term[12] ) );
+  OA21X1_RVT \i_PID/mult_28/U33  ( .A1(\i_PID/mult_28/n19 ), .A2(
+        \i_PID/mult_28/n5 ), .A3(\i_PID/mult_28/n14 ), .Y(\i_PID/mult_28/n10 )
+         );
+  NAND2X0_RVT \i_PID/mult_28/U32  ( .A1(\i_PID/mult_28/A2[9] ), .A2(
+        \i_PID/mult_28/A1[9] ), .Y(\i_PID/mult_28/n14 ) );
+  NAND2X0_RVT \i_PID/mult_28/U31  ( .A1(\i_PID/mult_28/A2[8] ), .A2(
+        \i_PID/mult_28/A1[8] ), .Y(\i_PID/mult_28/n16 ) );
+  OR2X1_RVT \i_PID/mult_28/U30  ( .A1(\i_PID/mult_28/A2[8] ), .A2(
+        \i_PID/mult_28/A1[8] ), .Y(\i_PID/mult_28/n13 ) );
+  OR2X1_RVT \i_PID/mult_28/U29  ( .A1(\i_PID/mult_28/A2[9] ), .A2(
+        \i_PID/mult_28/A1[9] ), .Y(\i_PID/mult_28/n15 ) );
+  NAND2X0_RVT \i_PID/mult_28/U28  ( .A1(\i_PID/mult_28/n8 ), .A2(
+        \i_PID/mult_28/n9 ), .Y(\i_PID/mult_28/n7 ) );
+  NAND2X0_RVT \i_PID/mult_28/U27  ( .A1(\i_PID/mult_28/A2[10] ), .A2(
+        \i_PID/mult_28/CARRYB[9][2] ), .Y(\i_PID/mult_28/n9 ) );
+  OR2X1_RVT \i_PID/mult_28/U26  ( .A1(\i_PID/mult_28/A2[10] ), .A2(
+        \i_PID/mult_28/CARRYB[9][2] ), .Y(\i_PID/mult_28/n8 ) );
+  AND2X1_RVT \i_PID/mult_28/U25  ( .A1(\i_PID/mult_28/n13 ), .A2(
+        \i_PID/mult_28/n16 ), .Y(\i_PID/P_term[10] ) );
+  NAND2X0_RVT \i_PID/mult_28/U24  ( .A1(\i_PID/mult_28/A2[8] ), .A2(
+        \i_PID/mult_28/A1[8] ), .Y(\i_PID/mult_28/n5 ) );
+  AND2X1_RVT \i_PID/mult_28/U23  ( .A1(\i_PID/pitch_err_sat [8]), .A2(
+        \i_PID/n5 ), .Y(\i_PID/mult_28/CARRYB[9][2] ) );
+  AND2X1_RVT \i_PID/mult_28/U22  ( .A1(\i_PID/pitch_err_sat [7]), .A2(
+        \i_PID/n5 ), .Y(\i_PID/mult_28/CARRYB[9][1] ) );
+  AND2X1_RVT \i_PID/mult_28/U21  ( .A1(\i_PID/pitch_err_sat [0]), .A2(
+        \i_PID/pitch_err_sat [3]), .Y(\i_PID/mult_28/CARRYB[3][0] ) );
+  AND2X1_RVT \i_PID/mult_28/U20  ( .A1(\i_PID/pitch_err_sat [6]), .A2(
+        \i_PID/mult_28/CARRYB[8][0] ), .Y(\i_PID/mult_28/CARRYB[9][0] ) );
+  AND2X1_RVT \i_PID/mult_28/U19  ( .A1(\i_PID/mult_28/CARRYB[9][1] ), .A2(
+        \i_PID/mult_28/SUMB[9][2] ), .Y(\i_PID/mult_28/A2[10] ) );
+  AND2X1_RVT \i_PID/mult_28/U18  ( .A1(\i_PID/mult_28/CARRYB[9][0] ), .A2(
+        \i_PID/mult_28/SUMB[9][1] ), .Y(\i_PID/mult_28/A2[9] ) );
+  AND2X1_RVT \i_PID/mult_28/U17  ( .A1(\i_PID/mult_28/SUMB[9][0] ), .A2(
+        \i_PID/n5 ), .Y(\i_PID/mult_28/A2[8] ) );
+  NBUFFX2_RVT \i_PID/mult_28/U16  ( .A(\i_PID/pitch_err_sat [0]), .Y(
+        \i_PID/P_term[0] ) );
+  NBUFFX2_RVT \i_PID/mult_28/U15  ( .A(\i_PID/pitch_err_sat [1]), .Y(
+        \i_PID/P_term[1] ) );
+  NBUFFX2_RVT \i_PID/mult_28/U14  ( .A(\i_PID/pitch_err_sat [2]), .Y(
+        \i_PID/P_term[2] ) );
+  XOR2X1_RVT \i_PID/mult_28/U13  ( .A1(\i_PID/pitch_err_sat [7]), .A2(
+        \i_PID/n5 ), .Y(\i_PID/mult_28/SUMB[9][1] ) );
+  XOR2X1_RVT \i_PID/mult_28/U12  ( .A1(\i_PID/pitch_err_sat [8]), .A2(
+        \i_PID/n5 ), .Y(\i_PID/mult_28/SUMB[9][2] ) );
+  XOR2X1_RVT \i_PID/mult_28/U11  ( .A1(\i_PID/pitch_err_sat [6]), .A2(
+        \i_PID/mult_28/CARRYB[8][0] ), .Y(\i_PID/mult_28/SUMB[9][0] ) );
+  XOR2X1_RVT \i_PID/mult_28/U10  ( .A1(\i_PID/pitch_err_sat [0]), .A2(
+        \i_PID/pitch_err_sat [3]), .Y(\i_PID/P_term[3] ) );
+  XOR2X1_RVT \i_PID/mult_28/U9  ( .A1(\i_PID/mult_28/SUMB[9][0] ), .A2(
+        \i_PID/n5 ), .Y(\i_PID/P_term[9] ) );
+  XNOR2X1_RVT \i_PID/mult_28/U8  ( .A1(\i_PID/n5 ), .A2(\i_PID/mult_28/n11 ), 
+        .Y(\i_PID/P_term[13] ) );
+  XOR2X1_RVT \i_PID/mult_28/U7  ( .A1(\i_PID/mult_28/SUMB[9][2] ), .A2(
+        \i_PID/mult_28/CARRYB[9][1] ), .Y(\i_PID/mult_28/A1[9] ) );
+  XOR2X1_RVT \i_PID/mult_28/U6  ( .A1(\i_PID/mult_28/SUMB[9][1] ), .A2(
+        \i_PID/mult_28/CARRYB[9][0] ), .Y(\i_PID/mult_28/A1[8] ) );
+  INVX1_RVT \i_PID/mult_28/U5  ( .A(\i_PID/mult_28/n11 ), .Y(
+        \i_PID/mult_28/n20 ) );
+  XNOR2X1_RVT \i_PID/mult_28/U4  ( .A1(\i_PID/n5 ), .A2(\i_PID/mult_28/n12 ), 
+        .Y(\i_PID/P_term[14] ) );
+  INVX1_RVT \i_PID/mult_28/U3  ( .A(\i_PID/mult_28/n8 ), .Y(
+        \i_PID/mult_28/n18 ) );
+  INVX1_RVT \i_PID/mult_28/U2  ( .A(\i_PID/mult_28/n15 ), .Y(
+        \i_PID/mult_28/n19 ) );
+  FADDX1_RVT \i_PID/mult_28/S1_7_0  ( .A(\i_PID/pitch_err_sat [7]), .B(
+        \i_PID/mult_28/CARRYB[6][0] ), .CI(\i_PID/pitch_err_sat [4]), .CO(
+        \i_PID/mult_28/CARRYB[7][0] ), .S(\i_PID/P_term[7] ) );
+  FADDX1_RVT \i_PID/mult_28/S1_5_0  ( .A(\i_PID/pitch_err_sat [5]), .B(
+        \i_PID/mult_28/CARRYB[4][0] ), .CI(\i_PID/pitch_err_sat [2]), .CO(
+        \i_PID/mult_28/CARRYB[5][0] ), .S(\i_PID/P_term[5] ) );
+  FADDX1_RVT \i_PID/mult_28/S1_4_0  ( .A(\i_PID/pitch_err_sat [4]), .B(
+        \i_PID/mult_28/CARRYB[3][0] ), .CI(\i_PID/pitch_err_sat [1]), .CO(
+        \i_PID/mult_28/CARRYB[4][0] ), .S(\i_PID/P_term[4] ) );
+  FADDX1_RVT \i_PID/mult_28/S1_6_0  ( .A(\i_PID/pitch_err_sat [6]), .B(
+        \i_PID/mult_28/CARRYB[5][0] ), .CI(\i_PID/pitch_err_sat [3]), .CO(
+        \i_PID/mult_28/CARRYB[6][0] ), .S(\i_PID/P_term[6] ) );
+  FADDX1_RVT \i_PID/mult_28/S1_8_0  ( .A(\i_PID/pitch_err_sat [8]), .B(
+        \i_PID/mult_28/CARRYB[7][0] ), .CI(\i_PID/pitch_err_sat [5]), .CO(
+        \i_PID/mult_28/CARRYB[8][0] ), .S(\i_PID/P_term[8] ) );
+  AND2X1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U2  ( .A1(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[0] ), .A2(\i_PID/P_term[0] ), .Y(\i_PID/add_0_root_sub_1_root_add_83_2/carry [1]) );
+  XOR2X1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1  ( .A1(\i_PID/P_term[0] ), .A2(\i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[0] ), .Y(\i_PID/sum [0]) );
+  XOR3X1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_15  ( .A1(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[15] ), .A2(
+        \i_PID/P_term[14] ), .A3(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [15]), .Y(\i_PID/sum [15])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_1  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[1] ), .B(\i_PID/P_term[1] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [1]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [2]), .S(\i_PID/sum [1])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_2  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[2] ), .B(\i_PID/P_term[2] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [2]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [3]), .S(\i_PID/sum [2])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_3  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[3] ), .B(\i_PID/P_term[3] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [3]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [4]), .S(\i_PID/sum [3])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_4  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[4] ), .B(\i_PID/P_term[4] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [4]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [5]), .S(\i_PID/sum [4])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_5  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[5] ), .B(\i_PID/P_term[5] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [5]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [6]), .S(\i_PID/sum [5])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_6  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[6] ), .B(\i_PID/P_term[6] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [6]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [7]), .S(\i_PID/sum [6])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_7  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[7] ), .B(\i_PID/P_term[7] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [7]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [8]), .S(\i_PID/sum [7])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_8  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[8] ), .B(\i_PID/P_term[8] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [8]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [9]), .S(\i_PID/sum [8])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_9  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[9] ), .B(\i_PID/P_term[9] ), 
+        .CI(\i_PID/add_0_root_sub_1_root_add_83_2/carry [9]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [10]), .S(\i_PID/sum [9])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_10  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[10] ), .B(
+        \i_PID/P_term[10] ), .CI(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [10]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [11]), .S(\i_PID/sum [10])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_11  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[11] ), .B(
+        \i_PID/P_term[11] ), .CI(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [11]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [12]), .S(\i_PID/sum [11])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_12  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[12] ), .B(
+        \i_PID/P_term[12] ), .CI(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [12]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [13]), .S(\i_PID/sum [12])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_13  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[13] ), .B(
+        \i_PID/P_term[13] ), .CI(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [13]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [14]), .S(\i_PID/sum [13])
+         );
+  FADDX1_RVT \i_PID/add_0_root_sub_1_root_add_83_2/U1_14  ( .A(
+        \i_PID/sub_2_root_sub_1_root_add_83_2/DIFF[14] ), .B(
+        \i_PID/P_term[14] ), .CI(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [14]), .CO(
+        \i_PID/add_0_root_sub_1_root_add_83_2/carry [15]), .S(\i_PID/sum [14])
+         );
+  INVX0_RVT \i_SegwayMath/U197  ( .A(\i_SegwayMath/lft_torque[11] ), .Y(
+        \i_SegwayMath/n59 ) );
+  MUX21X1_RVT \i_SegwayMath/U196  ( .A1(\i_SegwayMath/n59 ), .A2(
+        \i_SegwayMath/lft_torque [8]), .S0(\i_SegwayMath/lft_torque [9]), .Y(
+        \i_SegwayMath/n47 ) );
+  AO21X1_RVT \i_SegwayMath/U195  ( .A1(\i_SegwayMath/N17 ), .A2(
+        \i_SegwayMath/N18 ), .A3(\i_SegwayMath/N19 ), .Y(\i_SegwayMath/n58 )
+         );
+  AO21X1_RVT \i_SegwayMath/U194  ( .A1(\i_SegwayMath/n58 ), .A2(
+        \i_SegwayMath/lft_torque [3]), .A3(\i_SegwayMath/lft_torque [4]), .Y(
+        \i_SegwayMath/n57 ) );
+  AOI21X1_RVT \i_SegwayMath/U193  ( .A1(\i_SegwayMath/n57 ), .A2(
+        \i_SegwayMath/lft_torque [5]), .A3(\i_SegwayMath/lft_torque [7]), .Y(
+        \i_SegwayMath/n51 ) );
+  AND2X1_RVT \i_SegwayMath/U192  ( .A1(\i_SegwayMath/N19 ), .A2(
+        \i_SegwayMath/N18 ), .Y(\i_SegwayMath/n54 ) );
+  OA21X1_RVT \i_SegwayMath/U191  ( .A1(\i_SegwayMath/lft_torque [3]), .A2(
+        \i_SegwayMath/n54 ), .A3(\i_SegwayMath/lft_torque [4]), .Y(
+        \i_SegwayMath/n53 ) );
+  OA21X1_RVT \i_SegwayMath/U190  ( .A1(\i_SegwayMath/lft_torque [5]), .A2(
+        \i_SegwayMath/n53 ), .A3(\i_SegwayMath/lft_torque[11] ), .Y(
+        \i_SegwayMath/n52 ) );
+  MUX21X1_RVT \i_SegwayMath/U189  ( .A1(\i_SegwayMath/n51 ), .A2(
+        \i_SegwayMath/n52 ), .S0(\i_SegwayMath/lft_torque [10]), .Y(
+        \i_SegwayMath/n48 ) );
+  INVX0_RVT \i_SegwayMath/U188  ( .A(\i_SegwayMath/lft_torque [12]), .Y(
+        \i_SegwayMath/n46 ) );
+  MUX21X1_RVT \i_SegwayMath/U187  ( .A1(\i_SegwayMath/n46 ), .A2(
+        \i_SegwayMath/lft_torque [7]), .S0(\i_SegwayMath/lft_torque [6]), .Y(
+        \i_SegwayMath/n49 ) );
+  NAND2X0_RVT \i_SegwayMath/U186  ( .A1(\i_SegwayMath/lft_torque [8]), .A2(
+        \i_SegwayMath/n46 ), .Y(\i_SegwayMath/n50 ) );
+  NAND4X0_RVT \i_SegwayMath/U185  ( .A1(\i_SegwayMath/n49 ), .A2(
+        \i_SegwayMath/n48 ), .A3(\i_SegwayMath/n47 ), .A4(\i_SegwayMath/n50 ), 
+        .Y(\i_SegwayMath/n45 ) );
+  AO22X1_RVT \i_SegwayMath/U184  ( .A1(\i_SegwayMath/N17 ), .A2(
+        \i_SegwayMath/n44 ), .A3(\i_SegwayMath/N17 ), .A4(\i_SegwayMath/n42 ), 
+        .Y(\i_SegwayMath/lft_shaped [0]) );
+  AND2X1_RVT \i_SegwayMath/U183  ( .A1(\i_SegwayMath/n1 ), .A2(n1), .Y(
+        \i_SegwayMath/n43 ) );
+  AO222X1_RVT \i_SegwayMath/U182  ( .A1(\i_SegwayMath/N40 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(
+        \i_SegwayMath/lft_torque [8]), .A5(\i_SegwayMath/N27 ), .A6(
+        \i_SegwayMath/n44 ), .Y(\i_SegwayMath/lft_shaped [10]) );
+  AO222X1_RVT \i_SegwayMath/U181  ( .A1(\i_SegwayMath/N41 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(
+        \i_SegwayMath/lft_torque [9]), .A5(\i_SegwayMath/N28 ), .A6(
+        \i_SegwayMath/n44 ), .Y(\i_SegwayMath/lft_shaped [11]) );
+  AO222X1_RVT \i_SegwayMath/U180  ( .A1(\i_SegwayMath/N42 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(
+        \i_SegwayMath/lft_torque [10]), .A5(\i_SegwayMath/N29 ), .A6(
+        \i_SegwayMath/n44 ), .Y(\i_SegwayMath/lft_shaped [12]) );
+  AO22X1_RVT \i_SegwayMath/U179  ( .A1(\i_SegwayMath/N18 ), .A2(
+        \i_SegwayMath/n44 ), .A3(\i_SegwayMath/N18 ), .A4(\i_SegwayMath/n42 ), 
+        .Y(\i_SegwayMath/lft_shaped [1]) );
+  AO222X1_RVT \i_SegwayMath/U178  ( .A1(\i_SegwayMath/N19 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(\i_SegwayMath/N17 ), 
+        .A5(\i_SegwayMath/N19 ), .A6(\i_SegwayMath/n44 ), .Y(
+        \i_SegwayMath/lft_shaped [2]) );
+  AO222X1_RVT \i_SegwayMath/U177  ( .A1(\i_SegwayMath/N33 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(\i_SegwayMath/N18 ), 
+        .A5(\i_SegwayMath/N33 ), .A6(\i_SegwayMath/n44 ), .Y(
+        \i_SegwayMath/lft_shaped [3]) );
+  AO222X1_RVT \i_SegwayMath/U176  ( .A1(\i_SegwayMath/N34 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(\i_SegwayMath/N19 ), 
+        .A5(\i_SegwayMath/N21 ), .A6(\i_SegwayMath/n44 ), .Y(
+        \i_SegwayMath/lft_shaped [4]) );
+  AO222X1_RVT \i_SegwayMath/U175  ( .A1(\i_SegwayMath/N35 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(
+        \i_SegwayMath/lft_torque [3]), .A5(\i_SegwayMath/N22 ), .A6(
+        \i_SegwayMath/n44 ), .Y(\i_SegwayMath/lft_shaped [5]) );
+  AO222X1_RVT \i_SegwayMath/U174  ( .A1(\i_SegwayMath/N36 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(
+        \i_SegwayMath/lft_torque [4]), .A5(\i_SegwayMath/N23 ), .A6(
+        \i_SegwayMath/n44 ), .Y(\i_SegwayMath/lft_shaped [6]) );
+  AO222X1_RVT \i_SegwayMath/U173  ( .A1(\i_SegwayMath/N37 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(
+        \i_SegwayMath/lft_torque [5]), .A5(\i_SegwayMath/N24 ), .A6(
+        \i_SegwayMath/n44 ), .Y(\i_SegwayMath/lft_shaped [7]) );
+  AO222X1_RVT \i_SegwayMath/U172  ( .A1(\i_SegwayMath/N38 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/n43 ), .A4(
+        \i_SegwayMath/lft_torque [6]), .A5(\i_SegwayMath/N25 ), .A6(
+        \i_SegwayMath/n44 ), .Y(\i_SegwayMath/lft_shaped [8]) );
+  AO222X1_RVT \i_SegwayMath/U171  ( .A1(\i_SegwayMath/N39 ), .A2(
+        \i_SegwayMath/n42 ), .A3(\i_SegwayMath/lft_torque [7]), .A4(
+        \i_SegwayMath/n43 ), .A5(\i_SegwayMath/N26 ), .A6(\i_SegwayMath/n44 ), 
+        .Y(\i_SegwayMath/lft_shaped [9]) );
+  INVX0_RVT \i_SegwayMath/U170  ( .A(\i_SegwayMath/rght_torque[11] ), .Y(
+        \i_SegwayMath/n41 ) );
+  MUX21X1_RVT \i_SegwayMath/U169  ( .A1(\i_SegwayMath/n41 ), .A2(
+        \i_SegwayMath/rght_torque [8]), .S0(\i_SegwayMath/rght_torque [9]), 
+        .Y(\i_SegwayMath/n31 ) );
+  AO21X1_RVT \i_SegwayMath/U168  ( .A1(\i_SegwayMath/N49 ), .A2(
+        \i_SegwayMath/N50 ), .A3(\i_SegwayMath/N51 ), .Y(\i_SegwayMath/n40 )
+         );
+  AO21X1_RVT \i_SegwayMath/U167  ( .A1(\i_SegwayMath/n40 ), .A2(
+        \i_SegwayMath/rght_torque [3]), .A3(\i_SegwayMath/rght_torque [4]), 
+        .Y(\i_SegwayMath/n39 ) );
+  AOI21X1_RVT \i_SegwayMath/U166  ( .A1(\i_SegwayMath/n39 ), .A2(
+        \i_SegwayMath/rght_torque [5]), .A3(\i_SegwayMath/rght_torque [7]), 
+        .Y(\i_SegwayMath/n35 ) );
+  AND2X1_RVT \i_SegwayMath/U165  ( .A1(\i_SegwayMath/N51 ), .A2(
+        \i_SegwayMath/N50 ), .Y(\i_SegwayMath/n38 ) );
+  OA21X1_RVT \i_SegwayMath/U164  ( .A1(\i_SegwayMath/rght_torque [3]), .A2(
+        \i_SegwayMath/n38 ), .A3(\i_SegwayMath/rght_torque [4]), .Y(
+        \i_SegwayMath/n37 ) );
+  OA21X1_RVT \i_SegwayMath/U163  ( .A1(\i_SegwayMath/rght_torque [5]), .A2(
+        \i_SegwayMath/n37 ), .A3(\i_SegwayMath/rght_torque[11] ), .Y(
+        \i_SegwayMath/n36 ) );
+  MUX21X1_RVT \i_SegwayMath/U162  ( .A1(\i_SegwayMath/n35 ), .A2(
+        \i_SegwayMath/n36 ), .S0(\i_SegwayMath/rght_torque [10]), .Y(
+        \i_SegwayMath/n32 ) );
+  NAND2X0_RVT \i_SegwayMath/U161  ( .A1(\i_SegwayMath/rght_torque [8]), .A2(
+        \i_SegwayMath/n8 ), .Y(\i_SegwayMath/n34 ) );
+  NAND4X0_RVT \i_SegwayMath/U160  ( .A1(\i_SegwayMath/n33 ), .A2(
+        \i_SegwayMath/n32 ), .A3(\i_SegwayMath/n31 ), .A4(\i_SegwayMath/n34 ), 
+        .Y(\i_SegwayMath/n30 ) );
+  INVX0_RVT \i_SegwayMath/U159  ( .A(\i_SegwayMath/n30 ), .Y(
+        \i_SegwayMath/n29 ) );
+  AO222X1_RVT \i_SegwayMath/U158  ( .A1(\i_SegwayMath/N72 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(
+        \i_SegwayMath/rght_torque [8]), .A5(\i_SegwayMath/N59 ), .A6(
+        \i_SegwayMath/n28 ), .Y(\i_SegwayMath/rght_shaped [10]) );
+  AO222X1_RVT \i_SegwayMath/U157  ( .A1(\i_SegwayMath/N73 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(
+        \i_SegwayMath/rght_torque [9]), .A5(\i_SegwayMath/N60 ), .A6(
+        \i_SegwayMath/n28 ), .Y(\i_SegwayMath/rght_shaped [11]) );
+  AO222X1_RVT \i_SegwayMath/U156  ( .A1(\i_SegwayMath/N74 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(
+        \i_SegwayMath/rght_torque [10]), .A5(\i_SegwayMath/N61 ), .A6(
+        \i_SegwayMath/n28 ), .Y(\i_SegwayMath/rght_shaped [12]) );
+  AO222X1_RVT \i_SegwayMath/U155  ( .A1(\i_SegwayMath/N51 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(\i_SegwayMath/N49 ), 
+        .A5(\i_SegwayMath/N51 ), .A6(\i_SegwayMath/n28 ), .Y(
+        \i_SegwayMath/rght_shaped [2]) );
+  AO222X1_RVT \i_SegwayMath/U154  ( .A1(\i_SegwayMath/N65 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(\i_SegwayMath/N50 ), 
+        .A5(\i_SegwayMath/N65 ), .A6(\i_SegwayMath/n28 ), .Y(
+        \i_SegwayMath/rght_shaped [3]) );
+  AO222X1_RVT \i_SegwayMath/U153  ( .A1(\i_SegwayMath/N66 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(\i_SegwayMath/N51 ), 
+        .A5(\i_SegwayMath/N53 ), .A6(\i_SegwayMath/n28 ), .Y(
+        \i_SegwayMath/rght_shaped [4]) );
+  AO222X1_RVT \i_SegwayMath/U152  ( .A1(\i_SegwayMath/N67 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(
+        \i_SegwayMath/rght_torque [3]), .A5(\i_SegwayMath/N54 ), .A6(
+        \i_SegwayMath/n28 ), .Y(\i_SegwayMath/rght_shaped [5]) );
+  AO222X1_RVT \i_SegwayMath/U151  ( .A1(\i_SegwayMath/N68 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(
+        \i_SegwayMath/rght_torque [4]), .A5(\i_SegwayMath/N55 ), .A6(
+        \i_SegwayMath/n28 ), .Y(\i_SegwayMath/rght_shaped [6]) );
+  AO222X1_RVT \i_SegwayMath/U150  ( .A1(\i_SegwayMath/N69 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(
+        \i_SegwayMath/rght_torque [5]), .A5(\i_SegwayMath/N56 ), .A6(
+        \i_SegwayMath/n28 ), .Y(\i_SegwayMath/rght_shaped [7]) );
+  AO222X1_RVT \i_SegwayMath/U149  ( .A1(\i_SegwayMath/N70 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/n27 ), .A4(
+        \i_SegwayMath/rght_torque [6]), .A5(\i_SegwayMath/N57 ), .A6(
+        \i_SegwayMath/n28 ), .Y(\i_SegwayMath/rght_shaped [8]) );
+  AO222X1_RVT \i_SegwayMath/U148  ( .A1(\i_SegwayMath/N71 ), .A2(
+        \i_SegwayMath/n26 ), .A3(\i_SegwayMath/rght_torque [7]), .A4(
+        \i_SegwayMath/n27 ), .A5(\i_SegwayMath/N58 ), .A6(\i_SegwayMath/n28 ), 
+        .Y(\i_SegwayMath/rght_shaped [9]) );
+  OR2X1_RVT \i_SegwayMath/U147  ( .A1(steer_pot[10]), .A2(steer_pot[11]), .Y(
+        \i_SegwayMath/n24 ) );
+  NAND2X0_RVT \i_SegwayMath/U146  ( .A1(steer_pot[11]), .A2(steer_pot[10]), 
+        .Y(\i_SegwayMath/n25 ) );
+  AND2X1_RVT \i_SegwayMath/U145  ( .A1(steer_pot[0]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[0] ) );
+  AND2X1_RVT \i_SegwayMath/U144  ( .A1(steer_pot[1]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[1] ) );
+  AND2X1_RVT \i_SegwayMath/U143  ( .A1(steer_pot[2]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[2] ) );
+  AND2X1_RVT \i_SegwayMath/U142  ( .A1(steer_pot[3]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[3] ) );
+  AND2X1_RVT \i_SegwayMath/U141  ( .A1(steer_pot[4]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[4] ) );
+  AND2X1_RVT \i_SegwayMath/U140  ( .A1(steer_pot[5]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[5] ) );
+  AND2X1_RVT \i_SegwayMath/U139  ( .A1(steer_pot[6]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[6] ) );
+  AND2X1_RVT \i_SegwayMath/U138  ( .A1(steer_pot[7]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[7] ) );
+  AND2X1_RVT \i_SegwayMath/U137  ( .A1(steer_pot[8]), .A2(\i_SegwayMath/n22 ), 
+        .Y(\i_SegwayMath/steer_pot_clamped[8] ) );
+  INVX0_RVT \i_SegwayMath/U136  ( .A(steer_pot[9]), .Y(\i_SegwayMath/n23 ) );
+  NAND2X0_RVT \i_SegwayMath/U135  ( .A1(\i_SegwayMath/n22 ), .A2(
+        \i_SegwayMath/n23 ), .Y(\i_SegwayMath/steer_pot_clamped[9] ) );
+  AND2X1_RVT \i_SegwayMath/U134  ( .A1(\i_SegwayMath/steer_val [0]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [0]) );
+  AND2X1_RVT \i_SegwayMath/U133  ( .A1(\i_SegwayMath/steer_val [1]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [1]) );
+  AND2X1_RVT \i_SegwayMath/U132  ( .A1(\i_SegwayMath/steer_val [2]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [2]) );
+  AND2X1_RVT \i_SegwayMath/U131  ( .A1(\i_SegwayMath/steer_val [3]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [3]) );
+  AND2X1_RVT \i_SegwayMath/U130  ( .A1(\i_SegwayMath/steer_val [4]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [4]) );
+  AND2X1_RVT \i_SegwayMath/U129  ( .A1(\i_SegwayMath/steer_val [5]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [5]) );
+  AND2X1_RVT \i_SegwayMath/U128  ( .A1(\i_SegwayMath/steer_val [6]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [6]) );
+  AND2X1_RVT \i_SegwayMath/U127  ( .A1(\i_SegwayMath/steer_val [7]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [7]) );
+  AND2X1_RVT \i_SegwayMath/U126  ( .A1(\i_SegwayMath/steer_val [8]), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [8]) );
+  AND2X1_RVT \i_SegwayMath/U125  ( .A1(\i_SegwayMath/steer_val_11 ), .A2(
+        en_steer), .Y(\i_SegwayMath/steer_val_ext_en [9]) );
+  NAND3X0_RVT \i_SegwayMath/U124  ( .A1(\i_SegwayMath/rght_shaped [10]), .A2(
+        \i_SegwayMath/n19 ), .A3(\i_SegwayMath/rght_shaped [9]), .Y(
+        \i_SegwayMath/n20 ) );
+  NAND3X0_RVT \i_SegwayMath/U123  ( .A1(\i_SegwayMath/n16 ), .A2(
+        \i_SegwayMath/lft_shaped [10]), .A3(\i_SegwayMath/lft_shaped [9]), .Y(
+        \i_SegwayMath/n17 ) );
+  AND3X1_RVT \i_SegwayMath/U122  ( .A1(\i_SegwayMath/steer_pot_clamped[2] ), 
+        .A2(\i_SegwayMath/steer_pot_clamped[1] ), .A3(
+        \i_SegwayMath/steer_pot_clamped[0] ), .Y(
+        \i_SegwayMath/sub_25/carry[3] ) );
+  AO22X1_RVT \i_SegwayMath/U121  ( .A1(\i_SegwayMath/N50 ), .A2(
+        \i_SegwayMath/n28 ), .A3(\i_SegwayMath/N50 ), .A4(\i_SegwayMath/n26 ), 
+        .Y(\i_SegwayMath/rght_shaped [1]) );
+  AO22X1_RVT \i_SegwayMath/U120  ( .A1(\i_SegwayMath/N49 ), .A2(
+        \i_SegwayMath/n28 ), .A3(\i_SegwayMath/N49 ), .A4(\i_SegwayMath/n26 ), 
+        .Y(\i_SegwayMath/rght_shaped [0]) );
+  AO21X1_RVT \i_SegwayMath/U119  ( .A1(\i_SegwayMath/n21 ), .A2(
+        \i_SegwayMath/n20 ), .A3(\i_SegwayMath/rght_shaped [12]), .Y(
+        \i_SegwayMath/n15 ) );
+  AO21X1_RVT \i_SegwayMath/U118  ( .A1(\i_SegwayMath/n17 ), .A2(
+        \i_SegwayMath/n18 ), .A3(\i_SegwayMath/lft_shaped [12]), .Y(
+        \i_SegwayMath/n14 ) );
+  NAND2X0_RVT \i_SegwayMath/U117  ( .A1(\i_SegwayMath/n15 ), .A2(
+        \i_SegwayMath/n14 ), .Y(too_fast) );
+  INVX1_RVT \i_SegwayMath/U116  ( .A(\i_SegwayMath/rght_shaped [11]), .Y(
+        \i_SegwayMath/n21 ) );
+  MUX21X1_RVT \i_SegwayMath/U115  ( .A1(\i_SegwayMath/rght_torque [7]), .A2(
+        \i_SegwayMath/n8 ), .S0(\i_SegwayMath/n13 ), .Y(\i_SegwayMath/n33 ) );
+  NOR4X1_RVT \i_SegwayMath/U114  ( .A1(\i_SegwayMath/lft_shaped [1]), .A2(
+        \i_SegwayMath/lft_shaped [0]), .A3(\i_SegwayMath/lft_shaped [3]), .A4(
+        \i_SegwayMath/lft_shaped [2]), .Y(\i_SegwayMath/n12 ) );
+  NOR3X0_RVT \i_SegwayMath/U113  ( .A1(\i_SegwayMath/lft_shaped [8]), .A2(
+        \i_SegwayMath/lft_shaped [7]), .A3(\i_SegwayMath/lft_shaped [6]), .Y(
+        \i_SegwayMath/n11 ) );
+  NAND4X0_RVT \i_SegwayMath/U112  ( .A1(\i_SegwayMath/n9 ), .A2(
+        \i_SegwayMath/n10 ), .A3(\i_SegwayMath/n11 ), .A4(\i_SegwayMath/n12 ), 
+        .Y(\i_SegwayMath/n16 ) );
+  INVX0_RVT \i_SegwayMath/U111  ( .A(\i_SegwayMath/rght_torque [12]), .Y(
+        \i_SegwayMath/n8 ) );
+  NOR4X1_RVT \i_SegwayMath/U110  ( .A1(\i_SegwayMath/rght_shaped [1]), .A2(
+        \i_SegwayMath/rght_shaped [0]), .A3(\i_SegwayMath/rght_shaped [3]), 
+        .A4(\i_SegwayMath/rght_shaped [2]), .Y(\i_SegwayMath/n7 ) );
+  NOR3X0_RVT \i_SegwayMath/U109  ( .A1(\i_SegwayMath/rght_shaped [8]), .A2(
+        \i_SegwayMath/rght_shaped [7]), .A3(\i_SegwayMath/rght_shaped [6]), 
+        .Y(\i_SegwayMath/n6 ) );
+  NAND4X0_RVT \i_SegwayMath/U108  ( .A1(\i_SegwayMath/n4 ), .A2(
+        \i_SegwayMath/n5 ), .A3(\i_SegwayMath/n6 ), .A4(\i_SegwayMath/n7 ), 
+        .Y(\i_SegwayMath/n19 ) );
+  NAND4X0_RVT \i_SegwayMath/U107  ( .A1(\i_SegwayMath/n49 ), .A2(
+        \i_SegwayMath/n48 ), .A3(\i_SegwayMath/n47 ), .A4(\i_SegwayMath/n50 ), 
+        .Y(\i_SegwayMath/n3 ) );
+  AND2X1_RVT \i_SegwayMath/U106  ( .A1(\i_SegwayMath/steer_pot_clamped[9] ), 
+        .A2(\i_SegwayMath/sub_25/carry[9] ), .Y(
+        \i_SegwayMath/sub_25/carry[10] ) );
+  AND2X1_RVT \i_SegwayMath/U105  ( .A1(\i_SegwayMath/steer_pot_clamped[8] ), 
+        .A2(\i_SegwayMath/sub_25/carry[8] ), .Y(\i_SegwayMath/sub_25/carry[9] ) );
+  AND2X1_RVT \i_SegwayMath/U104  ( .A1(\i_SegwayMath/steer_pot_clamped[7] ), 
+        .A2(\i_SegwayMath/sub_25/carry[7] ), .Y(\i_SegwayMath/sub_25/carry[8] ) );
+  AND2X1_RVT \i_SegwayMath/U103  ( .A1(\i_SegwayMath/steer_pot_clamped[6] ), 
+        .A2(\i_SegwayMath/sub_25/carry[6] ), .Y(\i_SegwayMath/sub_25/carry[7] ) );
+  AND2X1_RVT \i_SegwayMath/U102  ( .A1(\i_SegwayMath/steer_pot_clamped[5] ), 
+        .A2(\i_SegwayMath/sub_25/carry[5] ), .Y(\i_SegwayMath/sub_25/carry[6] ) );
+  AND2X1_RVT \i_SegwayMath/U101  ( .A1(\i_SegwayMath/steer_pot_clamped[4] ), 
+        .A2(\i_SegwayMath/sub_25/carry[4] ), .Y(\i_SegwayMath/sub_25/carry[5] ) );
+  AND2X1_RVT \i_SegwayMath/U100  ( .A1(\i_SegwayMath/steer_pot_clamped[3] ), 
+        .A2(\i_SegwayMath/sub_25/carry[3] ), .Y(\i_SegwayMath/sub_25/carry[4] ) );
+  AND2X1_RVT \i_SegwayMath/U99  ( .A1(\i_SegwayMath/steer_val_unscaled[4] ), 
+        .A2(\i_SegwayMath/steer_val_unscaled[3] ), .Y(
+        \i_SegwayMath/add_26/carry[1] ) );
+  AND2X1_RVT \i_SegwayMath/U98  ( .A1(\i_SegwayMath/lft_torque [7]), .A2(
+        \i_SegwayMath/sub_49/carry[7] ), .Y(\i_SegwayMath/sub_49/carry[8] ) );
+  AND2X1_RVT \i_SegwayMath/U97  ( .A1(\i_SegwayMath/lft_torque [5]), .A2(
+        \i_SegwayMath/sub_49/carry[5] ), .Y(\i_SegwayMath/sub_49/carry[6] ) );
+  AND2X1_RVT \i_SegwayMath/U96  ( .A1(\i_SegwayMath/lft_torque[11] ), .A2(
+        \i_SegwayMath/add_49/carry[11] ), .Y(\i_SegwayMath/add_49/carry[12] )
+         );
+  AND2X1_RVT \i_SegwayMath/U95  ( .A1(\i_SegwayMath/lft_torque [10]), .A2(
+        \i_SegwayMath/add_49/carry[10] ), .Y(\i_SegwayMath/add_49/carry[11] )
+         );
+  AND2X1_RVT \i_SegwayMath/U94  ( .A1(\i_SegwayMath/lft_torque [9]), .A2(
+        \i_SegwayMath/add_49/carry[9] ), .Y(\i_SegwayMath/add_49/carry[10] )
+         );
+  AND2X1_RVT \i_SegwayMath/U93  ( .A1(\i_SegwayMath/lft_torque [8]), .A2(
+        \i_SegwayMath/add_49/carry[8] ), .Y(\i_SegwayMath/add_49/carry[9] ) );
+  AND2X1_RVT \i_SegwayMath/U92  ( .A1(\i_SegwayMath/lft_torque [6]), .A2(
+        \i_SegwayMath/add_49/carry[6] ), .Y(\i_SegwayMath/add_49/carry[7] ) );
+  AND2X1_RVT \i_SegwayMath/U91  ( .A1(\i_SegwayMath/lft_torque [4]), .A2(
+        \i_SegwayMath/lft_torque [3]), .Y(\i_SegwayMath/add_49/carry[5] ) );
+  AND2X1_RVT \i_SegwayMath/U90  ( .A1(\i_SegwayMath/rght_torque [7]), .A2(
+        \i_SegwayMath/sub_60/carry[7] ), .Y(\i_SegwayMath/sub_60/carry[8] ) );
+  AND2X1_RVT \i_SegwayMath/U89  ( .A1(\i_SegwayMath/rght_torque [5]), .A2(
+        \i_SegwayMath/sub_60/carry[5] ), .Y(\i_SegwayMath/sub_60/carry[6] ) );
+  AND2X1_RVT \i_SegwayMath/U88  ( .A1(\i_SegwayMath/rght_torque[11] ), .A2(
+        \i_SegwayMath/add_60/carry[11] ), .Y(\i_SegwayMath/add_60/carry[12] )
+         );
+  AND2X1_RVT \i_SegwayMath/U87  ( .A1(\i_SegwayMath/rght_torque [10]), .A2(
+        \i_SegwayMath/add_60/carry[10] ), .Y(\i_SegwayMath/add_60/carry[11] )
+         );
+  AND2X1_RVT \i_SegwayMath/U86  ( .A1(\i_SegwayMath/rght_torque [9]), .A2(
+        \i_SegwayMath/add_60/carry[9] ), .Y(\i_SegwayMath/add_60/carry[10] )
+         );
+  AND2X1_RVT \i_SegwayMath/U85  ( .A1(\i_SegwayMath/rght_torque [8]), .A2(
+        \i_SegwayMath/add_60/carry[8] ), .Y(\i_SegwayMath/add_60/carry[9] ) );
+  AND2X1_RVT \i_SegwayMath/U84  ( .A1(\i_SegwayMath/rght_torque [6]), .A2(
+        \i_SegwayMath/add_60/carry[6] ), .Y(\i_SegwayMath/add_60/carry[7] ) );
+  AND2X1_RVT \i_SegwayMath/U83  ( .A1(\i_SegwayMath/rght_torque [4]), .A2(
+        \i_SegwayMath/rght_torque [3]), .Y(\i_SegwayMath/add_60/carry[5] ) );
+  NAND2X0_RVT \i_SegwayMath/U82  ( .A1(steer_pot[10]), .A2(
+        \i_SegwayMath/sub_25/carry[10] ), .Y(\i_SegwayMath/n2 ) );
+  XOR2X1_RVT \i_SegwayMath/U81  ( .A1(steer_pot[11]), .A2(\i_SegwayMath/n2 ), 
+        .Y(\i_SegwayMath/steer_val_11 ) );
+  XOR2X1_RVT \i_SegwayMath/U80  ( .A1(\i_SegwayMath/sub_25/carry[10] ), .A2(
+        steer_pot[10]), .Y(\i_SegwayMath/steer_val_unscaled[10] ) );
+  XOR2X1_RVT \i_SegwayMath/U79  ( .A1(\i_SegwayMath/steer_val_unscaled[4] ), 
+        .A2(\i_SegwayMath/steer_val_unscaled[3] ), .Y(
+        \i_SegwayMath/steer_val [0]) );
+  MUX21X1_RVT \i_SegwayMath/U78  ( .A1(\i_SegwayMath/n24 ), .A2(
+        \i_SegwayMath/n25 ), .S0(steer_pot[9]), .Y(\i_SegwayMath/n22 ) );
+  XOR2X1_RVT \i_SegwayMath/U77  ( .A1(\i_SegwayMath/sub_25/carry[9] ), .A2(
+        \i_SegwayMath/steer_pot_clamped[9] ), .Y(
+        \i_SegwayMath/steer_val_unscaled[9] ) );
+  XOR2X1_RVT \i_SegwayMath/U76  ( .A1(\i_SegwayMath/sub_25/carry[8] ), .A2(
+        \i_SegwayMath/steer_pot_clamped[8] ), .Y(
+        \i_SegwayMath/steer_val_unscaled[8] ) );
+  XOR2X1_RVT \i_SegwayMath/U75  ( .A1(\i_SegwayMath/sub_25/carry[3] ), .A2(
+        \i_SegwayMath/steer_pot_clamped[3] ), .Y(
+        \i_SegwayMath/steer_val_unscaled[3] ) );
+  XOR2X1_RVT \i_SegwayMath/U74  ( .A1(\i_SegwayMath/sub_25/carry[7] ), .A2(
+        \i_SegwayMath/steer_pot_clamped[7] ), .Y(
+        \i_SegwayMath/steer_val_unscaled[7] ) );
+  XOR2X1_RVT \i_SegwayMath/U73  ( .A1(\i_SegwayMath/sub_25/carry[6] ), .A2(
+        \i_SegwayMath/steer_pot_clamped[6] ), .Y(
+        \i_SegwayMath/steer_val_unscaled[6] ) );
+  XOR2X1_RVT \i_SegwayMath/U72  ( .A1(\i_SegwayMath/sub_25/carry[5] ), .A2(
+        \i_SegwayMath/steer_pot_clamped[5] ), .Y(
+        \i_SegwayMath/steer_val_unscaled[5] ) );
+  XOR2X1_RVT \i_SegwayMath/U71  ( .A1(\i_SegwayMath/sub_25/carry[4] ), .A2(
+        \i_SegwayMath/steer_pot_clamped[4] ), .Y(
+        \i_SegwayMath/steer_val_unscaled[4] ) );
+  AND3X1_RVT \i_SegwayMath/U70  ( .A1(n1), .A2(\i_SegwayMath/n3 ), .A3(
+        \i_SegwayMath/lft_torque [12]), .Y(\i_SegwayMath/n44 ) );
+  AND2X1_RVT \i_SegwayMath/U69  ( .A1(n1), .A2(\i_SegwayMath/n29 ), .Y(
+        \i_SegwayMath/n27 ) );
+  AND3X1_RVT \i_SegwayMath/U68  ( .A1(\i_SegwayMath/rght_torque [12]), .A2(
+        \i_SegwayMath/n30 ), .A3(n1), .Y(\i_SegwayMath/n28 ) );
+  AND4X1_RVT \i_SegwayMath/U67  ( .A1(\i_SegwayMath/n49 ), .A2(
+        \i_SegwayMath/n48 ), .A3(\i_SegwayMath/n47 ), .A4(\i_SegwayMath/n50 ), 
+        .Y(\i_SegwayMath/n1 ) );
+  AND3X1_RVT \i_SegwayMath/U66  ( .A1(\i_SegwayMath/n30 ), .A2(
+        \i_SegwayMath/n8 ), .A3(n1), .Y(\i_SegwayMath/n26 ) );
+  INVX1_RVT \i_SegwayMath/U65  ( .A(\i_SegwayMath/rght_torque [6]), .Y(
+        \i_SegwayMath/n13 ) );
+  OR2X1_RVT \i_SegwayMath/U64  ( .A1(\i_SegwayMath/rght_torque [5]), .A2(
+        \i_SegwayMath/add_60/carry[5] ), .Y(\i_SegwayMath/add_60/carry[6] ) );
+  OR2X1_RVT \i_SegwayMath/U63  ( .A1(\i_SegwayMath/lft_torque [5]), .A2(
+        \i_SegwayMath/add_49/carry[5] ), .Y(\i_SegwayMath/add_49/carry[6] ) );
+  OR2X1_RVT \i_SegwayMath/U62  ( .A1(\i_SegwayMath/rght_torque [7]), .A2(
+        \i_SegwayMath/add_60/carry[7] ), .Y(\i_SegwayMath/add_60/carry[8] ) );
+  OR2X1_RVT \i_SegwayMath/U61  ( .A1(\i_SegwayMath/lft_torque [7]), .A2(
+        \i_SegwayMath/add_49/carry[7] ), .Y(\i_SegwayMath/add_49/carry[8] ) );
+  XOR2X1_RVT \i_SegwayMath/U60  ( .A1(\i_SegwayMath/add_60/carry[10] ), .A2(
+        \i_SegwayMath/rght_torque [10]), .Y(\i_SegwayMath/N72 ) );
+  XOR2X1_RVT \i_SegwayMath/U59  ( .A1(\i_SegwayMath/add_49/carry[10] ), .A2(
+        \i_SegwayMath/lft_torque [10]), .Y(\i_SegwayMath/N40 ) );
+  OR2X1_RVT \i_SegwayMath/U58  ( .A1(\i_SegwayMath/rght_torque [4]), .A2(
+        \i_SegwayMath/rght_torque [3]), .Y(\i_SegwayMath/sub_60/carry[5] ) );
+  XOR2X1_RVT \i_SegwayMath/U57  ( .A1(\i_SegwayMath/add_60/carry[9] ), .A2(
+        \i_SegwayMath/rght_torque [9]), .Y(\i_SegwayMath/N71 ) );
+  OR2X1_RVT \i_SegwayMath/U56  ( .A1(\i_SegwayMath/lft_torque [4]), .A2(
+        \i_SegwayMath/lft_torque [3]), .Y(\i_SegwayMath/sub_49/carry[5] ) );
+  XOR2X1_RVT \i_SegwayMath/U55  ( .A1(\i_SegwayMath/add_49/carry[9] ), .A2(
+        \i_SegwayMath/lft_torque [9]), .Y(\i_SegwayMath/N39 ) );
+  OR2X1_RVT \i_SegwayMath/U54  ( .A1(\i_SegwayMath/lft_torque [6]), .A2(
+        \i_SegwayMath/sub_49/carry[6] ), .Y(\i_SegwayMath/sub_49/carry[7] ) );
+  OR2X1_RVT \i_SegwayMath/U53  ( .A1(\i_SegwayMath/rght_torque [6]), .A2(
+        \i_SegwayMath/sub_60/carry[6] ), .Y(\i_SegwayMath/sub_60/carry[7] ) );
+  OR2X1_RVT \i_SegwayMath/U52  ( .A1(\i_SegwayMath/rght_torque [8]), .A2(
+        \i_SegwayMath/sub_60/carry[8] ), .Y(\i_SegwayMath/sub_60/carry[9] ) );
+  OR2X1_RVT \i_SegwayMath/U51  ( .A1(\i_SegwayMath/lft_torque[11] ), .A2(
+        \i_SegwayMath/sub_49/carry[11] ), .Y(\i_SegwayMath/sub_49/carry[12] )
+         );
+  OR2X1_RVT \i_SegwayMath/U50  ( .A1(\i_SegwayMath/lft_torque [8]), .A2(
+        \i_SegwayMath/sub_49/carry[8] ), .Y(\i_SegwayMath/sub_49/carry[9] ) );
+  OR2X1_RVT \i_SegwayMath/U49  ( .A1(\i_SegwayMath/lft_torque [9]), .A2(
+        \i_SegwayMath/sub_49/carry[9] ), .Y(\i_SegwayMath/sub_49/carry[10] )
+         );
+  OR2X1_RVT \i_SegwayMath/U48  ( .A1(\i_SegwayMath/lft_torque [10]), .A2(
+        \i_SegwayMath/sub_49/carry[10] ), .Y(\i_SegwayMath/sub_49/carry[11] )
+         );
+  XOR2X1_RVT \i_SegwayMath/U47  ( .A1(\i_SegwayMath/add_49/carry[6] ), .A2(
+        \i_SegwayMath/lft_torque [6]), .Y(\i_SegwayMath/N36 ) );
+  XOR2X1_RVT \i_SegwayMath/U46  ( .A1(\i_SegwayMath/add_60/carry[6] ), .A2(
+        \i_SegwayMath/rght_torque [6]), .Y(\i_SegwayMath/N68 ) );
+  XOR2X1_RVT \i_SegwayMath/U45  ( .A1(\i_SegwayMath/sub_49/carry[5] ), .A2(
+        \i_SegwayMath/lft_torque [5]), .Y(\i_SegwayMath/N22 ) );
+  XOR2X1_RVT \i_SegwayMath/U44  ( .A1(\i_SegwayMath/sub_49/carry[7] ), .A2(
+        \i_SegwayMath/lft_torque [7]), .Y(\i_SegwayMath/N24 ) );
+  XOR2X1_RVT \i_SegwayMath/U43  ( .A1(\i_SegwayMath/lft_torque [3]), .A2(
+        \i_SegwayMath/lft_torque [4]), .Y(\i_SegwayMath/N34 ) );
+  XOR2X1_RVT \i_SegwayMath/U42  ( .A1(\i_SegwayMath/sub_60/carry[5] ), .A2(
+        \i_SegwayMath/rght_torque [5]), .Y(\i_SegwayMath/N54 ) );
+  XOR2X1_RVT \i_SegwayMath/U41  ( .A1(\i_SegwayMath/rght_torque [3]), .A2(
+        \i_SegwayMath/rght_torque [4]), .Y(\i_SegwayMath/N66 ) );
+  XOR2X1_RVT \i_SegwayMath/U40  ( .A1(\i_SegwayMath/sub_60/carry[7] ), .A2(
+        \i_SegwayMath/rght_torque [7]), .Y(\i_SegwayMath/N56 ) );
+  XOR2X1_RVT \i_SegwayMath/U39  ( .A1(\i_SegwayMath/add_49/carry[8] ), .A2(
+        \i_SegwayMath/lft_torque [8]), .Y(\i_SegwayMath/N38 ) );
+  XOR2X1_RVT \i_SegwayMath/U38  ( .A1(\i_SegwayMath/add_60/carry[8] ), .A2(
+        \i_SegwayMath/rght_torque [8]), .Y(\i_SegwayMath/N70 ) );
+  INVX1_RVT \i_SegwayMath/U37  ( .A(\i_SegwayMath/lft_torque [3]), .Y(
+        \i_SegwayMath/N33 ) );
+  INVX1_RVT \i_SegwayMath/U36  ( .A(\i_SegwayMath/rght_torque [3]), .Y(
+        \i_SegwayMath/N65 ) );
+  XOR2X1_RVT \i_SegwayMath/U35  ( .A1(\i_SegwayMath/add_49/carry[11] ), .A2(
+        \i_SegwayMath/lft_torque[11] ), .Y(\i_SegwayMath/N41 ) );
+  XOR2X1_RVT \i_SegwayMath/U32  ( .A1(\i_SegwayMath/add_60/carry[11] ), .A2(
+        \i_SegwayMath/rght_torque[11] ), .Y(\i_SegwayMath/N73 ) );
+  XOR2X1_RVT \i_SegwayMath/U31  ( .A1(\i_SegwayMath/add_60/carry[12] ), .A2(
+        \i_SegwayMath/rght_torque [12]), .Y(\i_SegwayMath/N74 ) );
+  XOR2X1_RVT \i_SegwayMath/U30  ( .A1(\i_SegwayMath/add_49/carry[12] ), .A2(
+        \i_SegwayMath/lft_torque [12]), .Y(\i_SegwayMath/N42 ) );
+  OR2X1_RVT \i_SegwayMath/U29  ( .A1(\i_SegwayMath/rght_torque[11] ), .A2(
+        \i_SegwayMath/sub_60/carry[11] ), .Y(\i_SegwayMath/sub_60/carry[12] )
+         );
+  OR2X1_RVT \i_SegwayMath/U28  ( .A1(\i_SegwayMath/rght_torque [9]), .A2(
+        \i_SegwayMath/sub_60/carry[9] ), .Y(\i_SegwayMath/sub_60/carry[10] )
+         );
+  OR2X1_RVT \i_SegwayMath/U27  ( .A1(\i_SegwayMath/rght_torque [10]), .A2(
+        \i_SegwayMath/sub_60/carry[10] ), .Y(\i_SegwayMath/sub_60/carry[11] )
+         );
+  INVX1_RVT \i_SegwayMath/U26  ( .A(\i_SegwayMath/lft_shaped [4]), .Y(
+        \i_SegwayMath/n10 ) );
+  INVX1_RVT \i_SegwayMath/U25  ( .A(\i_SegwayMath/lft_shaped [5]), .Y(
+        \i_SegwayMath/n9 ) );
+  INVX1_RVT \i_SegwayMath/U24  ( .A(\i_SegwayMath/lft_shaped [11]), .Y(
+        \i_SegwayMath/n18 ) );
+  INVX1_RVT \i_SegwayMath/U23  ( .A(\i_SegwayMath/rght_shaped [4]), .Y(
+        \i_SegwayMath/n5 ) );
+  INVX1_RVT \i_SegwayMath/U22  ( .A(\i_SegwayMath/rght_shaped [5]), .Y(
+        \i_SegwayMath/n4 ) );
+  AND3X1_RVT \i_SegwayMath/U21  ( .A1(\i_SegwayMath/n45 ), .A2(
+        \i_SegwayMath/n46 ), .A3(n1), .Y(\i_SegwayMath/n42 ) );
+  XNOR2X1_RVT \i_SegwayMath/U20  ( .A1(\i_SegwayMath/lft_torque [10]), .A2(
+        \i_SegwayMath/sub_49/carry[10] ), .Y(\i_SegwayMath/N27 ) );
+  XNOR2X1_RVT \i_SegwayMath/U19  ( .A1(\i_SegwayMath/lft_torque [9]), .A2(
+        \i_SegwayMath/sub_49/carry[9] ), .Y(\i_SegwayMath/N26 ) );
+  XNOR2X1_RVT \i_SegwayMath/U18  ( .A1(\i_SegwayMath/rght_torque [10]), .A2(
+        \i_SegwayMath/sub_60/carry[10] ), .Y(\i_SegwayMath/N59 ) );
+  XNOR2X1_RVT \i_SegwayMath/U17  ( .A1(\i_SegwayMath/rght_torque [9]), .A2(
+        \i_SegwayMath/sub_60/carry[9] ), .Y(\i_SegwayMath/N58 ) );
+  XNOR2X1_RVT \i_SegwayMath/U16  ( .A1(\i_SegwayMath/lft_torque [5]), .A2(
+        \i_SegwayMath/add_49/carry[5] ), .Y(\i_SegwayMath/N35 ) );
+  XNOR2X1_RVT \i_SegwayMath/U15  ( .A1(\i_SegwayMath/lft_torque [4]), .A2(
+        \i_SegwayMath/lft_torque [3]), .Y(\i_SegwayMath/N21 ) );
+  XNOR2X1_RVT \i_SegwayMath/U14  ( .A1(\i_SegwayMath/rght_torque [5]), .A2(
+        \i_SegwayMath/add_60/carry[5] ), .Y(\i_SegwayMath/N67 ) );
+  XNOR2X1_RVT \i_SegwayMath/U13  ( .A1(\i_SegwayMath/rght_torque [4]), .A2(
+        \i_SegwayMath/rght_torque [3]), .Y(\i_SegwayMath/N53 ) );
+  XNOR2X1_RVT \i_SegwayMath/U12  ( .A1(\i_SegwayMath/lft_torque [6]), .A2(
+        \i_SegwayMath/sub_49/carry[6] ), .Y(\i_SegwayMath/N23 ) );
+  XNOR2X1_RVT \i_SegwayMath/U11  ( .A1(\i_SegwayMath/lft_torque [7]), .A2(
+        \i_SegwayMath/add_49/carry[7] ), .Y(\i_SegwayMath/N37 ) );
+  XNOR2X1_RVT \i_SegwayMath/U10  ( .A1(\i_SegwayMath/lft_torque[11] ), .A2(
+        \i_SegwayMath/sub_49/carry[11] ), .Y(\i_SegwayMath/N28 ) );
+  XNOR2X1_RVT \i_SegwayMath/U9  ( .A1(\i_SegwayMath/lft_torque [8]), .A2(
+        \i_SegwayMath/sub_49/carry[8] ), .Y(\i_SegwayMath/N25 ) );
+  XNOR2X1_RVT \i_SegwayMath/U8  ( .A1(\i_SegwayMath/rght_torque [6]), .A2(
+        \i_SegwayMath/sub_60/carry[6] ), .Y(\i_SegwayMath/N55 ) );
+  XNOR2X1_RVT \i_SegwayMath/U7  ( .A1(\i_SegwayMath/lft_torque [12]), .A2(
+        \i_SegwayMath/sub_49/carry[12] ), .Y(\i_SegwayMath/N29 ) );
+  XNOR2X1_RVT \i_SegwayMath/U6  ( .A1(\i_SegwayMath/rght_torque [7]), .A2(
+        \i_SegwayMath/add_60/carry[7] ), .Y(\i_SegwayMath/N69 ) );
+  XNOR2X1_RVT \i_SegwayMath/U5  ( .A1(\i_SegwayMath/rght_torque[11] ), .A2(
+        \i_SegwayMath/sub_60/carry[11] ), .Y(\i_SegwayMath/N60 ) );
+  XNOR2X1_RVT \i_SegwayMath/U4  ( .A1(\i_SegwayMath/rght_torque [8]), .A2(
+        \i_SegwayMath/sub_60/carry[8] ), .Y(\i_SegwayMath/N57 ) );
+  XNOR2X1_RVT \i_SegwayMath/U3  ( .A1(\i_SegwayMath/rght_torque [12]), .A2(
+        \i_SegwayMath/sub_60/carry[12] ), .Y(\i_SegwayMath/N61 ) );
+  FADDX1_RVT \i_SegwayMath/add_26/U1_7  ( .A(
+        \i_SegwayMath/steer_val_unscaled[10] ), .B(\i_SegwayMath/steer_val_11 ), .CI(\i_SegwayMath/add_26/carry[7] ), .CO(\i_SegwayMath/steer_val [8]), .S(
+        \i_SegwayMath/steer_val [7]) );
+  FADDX1_RVT \i_SegwayMath/add_26/U1_6  ( .A(
+        \i_SegwayMath/steer_val_unscaled[9] ), .B(
+        \i_SegwayMath/steer_val_unscaled[10] ), .CI(
+        \i_SegwayMath/add_26/carry[6] ), .CO(\i_SegwayMath/add_26/carry[7] ), 
+        .S(\i_SegwayMath/steer_val [6]) );
+  FADDX1_RVT \i_SegwayMath/add_26/U1_5  ( .A(
+        \i_SegwayMath/steer_val_unscaled[8] ), .B(
+        \i_SegwayMath/steer_val_unscaled[9] ), .CI(
+        \i_SegwayMath/add_26/carry[5] ), .CO(\i_SegwayMath/add_26/carry[6] ), 
+        .S(\i_SegwayMath/steer_val [5]) );
+  FADDX1_RVT \i_SegwayMath/add_26/U1_4  ( .A(
+        \i_SegwayMath/steer_val_unscaled[7] ), .B(
+        \i_SegwayMath/steer_val_unscaled[8] ), .CI(
+        \i_SegwayMath/add_26/carry[4] ), .CO(\i_SegwayMath/add_26/carry[5] ), 
+        .S(\i_SegwayMath/steer_val [4]) );
+  FADDX1_RVT \i_SegwayMath/add_26/U1_3  ( .A(
+        \i_SegwayMath/steer_val_unscaled[6] ), .B(
+        \i_SegwayMath/steer_val_unscaled[7] ), .CI(
+        \i_SegwayMath/add_26/carry[3] ), .CO(\i_SegwayMath/add_26/carry[4] ), 
+        .S(\i_SegwayMath/steer_val [3]) );
+  FADDX1_RVT \i_SegwayMath/add_26/U1_2  ( .A(
+        \i_SegwayMath/steer_val_unscaled[5] ), .B(
+        \i_SegwayMath/steer_val_unscaled[6] ), .CI(
+        \i_SegwayMath/add_26/carry[2] ), .CO(\i_SegwayMath/add_26/carry[3] ), 
+        .S(\i_SegwayMath/steer_val [2]) );
+  FADDX1_RVT \i_SegwayMath/add_26/U1_1  ( .A(
+        \i_SegwayMath/steer_val_unscaled[4] ), .B(
+        \i_SegwayMath/steer_val_unscaled[5] ), .CI(
+        \i_SegwayMath/add_26/carry[1] ), .CO(\i_SegwayMath/add_26/carry[2] ), 
+        .S(\i_SegwayMath/steer_val [1]) );
+  NOR2X2_RVT \i_SegwayMath/i_lft_spd_sat/U19  ( .A1(
+        \i_SegwayMath/i_lft_spd_sat/n3 ), .A2(\i_SegwayMath/lft_shaped [12]), 
+        .Y(\i_SegwayMath/i_lft_spd_sat/n4 ) );
+  XNOR2X1_RVT \i_SegwayMath/i_lft_spd_sat/U18  ( .A1(
+        \i_SegwayMath/lft_shaped [11]), .A2(\i_SegwayMath/lft_shaped [12]), 
+        .Y(\i_SegwayMath/i_lft_spd_sat/n3 ) );
+  OR2X1_RVT \i_SegwayMath/i_lft_spd_sat/U17  ( .A1(
+        \i_SegwayMath/lft_shaped [11]), .A2(\i_SegwayMath/lft_shaped [9]), .Y(
+        \i_SegwayMath/i_lft_spd_sat/n2 ) );
+  INVX1_RVT \i_SegwayMath/i_lft_spd_sat/U6  ( .A(\i_SegwayMath/lft_shaped [12]), .Y(\i_SegwayMath/i_lft_spd_sat/n6 ) );
+  AO22X1_RVT \i_SegwayMath/i_lft_spd_sat/U5  ( .A1(
+        \i_SegwayMath/i_lft_spd_sat/n2 ), .A2(\i_SegwayMath/i_lft_spd_sat/n6 ), 
+        .A3(\i_SegwayMath/lft_shaped [9]), .A4(\i_SegwayMath/lft_shaped [11]), 
+        .Y(lft_spd[9]) );
+  XNOR2X1_RVT \i_SegwayMath/i_lft_spd_sat/U4  ( .A1(
+        \i_SegwayMath/lft_shaped [11]), .A2(\i_SegwayMath/lft_shaped [12]), 
+        .Y(\i_SegwayMath/i_lft_spd_sat/n5 ) );
+  NBUFFX2_RVT \i_SegwayMath/i_lft_spd_sat/U3  ( .A(
+        \i_SegwayMath/lft_shaped [12]), .Y(lft_spd[11]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U16  ( .A1(
+        \i_SegwayMath/lft_shaped [0]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[0]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U15  ( .A1(
+        \i_SegwayMath/lft_shaped [10]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[10]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U14  ( .A1(
+        \i_SegwayMath/lft_shaped [1]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[1]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U13  ( .A1(
+        \i_SegwayMath/lft_shaped [2]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[2]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U12  ( .A1(
+        \i_SegwayMath/lft_shaped [3]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[3]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U11  ( .A1(
+        \i_SegwayMath/lft_shaped [4]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[4]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U10  ( .A1(
+        \i_SegwayMath/lft_shaped [5]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[5]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U9  ( .A1(
+        \i_SegwayMath/lft_shaped [6]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[6]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U8  ( .A1(
+        \i_SegwayMath/lft_shaped [7]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[7]) );
+  AO21X1_RVT \i_SegwayMath/i_lft_spd_sat/U7  ( .A1(
+        \i_SegwayMath/lft_shaped [8]), .A2(\i_SegwayMath/i_lft_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_lft_spd_sat/n4 ), .Y(lft_spd[8]) );
+  NOR2X2_RVT \i_SegwayMath/i_rght_spd_sat/U19  ( .A1(
+        \i_SegwayMath/i_rght_spd_sat/n8 ), .A2(\i_SegwayMath/rght_shaped [12]), 
+        .Y(\i_SegwayMath/i_rght_spd_sat/n7 ) );
+  INVX1_RVT \i_SegwayMath/i_rght_spd_sat/U18  ( .A(
+        \i_SegwayMath/rght_shaped [12]), .Y(\i_SegwayMath/i_rght_spd_sat/n6 )
+         );
+  NBUFFX2_RVT \i_SegwayMath/i_rght_spd_sat/U17  ( .A(
+        \i_SegwayMath/rght_shaped [12]), .Y(rght_spd[11]) );
+  XNOR2X1_RVT \i_SegwayMath/i_rght_spd_sat/U4  ( .A1(
+        \i_SegwayMath/rght_shaped [11]), .A2(\i_SegwayMath/rght_shaped [12]), 
+        .Y(\i_SegwayMath/i_rght_spd_sat/n5 ) );
+  XNOR2X1_RVT \i_SegwayMath/i_rght_spd_sat/U3  ( .A1(
+        \i_SegwayMath/rght_shaped [11]), .A2(\i_SegwayMath/rght_shaped [12]), 
+        .Y(\i_SegwayMath/i_rght_spd_sat/n8 ) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U16  ( .A1(
+        \i_SegwayMath/rght_shaped [0]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[0]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U15  ( .A1(
+        \i_SegwayMath/rght_shaped [10]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[10]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U14  ( .A1(
+        \i_SegwayMath/rght_shaped [1]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[1]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U13  ( .A1(
+        \i_SegwayMath/rght_shaped [2]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[2]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U12  ( .A1(
+        \i_SegwayMath/rght_shaped [3]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[3]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U11  ( .A1(
+        \i_SegwayMath/rght_shaped [4]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[4]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U10  ( .A1(
+        \i_SegwayMath/rght_shaped [5]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[5]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U9  ( .A1(
+        \i_SegwayMath/rght_shaped [6]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[6]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U8  ( .A1(
+        \i_SegwayMath/rght_shaped [7]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[7]) );
+  AO21X1_RVT \i_SegwayMath/i_rght_spd_sat/U7  ( .A1(
+        \i_SegwayMath/rght_shaped [8]), .A2(\i_SegwayMath/i_rght_spd_sat/n5 ), 
+        .A3(\i_SegwayMath/i_rght_spd_sat/n7 ), .Y(rght_spd[8]) );
+  OR2X1_RVT \i_SegwayMath/i_rght_spd_sat/U6  ( .A1(
+        \i_SegwayMath/rght_shaped [11]), .A2(\i_SegwayMath/rght_shaped [9]), 
+        .Y(\i_SegwayMath/i_rght_spd_sat/n9 ) );
+  AO22X1_RVT \i_SegwayMath/i_rght_spd_sat/U5  ( .A1(
+        \i_SegwayMath/i_rght_spd_sat/n9 ), .A2(
+        \i_SegwayMath/i_rght_spd_sat/n6 ), .A3(\i_SegwayMath/rght_shaped [9]), 
+        .A4(\i_SegwayMath/rght_shaped [11]), .Y(rght_spd[9]) );
+  NAND2X0_RVT \i_SegwayMath/sub_38/U13  ( .A1(\i_SegwayMath/sub_38/n1 ), .A2(
+        \i_SegwayMath/steer_val_ext_en [0]), .Y(\i_SegwayMath/sub_38/carry [1]) );
+  INVX1_RVT \i_SegwayMath/sub_38/U12  ( .A(\i_SegwayMath/steer_val_ext_en [9]), 
+        .Y(\i_SegwayMath/sub_38/n2 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U11  ( .A(\i_SegwayMath/steer_val_ext_en [0]), 
+        .Y(\i_SegwayMath/sub_38/n11 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U10  ( .A(\i_SegwayMath/steer_val_ext_en [3]), 
+        .Y(\i_SegwayMath/sub_38/n8 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U9  ( .A(\i_SegwayMath/steer_val_ext_en [4]), 
+        .Y(\i_SegwayMath/sub_38/n7 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U8  ( .A(\i_SegwayMath/steer_val_ext_en [8]), 
+        .Y(\i_SegwayMath/sub_38/n3 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U7  ( .A(\i_SegwayMath/steer_val_ext_en [5]), 
+        .Y(\i_SegwayMath/sub_38/n6 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U6  ( .A(\i_SegwayMath/steer_val_ext_en [6]), 
+        .Y(\i_SegwayMath/sub_38/n5 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U5  ( .A(\i_SegwayMath/steer_val_ext_en [7]), 
+        .Y(\i_SegwayMath/sub_38/n4 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U4  ( .A(\i_SegwayMath/steer_val_ext_en [2]), 
+        .Y(\i_SegwayMath/sub_38/n9 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U3  ( .A(\i_SegwayMath/steer_val_ext_en [1]), 
+        .Y(\i_SegwayMath/sub_38/n10 ) );
+  XNOR2X1_RVT \i_SegwayMath/sub_38/U2  ( .A1(\i_SegwayMath/PID_ss [0]), .A2(
+        \i_SegwayMath/sub_38/n11 ), .Y(\i_SegwayMath/N49 ) );
+  INVX1_RVT \i_SegwayMath/sub_38/U1  ( .A(\i_SegwayMath/PID_ss [0]), .Y(
+        \i_SegwayMath/sub_38/n1 ) );
+  XOR3X1_RVT \i_SegwayMath/sub_38/U2_12  ( .A1(\i_SegwayMath/PID_ss [11]), 
+        .A2(\i_SegwayMath/sub_38/n2 ), .A3(\i_SegwayMath/sub_38/carry [12]), 
+        .Y(\i_SegwayMath/rght_torque [12]) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_1  ( .A(\i_SegwayMath/PID_ss [1]), .B(
+        \i_SegwayMath/sub_38/n10 ), .CI(\i_SegwayMath/sub_38/carry [1]), .CO(
+        \i_SegwayMath/sub_38/carry [2]), .S(\i_SegwayMath/N50 ) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_2  ( .A(\i_SegwayMath/PID_ss [2]), .B(
+        \i_SegwayMath/sub_38/n9 ), .CI(\i_SegwayMath/sub_38/carry [2]), .CO(
+        \i_SegwayMath/sub_38/carry [3]), .S(\i_SegwayMath/N51 ) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_3  ( .A(\i_SegwayMath/PID_ss [3]), .B(
+        \i_SegwayMath/sub_38/n8 ), .CI(\i_SegwayMath/sub_38/carry [3]), .CO(
+        \i_SegwayMath/sub_38/carry [4]), .S(\i_SegwayMath/rght_torque [3]) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_4  ( .A(\i_SegwayMath/PID_ss [4]), .B(
+        \i_SegwayMath/sub_38/n7 ), .CI(\i_SegwayMath/sub_38/carry [4]), .CO(
+        \i_SegwayMath/sub_38/carry [5]), .S(\i_SegwayMath/rght_torque [4]) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_5  ( .A(\i_SegwayMath/PID_ss [5]), .B(
+        \i_SegwayMath/sub_38/n6 ), .CI(\i_SegwayMath/sub_38/carry [5]), .CO(
+        \i_SegwayMath/sub_38/carry [6]), .S(\i_SegwayMath/rght_torque [5]) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_6  ( .A(\i_SegwayMath/PID_ss [6]), .B(
+        \i_SegwayMath/sub_38/n5 ), .CI(\i_SegwayMath/sub_38/carry [6]), .CO(
+        \i_SegwayMath/sub_38/carry [7]), .S(\i_SegwayMath/rght_torque [6]) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_7  ( .A(\i_SegwayMath/PID_ss [7]), .B(
+        \i_SegwayMath/sub_38/n4 ), .CI(\i_SegwayMath/sub_38/carry [7]), .CO(
+        \i_SegwayMath/sub_38/carry [8]), .S(\i_SegwayMath/rght_torque [7]) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_8  ( .A(\i_SegwayMath/PID_ss [8]), .B(
+        \i_SegwayMath/sub_38/n3 ), .CI(\i_SegwayMath/sub_38/carry [8]), .CO(
+        \i_SegwayMath/sub_38/carry [9]), .S(\i_SegwayMath/rght_torque [8]) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_9  ( .A(\i_SegwayMath/PID_ss [9]), .B(
+        \i_SegwayMath/sub_38/n2 ), .CI(\i_SegwayMath/sub_38/carry [9]), .CO(
+        \i_SegwayMath/sub_38/carry [10]), .S(\i_SegwayMath/rght_torque [9]) );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_10  ( .A(\i_SegwayMath/PID_ss [10]), .B(
+        \i_SegwayMath/sub_38/n2 ), .CI(\i_SegwayMath/sub_38/carry [10]), .CO(
+        \i_SegwayMath/sub_38/carry [11]), .S(\i_SegwayMath/rght_torque [10])
+         );
+  FADDX1_RVT \i_SegwayMath/sub_38/U2_11  ( .A(\i_SegwayMath/PID_ss [11]), .B(
+        \i_SegwayMath/sub_38/n2 ), .CI(\i_SegwayMath/sub_38/carry [11]), .CO(
+        \i_SegwayMath/sub_38/carry [12]), .S(\i_SegwayMath/rght_torque[11] )
+         );
+  AND2X1_RVT \i_SegwayMath/add_37/U2  ( .A1(\i_SegwayMath/PID_ss [0]), .A2(
+        \i_SegwayMath/steer_val_ext_en [0]), .Y(\i_SegwayMath/add_37/carry [1]) );
+  XOR2X1_RVT \i_SegwayMath/add_37/U1  ( .A1(\i_SegwayMath/steer_val_ext_en [0]), .A2(\i_SegwayMath/PID_ss [0]), .Y(\i_SegwayMath/N17 ) );
+  XOR3X1_RVT \i_SegwayMath/add_37/U1_12  ( .A1(\i_SegwayMath/PID_ss [11]), 
+        .A2(\i_SegwayMath/steer_val_ext_en [9]), .A3(
+        \i_SegwayMath/add_37/carry [12]), .Y(\i_SegwayMath/lft_torque [12]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_1  ( .A(\i_SegwayMath/PID_ss [1]), .B(
+        \i_SegwayMath/steer_val_ext_en [1]), .CI(
+        \i_SegwayMath/add_37/carry [1]), .CO(\i_SegwayMath/add_37/carry [2]), 
+        .S(\i_SegwayMath/N18 ) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_2  ( .A(\i_SegwayMath/PID_ss [2]), .B(
+        \i_SegwayMath/steer_val_ext_en [2]), .CI(
+        \i_SegwayMath/add_37/carry [2]), .CO(\i_SegwayMath/add_37/carry [3]), 
+        .S(\i_SegwayMath/N19 ) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_3  ( .A(\i_SegwayMath/PID_ss [3]), .B(
+        \i_SegwayMath/steer_val_ext_en [3]), .CI(
+        \i_SegwayMath/add_37/carry [3]), .CO(\i_SegwayMath/add_37/carry [4]), 
+        .S(\i_SegwayMath/lft_torque [3]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_4  ( .A(\i_SegwayMath/PID_ss [4]), .B(
+        \i_SegwayMath/steer_val_ext_en [4]), .CI(
+        \i_SegwayMath/add_37/carry [4]), .CO(\i_SegwayMath/add_37/carry [5]), 
+        .S(\i_SegwayMath/lft_torque [4]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_5  ( .A(\i_SegwayMath/PID_ss [5]), .B(
+        \i_SegwayMath/steer_val_ext_en [5]), .CI(
+        \i_SegwayMath/add_37/carry [5]), .CO(\i_SegwayMath/add_37/carry [6]), 
+        .S(\i_SegwayMath/lft_torque [5]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_6  ( .A(\i_SegwayMath/PID_ss [6]), .B(
+        \i_SegwayMath/steer_val_ext_en [6]), .CI(
+        \i_SegwayMath/add_37/carry [6]), .CO(\i_SegwayMath/add_37/carry [7]), 
+        .S(\i_SegwayMath/lft_torque [6]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_7  ( .A(\i_SegwayMath/PID_ss [7]), .B(
+        \i_SegwayMath/steer_val_ext_en [7]), .CI(
+        \i_SegwayMath/add_37/carry [7]), .CO(\i_SegwayMath/add_37/carry [8]), 
+        .S(\i_SegwayMath/lft_torque [7]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_8  ( .A(\i_SegwayMath/PID_ss [8]), .B(
+        \i_SegwayMath/steer_val_ext_en [8]), .CI(
+        \i_SegwayMath/add_37/carry [8]), .CO(\i_SegwayMath/add_37/carry [9]), 
+        .S(\i_SegwayMath/lft_torque [8]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_9  ( .A(\i_SegwayMath/PID_ss [9]), .B(
+        \i_SegwayMath/steer_val_ext_en [9]), .CI(
+        \i_SegwayMath/add_37/carry [9]), .CO(\i_SegwayMath/add_37/carry [10]), 
+        .S(\i_SegwayMath/lft_torque [9]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_10  ( .A(\i_SegwayMath/PID_ss [10]), .B(
+        \i_SegwayMath/steer_val_ext_en [9]), .CI(
+        \i_SegwayMath/add_37/carry [10]), .CO(\i_SegwayMath/add_37/carry [11]), 
+        .S(\i_SegwayMath/lft_torque [10]) );
+  FADDX1_RVT \i_SegwayMath/add_37/U1_11  ( .A(\i_SegwayMath/PID_ss [11]), .B(
+        \i_SegwayMath/steer_val_ext_en [9]), .CI(
+        \i_SegwayMath/add_37/carry [11]), .CO(\i_SegwayMath/add_37/carry [12]), 
+        .S(\i_SegwayMath/lft_torque[11] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U169  ( .A1(ss_tmr[1]), .A2(PID_cntrl[1]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][1] ) );
+  AND3X1_RVT \i_SegwayMath/mult_13/U168  ( .A1(ss_tmr[0]), .A2(PID_cntrl[0]), 
+        .A3(\i_SegwayMath/mult_13/ab[1][1] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][0] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U167  ( .A1(ss_tmr[0]), .A2(PID_cntrl[10]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][10] ) );
+  NOR2X0_RVT \i_SegwayMath/mult_13/U166  ( .A1(\i_SegwayMath/mult_13/n12 ), 
+        .A2(ss_tmr[0]), .Y(\i_SegwayMath/mult_13/ab[0][11] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U165  ( .A1(ss_tmr[0]), .A2(PID_cntrl[2]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U164  ( .A1(ss_tmr[0]), .A2(PID_cntrl[3]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U163  ( .A1(ss_tmr[0]), .A2(PID_cntrl[4]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U162  ( .A1(ss_tmr[0]), .A2(PID_cntrl[5]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U161  ( .A1(ss_tmr[0]), .A2(PID_cntrl[6]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U160  ( .A1(ss_tmr[0]), .A2(PID_cntrl[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U159  ( .A1(ss_tmr[0]), .A2(PID_cntrl[8]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U158  ( .A1(ss_tmr[0]), .A2(PID_cntrl[9]), 
+        .Y(\i_SegwayMath/mult_13/ab[0][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U157  ( .A1(ss_tmr[1]), .A2(PID_cntrl[10]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][10] ) );
+  NOR2X0_RVT \i_SegwayMath/mult_13/U156  ( .A1(\i_SegwayMath/mult_13/n12 ), 
+        .A2(ss_tmr[1]), .Y(\i_SegwayMath/mult_13/ab[1][11] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U155  ( .A1(ss_tmr[1]), .A2(PID_cntrl[2]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U154  ( .A1(ss_tmr[1]), .A2(PID_cntrl[3]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U153  ( .A1(ss_tmr[1]), .A2(PID_cntrl[4]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U152  ( .A1(ss_tmr[1]), .A2(PID_cntrl[5]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U151  ( .A1(ss_tmr[1]), .A2(PID_cntrl[6]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U150  ( .A1(ss_tmr[1]), .A2(PID_cntrl[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U149  ( .A1(ss_tmr[1]), .A2(PID_cntrl[8]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U148  ( .A1(ss_tmr[1]), .A2(PID_cntrl[9]), 
+        .Y(\i_SegwayMath/mult_13/ab[1][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U147  ( .A1(ss_tmr[2]), .A2(PID_cntrl[0]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][0] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U146  ( .A1(ss_tmr[2]), .A2(PID_cntrl[10]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][10] ) );
+  NOR2X0_RVT \i_SegwayMath/mult_13/U145  ( .A1(\i_SegwayMath/mult_13/n12 ), 
+        .A2(ss_tmr[2]), .Y(\i_SegwayMath/mult_13/ab[2][11] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U144  ( .A1(ss_tmr[2]), .A2(PID_cntrl[1]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][1] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U143  ( .A1(ss_tmr[2]), .A2(PID_cntrl[2]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U142  ( .A1(ss_tmr[2]), .A2(PID_cntrl[3]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U141  ( .A1(ss_tmr[2]), .A2(PID_cntrl[4]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U140  ( .A1(ss_tmr[2]), .A2(PID_cntrl[5]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U139  ( .A1(ss_tmr[2]), .A2(PID_cntrl[6]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U138  ( .A1(ss_tmr[2]), .A2(PID_cntrl[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U137  ( .A1(ss_tmr[2]), .A2(PID_cntrl[8]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U136  ( .A1(ss_tmr[2]), .A2(PID_cntrl[9]), 
+        .Y(\i_SegwayMath/mult_13/ab[2][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U135  ( .A1(ss_tmr[3]), .A2(PID_cntrl[1]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][1] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U134  ( .A1(ss_tmr[3]), .A2(PID_cntrl[2]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U133  ( .A1(ss_tmr[3]), .A2(PID_cntrl[3]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U132  ( .A1(ss_tmr[3]), .A2(PID_cntrl[4]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U131  ( .A1(ss_tmr[3]), .A2(PID_cntrl[5]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U130  ( .A1(ss_tmr[3]), .A2(PID_cntrl[6]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U129  ( .A1(ss_tmr[3]), .A2(PID_cntrl[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U128  ( .A1(ss_tmr[3]), .A2(PID_cntrl[8]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U127  ( .A1(ss_tmr[3]), .A2(
+        \i_SegwayMath/mult_13/n11 ), .Y(\i_SegwayMath/mult_13/ab[3][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U126  ( .A1(ss_tmr[4]), .A2(PID_cntrl[0]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][0] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U125  ( .A1(ss_tmr[4]), .A2(PID_cntrl[1]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][1] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U124  ( .A1(ss_tmr[4]), .A2(PID_cntrl[2]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U123  ( .A1(ss_tmr[4]), .A2(PID_cntrl[3]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U122  ( .A1(ss_tmr[4]), .A2(PID_cntrl[4]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U121  ( .A1(ss_tmr[4]), .A2(PID_cntrl[5]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U120  ( .A1(ss_tmr[4]), .A2(PID_cntrl[6]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U119  ( .A1(ss_tmr[4]), .A2(PID_cntrl[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U118  ( .A1(ss_tmr[4]), .A2(PID_cntrl[8]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U117  ( .A1(ss_tmr[4]), .A2(
+        \i_SegwayMath/mult_13/n11 ), .Y(\i_SegwayMath/mult_13/ab[4][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U116  ( .A1(ss_tmr[5]), .A2(PID_cntrl[0]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][0] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U115  ( .A1(ss_tmr[5]), .A2(PID_cntrl[10]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][10] ) );
+  NOR2X0_RVT \i_SegwayMath/mult_13/U114  ( .A1(\i_SegwayMath/mult_13/n12 ), 
+        .A2(ss_tmr[5]), .Y(\i_SegwayMath/mult_13/ab[5][11] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U113  ( .A1(ss_tmr[5]), .A2(PID_cntrl[1]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][1] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U112  ( .A1(ss_tmr[5]), .A2(PID_cntrl[2]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U111  ( .A1(ss_tmr[5]), .A2(PID_cntrl[3]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U110  ( .A1(ss_tmr[5]), .A2(PID_cntrl[4]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U109  ( .A1(ss_tmr[5]), .A2(PID_cntrl[5]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U108  ( .A1(ss_tmr[5]), .A2(PID_cntrl[6]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U107  ( .A1(ss_tmr[5]), .A2(PID_cntrl[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U106  ( .A1(ss_tmr[5]), .A2(PID_cntrl[8]), 
+        .Y(\i_SegwayMath/mult_13/ab[5][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U105  ( .A1(ss_tmr[5]), .A2(
+        \i_SegwayMath/mult_13/n11 ), .Y(\i_SegwayMath/mult_13/ab[5][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U104  ( .A1(ss_tmr[6]), .A2(PID_cntrl[0]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][0] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U103  ( .A1(ss_tmr[6]), .A2(PID_cntrl[10]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][10] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U102  ( .A1(ss_tmr[6]), .A2(PID_cntrl[1]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][1] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U101  ( .A1(ss_tmr[6]), .A2(PID_cntrl[2]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U100  ( .A1(ss_tmr[6]), .A2(PID_cntrl[3]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U99  ( .A1(ss_tmr[6]), .A2(PID_cntrl[4]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U98  ( .A1(ss_tmr[6]), .A2(PID_cntrl[5]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U97  ( .A1(ss_tmr[6]), .A2(PID_cntrl[6]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U96  ( .A1(ss_tmr[6]), .A2(PID_cntrl[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U95  ( .A1(ss_tmr[6]), .A2(PID_cntrl[8]), 
+        .Y(\i_SegwayMath/mult_13/ab[6][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U94  ( .A1(ss_tmr[6]), .A2(
+        \i_SegwayMath/mult_13/n11 ), .Y(\i_SegwayMath/mult_13/ab[6][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U93  ( .A1(PID_cntrl[0]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][0] ) );
+  NOR2X0_RVT \i_SegwayMath/mult_13/U92  ( .A1(\i_SegwayMath/mult_13/n12 ), 
+        .A2(ss_tmr[7]), .Y(\i_SegwayMath/mult_13/ab[7][11] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U91  ( .A1(PID_cntrl[1]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][1] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U90  ( .A1(PID_cntrl[2]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U89  ( .A1(PID_cntrl[3]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U88  ( .A1(PID_cntrl[4]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U87  ( .A1(PID_cntrl[5]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U86  ( .A1(PID_cntrl[6]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U85  ( .A1(PID_cntrl[7]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U84  ( .A1(PID_cntrl[8]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U83  ( .A1(\i_SegwayMath/mult_13/n11 ), 
+        .A2(ss_tmr[7]), .Y(\i_SegwayMath/mult_13/ab[7][9] ) );
+  NBUFFX2_RVT \i_SegwayMath/mult_13/U81  ( .A(PID_cntrl[9]), .Y(
+        \i_SegwayMath/mult_13/n11 ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U80  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][10] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][9] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U79  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][9] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][8] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U78  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][8] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][7] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U77  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][7] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][6] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U76  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][6] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][5] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U75  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][5] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][4] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U74  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][4] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][3] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U73  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][3] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][2] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U72  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][2] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][1] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][1] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U71  ( .A1(\i_SegwayMath/mult_13/ab[7][11] ), .A2(\i_SegwayMath/mult_13/CARRYB[7][10] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][10] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U70  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][1] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][0] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[8][0] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U69  ( .A1(\i_SegwayMath/mult_13/ab[1][10] ), .A2(\i_SegwayMath/mult_13/ab[0][11] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][10] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U68  ( .A1(\i_SegwayMath/mult_13/ab[1][9] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][10] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][9] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U67  ( .A1(\i_SegwayMath/mult_13/ab[1][8] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][9] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][8] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U66  ( .A1(\i_SegwayMath/mult_13/ab[1][7] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][8] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][7] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U65  ( .A1(\i_SegwayMath/mult_13/ab[1][6] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][7] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][6] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U64  ( .A1(\i_SegwayMath/mult_13/ab[1][5] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][6] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][5] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U63  ( .A1(\i_SegwayMath/mult_13/ab[1][4] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][5] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][4] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U62  ( .A1(\i_SegwayMath/mult_13/ab[1][3] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][4] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][3] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U61  ( .A1(\i_SegwayMath/mult_13/ab[1][2] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][3] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][2] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U60  ( .A1(\i_SegwayMath/mult_13/ab[1][1] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][2] ), .Y(
+        \i_SegwayMath/mult_13/CARRYB[1][1] ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/U58  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][9] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][10] ), .Y(\i_SegwayMath/mult_13/A2[17] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U57  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][8] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][9] ), .Y(\i_SegwayMath/mult_13/A2[16] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U56  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][7] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][8] ), .Y(\i_SegwayMath/mult_13/A2[15] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U55  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][6] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][7] ), .Y(\i_SegwayMath/mult_13/A2[14] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U54  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][5] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][6] ), .Y(\i_SegwayMath/mult_13/A2[13] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U53  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][4] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][5] ), .Y(\i_SegwayMath/mult_13/A2[12] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U52  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][3] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][4] ), .Y(\i_SegwayMath/mult_13/A2[11] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U51  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][1] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][2] ), .Y(\i_SegwayMath/mult_13/A2[9] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U50  ( .A1(
+        \i_SegwayMath/mult_13/CARRYB[8][0] ), .A2(
+        \i_SegwayMath/mult_13/SUMB[8][1] ), .Y(\i_SegwayMath/mult_13/A2[8] )
+         );
+  AND2X1_RVT \i_SegwayMath/mult_13/U49  ( .A1(PID_cntrl[10]), .A2(ss_tmr[7]), 
+        .Y(\i_SegwayMath/mult_13/ab[7][10] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U48  ( .A1(\i_SegwayMath/mult_13/n2 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][3] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][2] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U47  ( .A1(\i_SegwayMath/mult_13/n3 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][4] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][3] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U46  ( .A1(\i_SegwayMath/mult_13/n4 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][5] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][4] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U45  ( .A1(\i_SegwayMath/mult_13/n5 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][6] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][5] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U44  ( .A1(\i_SegwayMath/mult_13/n6 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][7] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][6] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U43  ( .A1(\i_SegwayMath/mult_13/n9 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][10] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][9] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U42  ( .A1(\i_SegwayMath/mult_13/n7 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][8] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][7] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U41  ( .A1(\i_SegwayMath/mult_13/n10 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][11] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][10] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U40  ( .A1(\i_SegwayMath/mult_13/n8 ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][9] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][8] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U39  ( .A1(\i_SegwayMath/mult_13/ab[7][11] ), .A2(\i_SegwayMath/mult_13/CARRYB[7][10] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][10] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U38  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][10] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][9] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][9] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U37  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][9] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][8] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][8] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U36  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][8] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][7] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][7] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U35  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][7] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][6] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][6] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U34  ( .A1(\i_SegwayMath/mult_13/ab[1][1] ), 
+        .A2(\i_SegwayMath/mult_13/ab[0][2] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[1][1] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U33  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][6] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][5] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][5] ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U32  ( .A(\i_SegwayMath/mult_13/ab[1][2] ), 
+        .Y(\i_SegwayMath/mult_13/n2 ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U31  ( .A(\i_SegwayMath/mult_13/ab[1][3] ), 
+        .Y(\i_SegwayMath/mult_13/n3 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U30  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][5] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][4] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][4] ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U29  ( .A(\i_SegwayMath/mult_13/ab[1][4] ), 
+        .Y(\i_SegwayMath/mult_13/n4 ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U28  ( .A(\i_SegwayMath/mult_13/ab[1][5] ), 
+        .Y(\i_SegwayMath/mult_13/n5 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U27  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][1] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][0] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][0] ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U26  ( .A(\i_SegwayMath/mult_13/ab[1][6] ), 
+        .Y(\i_SegwayMath/mult_13/n6 ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U25  ( .A(\i_SegwayMath/mult_13/ab[1][9] ), 
+        .Y(\i_SegwayMath/mult_13/n9 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U24  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][3] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][2] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][2] ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U23  ( .A(\i_SegwayMath/mult_13/ab[1][7] ), 
+        .Y(\i_SegwayMath/mult_13/n7 ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U22  ( .A(\i_SegwayMath/mult_13/ab[1][10] ), 
+        .Y(\i_SegwayMath/mult_13/n10 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U21  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][4] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][3] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][3] ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U20  ( .A(\i_SegwayMath/mult_13/ab[1][8] ), 
+        .Y(\i_SegwayMath/mult_13/n8 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U19  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[7][2] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[7][1] ), .Y(
+        \i_SegwayMath/mult_13/SUMB[8][1] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U18  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[8][10] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[8][9] ), .Y(\i_SegwayMath/mult_13/A1[16] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U17  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[8][9] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[8][8] ), .Y(\i_SegwayMath/mult_13/A1[15] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U16  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[8][8] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[8][7] ), .Y(\i_SegwayMath/mult_13/A1[14] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U15  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[8][7] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[8][6] ), .Y(\i_SegwayMath/mult_13/A1[13] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U14  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[8][6] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[8][5] ), .Y(\i_SegwayMath/mult_13/A1[12] ) );
+  INVX1_RVT \i_SegwayMath/mult_13/U13  ( .A(PID_cntrl[11]), .Y(
+        \i_SegwayMath/mult_13/n12 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U12  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[8][5] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[8][4] ), .Y(\i_SegwayMath/mult_13/A1[11] ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/U11  ( .A1(\i_SegwayMath/mult_13/n12 ), 
+        .A2(\i_SegwayMath/mult_13/CARRYB[8][10] ), .Y(
+        \i_SegwayMath/mult_13/A1[17] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U10  ( .A1(
+        \i_SegwayMath/mult_13/SUMB[8][4] ), .A2(
+        \i_SegwayMath/mult_13/CARRYB[8][3] ), .Y(\i_SegwayMath/mult_13/A1[10] ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U9  ( .A1(\i_SegwayMath/mult_13/SUMB[8][2] ), .A2(\i_SegwayMath/mult_13/CARRYB[8][1] ), .Y(\i_SegwayMath/mult_13/A1[8] )
+         );
+  XOR2X1_RVT \i_SegwayMath/mult_13/U8  ( .A1(\i_SegwayMath/mult_13/SUMB[8][1] ), .A2(\i_SegwayMath/mult_13/CARRYB[8][0] ), .Y(\i_SegwayMath/mult_13/A1[7] )
+         );
+  NOR2X1_RVT \i_SegwayMath/mult_13/U7  ( .A1(\i_SegwayMath/mult_13/n12 ), .A2(
+        ss_tmr[6]), .Y(\i_SegwayMath/mult_13/ab[6][11] ) );
+  AND2X4_RVT \i_SegwayMath/mult_13/U6  ( .A1(ss_tmr[3]), .A2(PID_cntrl[10]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][10] ) );
+  AND2X4_RVT \i_SegwayMath/mult_13/U5  ( .A1(ss_tmr[3]), .A2(PID_cntrl[0]), 
+        .Y(\i_SegwayMath/mult_13/ab[3][0] ) );
+  NOR2X4_RVT \i_SegwayMath/mult_13/U4  ( .A1(\i_SegwayMath/mult_13/n12 ), .A2(
+        ss_tmr[3]), .Y(\i_SegwayMath/mult_13/ab[3][11] ) );
+  AND2X4_RVT \i_SegwayMath/mult_13/U3  ( .A1(ss_tmr[4]), .A2(PID_cntrl[10]), 
+        .Y(\i_SegwayMath/mult_13/ab[4][10] ) );
+  NOR2X4_RVT \i_SegwayMath/mult_13/U2  ( .A1(\i_SegwayMath/mult_13/n12 ), .A2(
+        ss_tmr[4]), .Y(\i_SegwayMath/mult_13/ab[4][11] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S3_2_10  ( .A(
+        \i_SegwayMath/mult_13/ab[2][10] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][10] ), .CI(
+        \i_SegwayMath/mult_13/ab[1][11] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][10] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][10] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_9  ( .A(
+        \i_SegwayMath/mult_13/ab[2][9] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][9] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][10] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][9] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][9] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_8  ( .A(
+        \i_SegwayMath/mult_13/ab[2][8] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][8] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][9] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][8] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][8] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_7  ( .A(
+        \i_SegwayMath/mult_13/ab[2][7] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][7] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][8] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][7] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][7] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_6  ( .A(
+        \i_SegwayMath/mult_13/ab[2][6] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][6] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][7] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][6] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][6] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_5  ( .A(
+        \i_SegwayMath/mult_13/ab[2][5] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][5] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][6] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][5] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][5] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_4  ( .A(
+        \i_SegwayMath/mult_13/ab[2][4] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][4] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][5] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][4] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][4] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_3  ( .A(
+        \i_SegwayMath/mult_13/ab[2][3] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][3] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][4] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][3] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][3] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_2  ( .A(
+        \i_SegwayMath/mult_13/ab[2][2] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][2] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][3] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][2] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][2] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_2_1  ( .A(
+        \i_SegwayMath/mult_13/ab[2][1] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][1] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][2] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][1] ), .S(
+        \i_SegwayMath/mult_13/SUMB[2][1] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S1_2_0  ( .A(
+        \i_SegwayMath/mult_13/ab[2][0] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[1][0] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[1][1] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[2][0] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S3_3_10  ( .A(
+        \i_SegwayMath/mult_13/ab[3][10] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][10] ), .CI(
+        \i_SegwayMath/mult_13/ab[2][11] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][10] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][10] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_9  ( .A(
+        \i_SegwayMath/mult_13/ab[3][9] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][9] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][10] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][9] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][9] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_8  ( .A(
+        \i_SegwayMath/mult_13/ab[3][8] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][8] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][9] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][8] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][8] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_7  ( .A(
+        \i_SegwayMath/mult_13/ab[3][7] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][7] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][8] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][7] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][7] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_6  ( .A(
+        \i_SegwayMath/mult_13/ab[3][6] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][6] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][7] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][6] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][6] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_5  ( .A(
+        \i_SegwayMath/mult_13/ab[3][5] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][5] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][6] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][5] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][5] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_4  ( .A(
+        \i_SegwayMath/mult_13/ab[3][4] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][4] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][5] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][4] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][4] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_3  ( .A(
+        \i_SegwayMath/mult_13/ab[3][3] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][3] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][4] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][3] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][3] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_2  ( .A(
+        \i_SegwayMath/mult_13/ab[3][2] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][2] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][3] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][2] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][2] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_3_1  ( .A(
+        \i_SegwayMath/mult_13/ab[3][1] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][1] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][2] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][1] ), .S(
+        \i_SegwayMath/mult_13/SUMB[3][1] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S1_3_0  ( .A(
+        \i_SegwayMath/mult_13/ab[3][0] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[2][0] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[2][1] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[3][0] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S3_4_10  ( .A(
+        \i_SegwayMath/mult_13/ab[4][10] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][10] ), .CI(
+        \i_SegwayMath/mult_13/ab[3][11] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][10] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][10] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_9  ( .A(
+        \i_SegwayMath/mult_13/ab[4][9] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][9] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][10] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][9] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][9] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_8  ( .A(
+        \i_SegwayMath/mult_13/ab[4][8] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][8] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][9] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][8] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][8] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_7  ( .A(
+        \i_SegwayMath/mult_13/ab[4][7] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][7] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][8] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][7] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][7] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_6  ( .A(
+        \i_SegwayMath/mult_13/ab[4][6] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][6] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][7] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][6] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][6] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_5  ( .A(
+        \i_SegwayMath/mult_13/ab[4][5] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][5] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][6] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][5] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][5] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_4  ( .A(
+        \i_SegwayMath/mult_13/ab[4][4] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][4] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][5] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][4] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][4] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_3  ( .A(
+        \i_SegwayMath/mult_13/ab[4][3] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][3] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][4] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][3] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][3] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_2  ( .A(
+        \i_SegwayMath/mult_13/ab[4][2] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][2] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][3] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][2] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][2] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_4_1  ( .A(
+        \i_SegwayMath/mult_13/ab[4][1] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][1] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][2] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][1] ), .S(
+        \i_SegwayMath/mult_13/SUMB[4][1] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S1_4_0  ( .A(
+        \i_SegwayMath/mult_13/ab[4][0] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[3][0] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[3][1] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[4][0] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S3_5_10  ( .A(
+        \i_SegwayMath/mult_13/ab[5][10] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][10] ), .CI(
+        \i_SegwayMath/mult_13/ab[4][11] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][10] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][10] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_9  ( .A(
+        \i_SegwayMath/mult_13/ab[5][9] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][9] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][10] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][9] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][9] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_8  ( .A(
+        \i_SegwayMath/mult_13/ab[5][8] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][8] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][9] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][8] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][8] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_7  ( .A(
+        \i_SegwayMath/mult_13/ab[5][7] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][7] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][8] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][7] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][7] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_6  ( .A(
+        \i_SegwayMath/mult_13/ab[5][6] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][6] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][7] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][6] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][6] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_5  ( .A(
+        \i_SegwayMath/mult_13/ab[5][5] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][5] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][6] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][5] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][5] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_4  ( .A(
+        \i_SegwayMath/mult_13/ab[5][4] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][4] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][5] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][4] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][4] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_3  ( .A(
+        \i_SegwayMath/mult_13/ab[5][3] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][3] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][4] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][3] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][3] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_2  ( .A(
+        \i_SegwayMath/mult_13/ab[5][2] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][2] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][3] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][2] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][2] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_5_1  ( .A(
+        \i_SegwayMath/mult_13/ab[5][1] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][1] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][2] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][1] ), .S(
+        \i_SegwayMath/mult_13/SUMB[5][1] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S1_5_0  ( .A(
+        \i_SegwayMath/mult_13/ab[5][0] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[4][0] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[4][1] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[5][0] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S3_6_10  ( .A(
+        \i_SegwayMath/mult_13/ab[6][10] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][10] ), .CI(
+        \i_SegwayMath/mult_13/ab[5][11] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][10] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][10] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_9  ( .A(
+        \i_SegwayMath/mult_13/ab[6][9] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][9] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][10] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][9] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][9] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_8  ( .A(
+        \i_SegwayMath/mult_13/ab[6][8] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][8] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][9] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][8] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][8] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_7  ( .A(
+        \i_SegwayMath/mult_13/ab[6][7] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][7] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][8] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][7] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][7] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_6  ( .A(
+        \i_SegwayMath/mult_13/ab[6][6] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][6] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][7] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][6] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][6] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_5  ( .A(
+        \i_SegwayMath/mult_13/ab[6][5] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][5] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][6] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][5] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][5] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_4  ( .A(
+        \i_SegwayMath/mult_13/ab[6][4] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][4] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][5] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][4] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][4] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_3  ( .A(
+        \i_SegwayMath/mult_13/ab[6][3] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][3] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][4] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][3] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][3] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_2  ( .A(
+        \i_SegwayMath/mult_13/ab[6][2] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][2] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][3] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][2] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][2] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_6_1  ( .A(
+        \i_SegwayMath/mult_13/ab[6][1] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][1] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][2] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][1] ), .S(
+        \i_SegwayMath/mult_13/SUMB[6][1] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S1_6_0  ( .A(
+        \i_SegwayMath/mult_13/ab[6][0] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[5][0] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[5][1] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[6][0] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S3_7_10  ( .A(
+        \i_SegwayMath/mult_13/ab[7][10] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][10] ), .CI(
+        \i_SegwayMath/mult_13/ab[6][11] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][10] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][10] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_9  ( .A(
+        \i_SegwayMath/mult_13/ab[7][9] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][9] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][10] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][9] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][9] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_8  ( .A(
+        \i_SegwayMath/mult_13/ab[7][8] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][8] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][9] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][8] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][8] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_7  ( .A(
+        \i_SegwayMath/mult_13/ab[7][7] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][7] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][8] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][7] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][7] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_6  ( .A(
+        \i_SegwayMath/mult_13/ab[7][6] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][6] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][7] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][6] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][6] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_5  ( .A(
+        \i_SegwayMath/mult_13/ab[7][5] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][5] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][6] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][5] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][5] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_4  ( .A(
+        \i_SegwayMath/mult_13/ab[7][4] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][4] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][5] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][4] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][4] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_3  ( .A(
+        \i_SegwayMath/mult_13/ab[7][3] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][3] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][4] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][3] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][3] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_2  ( .A(
+        \i_SegwayMath/mult_13/ab[7][2] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][2] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][3] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][2] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][2] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S2_7_1  ( .A(
+        \i_SegwayMath/mult_13/ab[7][1] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][1] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][2] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][1] ), .S(
+        \i_SegwayMath/mult_13/SUMB[7][1] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S1_7_0  ( .A(
+        \i_SegwayMath/mult_13/ab[7][0] ), .B(
+        \i_SegwayMath/mult_13/CARRYB[6][0] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[6][1] ), .CO(
+        \i_SegwayMath/mult_13/CARRYB[7][0] ) );
+  FADDX1_RVT \i_SegwayMath/mult_13/S14_11_0  ( .A(PID_cntrl[11]), .B(
+        \i_SegwayMath/mult_13/CARRYB[8][2] ), .CI(
+        \i_SegwayMath/mult_13/SUMB[8][3] ), .CO(\i_SegwayMath/mult_13/A2[10] ), 
+        .S(\i_SegwayMath/mult_13/A1[9] ) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U59  ( .A1(
+        \i_SegwayMath/mult_13/A2[10] ), .A2(\i_SegwayMath/mult_13/A1[10] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n44 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U58  ( .A1(
+        \i_SegwayMath/mult_13/A2[10] ), .A2(\i_SegwayMath/mult_13/A1[10] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n45 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U57  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n44 ), .A2(\i_SegwayMath/mult_13/FS_1/n45 ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n49 ) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U56  ( .A1(\i_SegwayMath/mult_13/A2[9] ), .A2(\i_SegwayMath/mult_13/A1[9] ), .Y(\i_SegwayMath/mult_13/FS_1/n15 ) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U55  ( .A1(\i_SegwayMath/mult_13/A2[8] ), .A2(\i_SegwayMath/mult_13/A1[8] ), .Y(\i_SegwayMath/mult_13/FS_1/n17 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U54  ( .A1(
+        \i_SegwayMath/mult_13/A2[8] ), .A2(\i_SegwayMath/mult_13/A1[8] ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n18 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U53  ( .A1(
+        \i_SegwayMath/mult_13/A2[9] ), .A2(\i_SegwayMath/mult_13/A1[9] ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n16 ) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U52  ( .A1(
+        \i_SegwayMath/mult_13/A2[11] ), .A2(\i_SegwayMath/mult_13/A1[11] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n41 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U51  ( .A1(
+        \i_SegwayMath/mult_13/A2[11] ), .A2(\i_SegwayMath/mult_13/A1[11] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n42 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U50  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n41 ), .A2(\i_SegwayMath/mult_13/FS_1/n42 ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n46 ) );
+  OA21X1_RVT \i_SegwayMath/mult_13/FS_1/U49  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n11 ), .A2(\i_SegwayMath/mult_13/FS_1/n48 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n45 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n47 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/FS_1/U48  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n46 ), .A2(\i_SegwayMath/mult_13/FS_1/n47 ), 
+        .Y(\i_SegwayMath/PID_ss [5]) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U47  ( .A1(
+        \i_SegwayMath/mult_13/A2[12] ), .A2(\i_SegwayMath/mult_13/A1[12] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n37 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U46  ( .A1(
+        \i_SegwayMath/mult_13/A2[12] ), .A2(\i_SegwayMath/mult_13/A1[12] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n38 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U45  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n37 ), .A2(\i_SegwayMath/mult_13/FS_1/n38 ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n39 ) );
+  AO21X1_RVT \i_SegwayMath/mult_13/FS_1/U44  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n43 ), .A2(\i_SegwayMath/mult_13/FS_1/n44 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n10 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n40 ) );
+  AO21X1_RVT \i_SegwayMath/mult_13/FS_1/U43  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n40 ), .A2(\i_SegwayMath/mult_13/FS_1/n41 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n9 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n36 ) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/FS_1/U42  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n39 ), .A2(\i_SegwayMath/mult_13/FS_1/n36 ), 
+        .Y(\i_SegwayMath/PID_ss [6]) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U41  ( .A1(
+        \i_SegwayMath/mult_13/A2[13] ), .A2(\i_SegwayMath/mult_13/A1[13] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n34 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U40  ( .A1(
+        \i_SegwayMath/mult_13/A2[13] ), .A2(\i_SegwayMath/mult_13/A1[13] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n33 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U39  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n34 ), .A2(\i_SegwayMath/mult_13/FS_1/n33 ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n35 ) );
+  AOI21X1_RVT \i_SegwayMath/mult_13/FS_1/U38  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n36 ), .A2(\i_SegwayMath/mult_13/FS_1/n37 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n8 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n32 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/FS_1/U37  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n35 ), .A2(\i_SegwayMath/mult_13/FS_1/n32 ), 
+        .Y(\i_SegwayMath/PID_ss [7]) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U36  ( .A1(
+        \i_SegwayMath/mult_13/A2[14] ), .A2(\i_SegwayMath/mult_13/A1[14] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n30 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U35  ( .A1(
+        \i_SegwayMath/mult_13/A2[14] ), .A2(\i_SegwayMath/mult_13/A1[14] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n29 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U34  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n30 ), .A2(\i_SegwayMath/mult_13/FS_1/n29 ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n31 ) );
+  OA21X1_RVT \i_SegwayMath/mult_13/FS_1/U33  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n32 ), .A2(\i_SegwayMath/mult_13/FS_1/n7 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n33 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n28 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/FS_1/U32  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n31 ), .A2(\i_SegwayMath/mult_13/FS_1/n28 ), 
+        .Y(\i_SegwayMath/PID_ss [8]) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U31  ( .A1(
+        \i_SegwayMath/mult_13/A2[15] ), .A2(\i_SegwayMath/mult_13/A1[15] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n26 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U30  ( .A1(
+        \i_SegwayMath/mult_13/A2[15] ), .A2(\i_SegwayMath/mult_13/A1[15] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n25 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U29  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n26 ), .A2(\i_SegwayMath/mult_13/FS_1/n25 ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n27 ) );
+  OA21X1_RVT \i_SegwayMath/mult_13/FS_1/U28  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n28 ), .A2(\i_SegwayMath/mult_13/FS_1/n6 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n29 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n24 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/FS_1/U27  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n27 ), .A2(\i_SegwayMath/mult_13/FS_1/n24 ), 
+        .Y(\i_SegwayMath/PID_ss [9]) );
+  OR2X1_RVT \i_SegwayMath/mult_13/FS_1/U26  ( .A1(
+        \i_SegwayMath/mult_13/A2[16] ), .A2(\i_SegwayMath/mult_13/A1[16] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n22 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U25  ( .A1(
+        \i_SegwayMath/mult_13/A2[16] ), .A2(\i_SegwayMath/mult_13/A1[16] ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n21 ) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U24  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n22 ), .A2(\i_SegwayMath/mult_13/FS_1/n21 ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n23 ) );
+  OA21X1_RVT \i_SegwayMath/mult_13/FS_1/U23  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n24 ), .A2(\i_SegwayMath/mult_13/FS_1/n5 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n25 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n20 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/FS_1/U22  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n23 ), .A2(\i_SegwayMath/mult_13/FS_1/n20 ), 
+        .Y(\i_SegwayMath/PID_ss [10]) );
+  OA21X1_RVT \i_SegwayMath/mult_13/FS_1/U21  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n4 ), .A2(\i_SegwayMath/mult_13/FS_1/n20 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n21 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n19 ) );
+  XNOR3X1_RVT \i_SegwayMath/mult_13/FS_1/U20  ( .A1(
+        \i_SegwayMath/mult_13/A2[17] ), .A2(\i_SegwayMath/mult_13/A1[17] ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n19 ), .Y(\i_SegwayMath/PID_ss [11]) );
+  NAND2X0_RVT \i_SegwayMath/mult_13/FS_1/U19  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n15 ), .A2(\i_SegwayMath/mult_13/FS_1/n16 ), 
+        .Y(\i_SegwayMath/mult_13/FS_1/n14 ) );
+  AND2X1_RVT \i_SegwayMath/mult_13/FS_1/U18  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n17 ), .A2(\i_SegwayMath/mult_13/FS_1/n18 ), 
+        .Y(\i_SegwayMath/PID_ss [2]) );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U17  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n18 ), .Y(\i_SegwayMath/mult_13/FS_1/n13 )
+         );
+  NBUFFX2_RVT \i_SegwayMath/mult_13/FS_1/U16  ( .A(
+        \i_SegwayMath/mult_13/SUMB[8][0] ), .Y(\i_SegwayMath/PID_ss [0]) );
+  NBUFFX2_RVT \i_SegwayMath/mult_13/FS_1/U15  ( .A(
+        \i_SegwayMath/mult_13/A1[7] ), .Y(\i_SegwayMath/PID_ss [1]) );
+  AO21X1_RVT \i_SegwayMath/mult_13/FS_1/U14  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n13 ), .A2(\i_SegwayMath/mult_13/FS_1/n15 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n12 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n43 ) );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U13  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n45 ), .Y(\i_SegwayMath/mult_13/FS_1/n10 )
+         );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U12  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n42 ), .Y(\i_SegwayMath/mult_13/FS_1/n9 )
+         );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U11  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n16 ), .Y(\i_SegwayMath/mult_13/FS_1/n12 )
+         );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U10  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n44 ), .Y(\i_SegwayMath/mult_13/FS_1/n11 )
+         );
+  AOI21X1_RVT \i_SegwayMath/mult_13/FS_1/U9  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n15 ), .A2(\i_SegwayMath/mult_13/FS_1/n13 ), 
+        .A3(\i_SegwayMath/mult_13/FS_1/n12 ), .Y(
+        \i_SegwayMath/mult_13/FS_1/n48 ) );
+  XOR2X1_RVT \i_SegwayMath/mult_13/FS_1/U8  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n49 ), .A2(\i_SegwayMath/mult_13/FS_1/n48 ), 
+        .Y(\i_SegwayMath/PID_ss [4]) );
+  XNOR2X1_RVT \i_SegwayMath/mult_13/FS_1/U7  ( .A1(
+        \i_SegwayMath/mult_13/FS_1/n14 ), .A2(\i_SegwayMath/mult_13/FS_1/n13 ), 
+        .Y(\i_SegwayMath/PID_ss [3]) );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U6  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n22 ), .Y(\i_SegwayMath/mult_13/FS_1/n4 )
+         );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U5  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n26 ), .Y(\i_SegwayMath/mult_13/FS_1/n5 )
+         );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U4  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n30 ), .Y(\i_SegwayMath/mult_13/FS_1/n6 )
+         );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U3  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n34 ), .Y(\i_SegwayMath/mult_13/FS_1/n7 )
+         );
+  INVX1_RVT \i_SegwayMath/mult_13/FS_1/U2  ( .A(
+        \i_SegwayMath/mult_13/FS_1/n38 ), .Y(\i_SegwayMath/mult_13/FS_1/n8 )
+         );
+endmodule
+

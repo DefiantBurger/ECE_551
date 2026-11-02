@@ -1,0 +1,17 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex04/arith.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex04/arith.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex04/Ex04.mpf' is used as the ini file.
+-- Compiling module arith
+
+Top level modules:
+	arith
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex04/arith_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex04/arith_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex04/Ex04.mpf' is used as the ini file.
+-- Compiling module arith_tb
+
+Top level modules:
+	arith_tb
+
+} {} {}}

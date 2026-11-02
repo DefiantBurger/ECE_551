@@ -1,0 +1,16 @@
+stateDiagram-v2
+    direction LR
+    state init
+    state balancing
+    state balanced
+
+    [*] --> init: rst_n==0
+
+    init --> init: sum lt min / clr_tmr=0, en_steer=0, rider_off=1
+    init --> balancing: sum_gt_min / clr_tmr=0, en_steer=0, rider_off=0
+
+    balancing --> balancing: diff_gt_1_4==1 / clr_tmr=1, en_steer=0, rider_off=0
+    balancing --> balancing: diff_gt_1_4==0 / clr_tmr=0, en_steer=0, rider_off=0
+    balancing --> balanced: tmr_full / clr_tmr=0, en_steer=1, rider_off=0
+
+    balanced --> init: sum_lt_min || diff_gt_15_16 / clr_tmr=0, en_steer=0, rider_off=1

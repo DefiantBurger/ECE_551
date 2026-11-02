@@ -1,0 +1,5 @@
+compile:
+	vlog *.sv
+
+run:
+	vlog *.sv && vsim -c -do "run -all; quit" balance_cntrl_chk_tb

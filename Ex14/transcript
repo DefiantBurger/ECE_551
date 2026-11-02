@@ -1,0 +1,37 @@
+# ** Note: (vsim-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# vsim -c -do "run -all; quit" PID_dbg_tb 
+# Start time: 10:40:22 on Oct 16,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vopt-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.PID_dbg_tb(fast)
+# run -all
+# GOOD1: zero in should give zero out
+# GOOD2: PID_cntrl should be P_term only
+# GOOD3: ss_tmr should be 0x00 since pwr_up=0
+# GOOD4: D_term in proper range
+# GOOD5: I_term should be 0x00be
+# GOOD6: I_term should be 0x023d
+# ERROR: I_term should be 0x3fff and P_term should be 0x0237
+#        Positive saturation of PID_cntrl should occur at 0x7ff
+# ** Note: $stop    : PID_fastsim_tb.sv(105)
+#    Time: 27600 ns  Iteration: 1  Instance: /PID_dbg_tb
+# Break at PID_fastsim_tb.sv line 105
+# Stopped at PID_fastsim_tb.sv line 105
+#  quit
+# End time: 10:40:22 on Oct 16,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

@@ -1,0 +1,122 @@
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading project Ex02
+# reading /home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini
+# Loading project Ex03
+# Compile of dff.sv was successful.
+# Compile of sync_detect.sv was successful.
+# Compile of synch_detect_tb.sv was successful.
+# 3 compiles, 0 failed with no errors.
+vsim work.synch_detect_tb -voptargs=+acc
+# ** Note: (vsim-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# vsim work.synch_detect_tb -voptargs="+acc" 
+# Start time: 10:09:38 on Sep 11,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# ** Error: /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv(10): Module 'synch_detect' is not defined.
+#  For instance 'iDUT' at path 'synch_detect_tb'
+# Optimization failed
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=1, Warnings=1.
+# Error loading design
+# End time: 10:09:38 on Sep 11,2026, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 6
+# Compile of synch_detect.sv was successful.
+vsim -voptargs=+acc work.synch_detect_tb
+# ** Note: (vsim-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# vsim -voptargs="+acc" work.synch_detect_tb 
+# Start time: 10:11:00 on Sep 11,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.synch_detect_tb(fast)
+# Loading work.synch_detect(fast)
+# Loading work.dff(fast)
+add wave -position insertpoint sim:/synch_detect_tb/iDUT/*
+# Load canceled
+# Load canceled
+run
+quit -sim
+# End time: 10:14:41 on Sep 11,2026, Elapsed time: 0:03:41
+# Errors: 0, Warnings: 5
+vsim -voptargs=+acc work.synch_detect_tb
+# ** Note: (vsim-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# vsim -voptargs="+acc" work.synch_detect_tb 
+# Start time: 10:16:22 on Sep 11,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading sv_std.std
+# Loading work.synch_detect_tb(fast)
+# Loading work.synch_detect(fast)
+# Loading work.dff(fast)
+add wave -position insertpoint sim:/synch_detect_tb/iDUT/*
+run -all
+# YAHOO!! all tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv(53)
+#    Time: 191 ns  Iteration: 0  Instance: /synch_detect_tb
+# Break in Module synch_detect_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv line 53
+quit -sim
+# End time: 10:17:41 on Sep 11,2026, Elapsed time: 0:01:19
+# Errors: 0, Warnings: 2
+# Compile of synch_detect.sv was successful.
+vsim -voptargs=+acc work.synch_detect_tb
+# ** Note: (vsim-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# vsim -voptargs="+acc" work.synch_detect_tb 
+# Start time: 10:17:58 on Sep 11,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.synch_detect_tb(fast)
+# Loading work.synch_detect(fast)
+# Loading work.dff(fast)
+add wave -position insertpoint sim:/synch_detect_tb/iDUT/*
+# Load canceled
+run -all
+# You should have detected rising edge here
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv(44)
+#    Time: 171 ns  Iteration: 0  Instance: /synch_detect_tb
+# Break in Module synch_detect_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv line 44
+# Can't move the Now cursor.
+quit -sim
+# End time: 10:19:22 on Sep 11,2026, Elapsed time: 0:01:24
+# Errors: 0, Warnings: 3
+# Compile of synch_detect.sv was successful.
+vsim -voptargs=+acc work.synch_detect_tb
+# ** Note: (vsim-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# vsim -voptargs="+acc" work.synch_detect_tb 
+# Start time: 10:19:34 on Sep 11,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/Ex03.mpf' is used as the ini file.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.synch_detect_tb(fast)
+# Loading work.synch_detect(fast)
+# Loading work.dff(fast)
+add wave -position insertpoint sim:/synch_detect_tb/iDUT/*
+run -all
+# YAHOO!! all tests passed!
+# 
+# ** Note: $stop    : /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv(53)
+#    Time: 191 ns  Iteration: 0  Instance: /synch_detect_tb
+# Break in Module synch_detect_tb at /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex03/synch_detect_tb.sv line 53
+quit -sim
+# End time: 10:25:54 on Sep 11,2026, Elapsed time: 0:06:20
+# Errors: 0, Warnings: 3

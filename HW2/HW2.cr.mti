@@ -1,0 +1,80 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/saturate_tb.sv {2 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/saturate_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module saturate_tb
+** Warning: /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/saturate_tb.sv(65): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+** Warning: /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/saturate_tb.sv(75): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+** Warning: /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/saturate_tb.sv(135): (vlog-13562) Size of the numeric literal 'FE2' is bigger than the specified number of bits '10'. 
+
+Top level modules:
+	saturate_tb
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/SegwayMath.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/SegwayMath.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module SegwayMath
+
+Top level modules:
+	SegwayMath
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/PID_Math.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/PID_Math.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module PID_Math
+
+Top level modules:
+	PID_Math
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/SegwayMath_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/SegwayMath_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module SegwayMath_tb
+
+Top level modules:
+	SegwayMath_tb
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/PID_Math_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/PID_Math_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module PID_Math_tb
+
+Top level modules:
+	PID_Math_tb
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2_prob5.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2_prob5.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module d_ff_sync_reset
+-- Compiling module d_ff_async_reset_en
+-- Compiling module sr_ff
+
+Top level modules:
+	d_ff_sync_reset
+	d_ff_async_reset_en
+	sr_ff
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/adder.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/adder.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module adder
+
+Top level modules:
+	adder
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/saturate.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/saturate.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module saturate
+
+Top level modules:
+	saturate
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/adder_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/adder_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/HW2/HW2.mpf' is used as the ini file.
+-- Compiling module adder_tb
+
+Top level modules:
+	adder_tb
+
+} {} {}}
