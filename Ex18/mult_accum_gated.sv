@@ -14,28 +14,29 @@ module mult_accum_gated (
     reg [31:0] prod_reg;
     reg en_stg2;
 
-    logic clk_en_lat_1;
-    always_latch begin
-        if (!clk) clk_en_lat_1 <= en;
-    end
+    logic clk_en_lat_1, clk_en_lat_2;
+    logic gclk1, gclk2;
+
+    always_latch if (!clk) clk_en_lat_1 <= en;
+
+    assign gclk1 = clk & clk_en_lat_1;
 
     ///////////////////////////////////////////
     // Generate and flop product if enabled //
     /////////////////////////////////////////
-    always_ff @(posedge clk) if (clk_en_lat_1) prod_reg <= A * B;
+    always_ff @(posedge gclk1) prod_reg <= A * B;
 
     /////////////////////////////////////////////////////
     // Pipeline the enable signal to accumulate stage //
     ///////////////////////////////////////////////////
     always_ff @(posedge clk) en_stg2 <= en;
 
-    logic clk_en_lat_2;
-    always_latch begin
-        if (!clk) clk_en_lat_2 <= en_stg2 || clr;
-    end
+    always_latch if (!clk) clk_en_lat_2 <= en_stg2 || clr;
 
-    always_ff @(posedge clk)
+    assign gclk2 = clk & clk_en_lat_2;
+
+    always_ff @(posedge gclk2)
         if (clr) accum <= 64'h0000000000000000;
-        else if (clk_en_lat_2) accum <= accum + prod_reg;
+        else accum <= accum + prod_reg;
 
 endmodule
