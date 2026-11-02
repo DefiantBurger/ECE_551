@@ -65,11 +65,11 @@ compile -map_effort medium
 
 check_design
 
-report_area
+report_area > area.rpt
 
 #########################
 # Report power analysis #
 #########################
-report_power
+report_power > power.rpt
 
 
