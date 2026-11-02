@@ -14,15 +14,15 @@ module mult_accum_gated (
     reg [31:0] prod_reg;
     reg en_stg2;
 
-    logic clk_en_lat;
+    logic clk_en_lat_1;
     always_latch begin
-        if (!clk) clk_en_lat <= en;
+        if (!clk) clk_en_lat_1 <= en;
     end
 
     ///////////////////////////////////////////
     // Generate and flop product if enabled //
     /////////////////////////////////////////
-    always_ff @(posedge clk) if (en) if (clk_en_lat) prod_reg <= A * B;
+    always_ff @(posedge clk) if (clk_en_lat_1) prod_reg <= A * B;
 
     /////////////////////////////////////////////////////
     // Pipeline the enable signal to accumulate stage //
