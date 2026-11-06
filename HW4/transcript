@@ -1,0 +1,30 @@
+# ** Note: (vsim-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# vsim -c -do "run -all; quit" Auth_blk_tb 
+# Start time: 22:46:15 on Nov 02,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Note: (vopt-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.Auth_blk_tb(fast)
+# run -all
+# YAHOO! All tests passed.
+# ** Note: $stop    : Auth_blk_tb.sv(162)
+#    Time: 13543120 ns  Iteration: 1  Instance: /Auth_blk_tb
+# Break at Auth_blk_tb.sv line 162
+# Stopped at Auth_blk_tb.sv line 162
+#  quit
+# End time: 22:46:18 on Nov 02,2026, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 0

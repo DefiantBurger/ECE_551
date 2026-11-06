@@ -1,0 +1,5 @@
+compile:
+	vlog *.sv
+
+test:
+	vlog *.sv && vsim -c -do "run -all; quit" Auth_blk_tb

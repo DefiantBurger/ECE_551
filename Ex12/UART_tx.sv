@@ -1,63 +1,121 @@
-module UART_tx (
-    input  logic       clk,
-    input  logic       rst_n,
-    input  logic       trmt,
-    input  logic [7:0] tx_data,
-    output logic       TX,
-    output logic       tx_done
+// Control FSM for UART_tx
+module UART_tx_SM (
+    input clk,
+    rst_n,
+    trmt,
+    baud_done,
+    done9,
+    output logic init,
+    transmitting,
+    shift,
+    set_done
 );
+    typedef enum logic {
+        IDLE,
+        TRANSMITTING
+    } state_t;
+    state_t state, next_state;
 
-    // 50 MHz / 9600 baud ~= 5208 clock cycles
-    localparam logic [12:0] BAUD_COUNT = 13'd5207;
-
-    logic [12:0] counter;
-    logic [8:0] tx_buffer;
-    logic [3:0] bits_sent;
-    logic transmitting;
-
-    // Counter reaches zero when it is time to send the next bit
-    logic baud_tick;
-    assign baud_tick = (counter == 0);
-
-    // TX = LSB or high if not transmitting
-    assign TX = transmitting ? tx_buffer[0] : 1;
-
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            counter <= 0;
-            tx_buffer <= '1;
-            bits_sent <= 0;
-            transmitting <= 0;
-            tx_done <= 0;
-        end else begin
-
-            // Start sending data
-            if (trmt && !transmitting) begin
-                tx_buffer <= {tx_data, 1'b0};
-                counter <= BAUD_COUNT;
-                bits_sent <= 0;
-                transmitting <= 1;
-                tx_done <= 0;
-            end else if (transmitting) begin
-                if (baud_tick) begin
-                    counter <= BAUD_COUNT;
-
-                    if (bits_sent == 4'd9) begin
-                        // all done :D
-                        transmitting <= 0;
-                        tx_done <= 1;
-                    end else begin
-                        tx_buffer <= {1'b1, tx_buffer[8:1]};
-                        bits_sent <= bits_sent + 1;
-                    end
-                end else begin
-                    counter <= counter - 1;
-                end
-            end else begin
-                counter <= 0;
-            end
-
-        end
+    // State flip flop
+    always_ff @(negedge rst_n or posedge clk) begin
+        if (!rst_n) state <= IDLE;
+        else state <= next_state;
     end
+
+    // Next state & output logic
+    always_comb begin
+        next_state = state;
+
+        init = 0;
+        transmitting = 0;
+        shift = 0;
+        set_done = 0;
+
+        case (state)
+            IDLE: begin
+                if (trmt) begin
+                    next_state = TRANSMITTING;
+                    init = 1;
+                end
+            end
+            TRANSMITTING: begin
+                transmitting = 1;
+                if (baud_done) begin
+                    shift = 1;
+                    // 10th shift ends the stop bit
+                    if (done9) begin
+                        next_state = IDLE;
+                        set_done = 1;
+                    end
+                end
+            end
+            default: next_state = IDLE;
+        endcase
+    end
+endmodule
+
+module UART_tx (
+    input clk,
+    rst_n,
+    trmt,
+    input [7:0] tx_data,
+    output logic TX,
+    tx_done
+);
+    // 50 MHz / 9600 baud ~= 5208 clocks per bit
+    localparam logic [12:0] BAUD_CYCLES = 13'd5207;
+
+    logic baud_done, done9;  // SM inputs
+    logic init, transmitting, shift, set_done;  // SM outputs
+    UART_tx_SM i_SM (
+        .clk(clk),
+        .rst_n(rst_n),
+        .trmt(trmt),
+        .baud_done(baud_done),
+        .done9(done9),
+        .init(init),
+        .transmitting(transmitting),
+        .shift(shift),
+        .set_done(set_done)
+    );
+
+    // tx_done is flopped to avoid glitches
+    always_ff @(negedge rst_n or posedge clk) begin
+        if (!rst_n) tx_done <= 0;
+        else if (init) tx_done <= 0;
+        else if (set_done) tx_done <= 1;
+        else tx_done <= tx_done;
+    end
+
+    // Counts shifts; done9 flags the 10th (final) shift
+    logic [3:0] bit_cnt;
+    always_ff @(negedge rst_n or posedge clk) begin
+        if (!rst_n) bit_cnt <= 0;
+        else bit_cnt <= init ? 0 : bit_cnt + shift;
+    end
+
+    assign done9 = (bit_cnt == 4'd9);
+
+    // Baud counter: reload on start/shift, count down while transmitting
+    logic [12:0] baud_cnt;
+    always_ff @(negedge rst_n or posedge clk) begin
+        if (!rst_n) baud_cnt <= 0;
+        else if (init | shift) baud_cnt <= BAUD_CYCLES;
+        else if (transmitting) baud_cnt <= baud_cnt - 1;
+        else baud_cnt <= baud_cnt;
+    end
+
+    assign baud_done = (baud_cnt == 0);
+
+    // {data, start} shifted out LSB first; 1s shift in to form the stop bit / idle
+    logic [8:0] tx_shft_reg;
+    always_ff @(negedge rst_n or posedge clk) begin
+        if (!rst_n) tx_shft_reg <= '1;
+        else if (init) tx_shft_reg <= {tx_data, 1'b0};
+        else if (shift) tx_shft_reg <= {1'b1, tx_shft_reg[8:1]};
+        else tx_shft_reg <= tx_shft_reg;
+    end
+
+    assign TX = tx_shft_reg[0];
 
 endmodule

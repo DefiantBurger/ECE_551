@@ -1,6 +1,6 @@
 # ** Note: (vsim-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
 # vsim -c -do "run -all; quit" UART_tb 
-# Start time: 22:21:37 on Oct 12,2026
+# Start time: 22:28:41 on Nov 02,2026
 # ** Note: (vsim-8009) Loading existing optimized design _opt
 # //  Questa Altera Starter FPGA Edition-64
 # //  Version 2025.2 linux_x86_64 May 31 2025
@@ -19,18 +19,23 @@
 # Loading sv_std.std
 # Loading work.UART_tb(fast)
 # run -all
-# Test 1 passed!
-# Test 2 passed!
-# Test 3 passed!
-# Test 4 passed!
-# Test 5 passed!
-# Test 6 passed!
-# Test 7 passed!
-# All tests passed!
-# ** Note: $stop    : UART_tb.sv(78)
-#    Time: 7291720 ns  Iteration: 1  Instance: /UART_tb
-# Break at UART_tb.sv line 78
-# Stopped at UART_tb.sv line 78
+# Test 1: values during reset
+# Test 2: line stays idle with no trmt
+# Test 3: send one byte, check each bit on the line
+# Test 4: rdy and tx_done stay high while idle
+# Test 5: clr_rdy knocks rdy down, and only rdy
+# Test 6: edge-case bytes
+# Test 7: next start bit clears rdy without clr_rdy
+# Test 8: clr_rdy during a frame does not disturb it
+# Test 9: trmt during a frame is ignored, tx_data is latched at start
+# Test 10: back-to-back frames (trmt as soon as tx_done)
+# Test 11: reset in the middle of a frame
+# Test 12: 32 random bytes
+# YAHOO!! All tests passed (1850 checks)
+# ** Note: $stop    : UART_tb.sv(232)
+#    Time: 53439640 ns  Iteration: 1  Instance: /UART_tb
+# Break at UART_tb.sv line 232
+# Stopped at UART_tb.sv line 232
 #  quit
-# End time: 22:21:38 on Oct 12,2026, Elapsed time: 0:00:01
+# End time: 22:28:49 on Nov 02,2026, Elapsed time: 0:00:08
 # Errors: 0, Warnings: 0

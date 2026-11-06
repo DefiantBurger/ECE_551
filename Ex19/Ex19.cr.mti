@@ -1,0 +1,26 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/rst_synch.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/rst_synch.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/Ex19.mpf' is used as the ini file.
+-- Compiling module rst_synch
+
+Top level modules:
+	rst_synch
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/piezo_drv.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/piezo_drv.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/Ex19.mpf' is used as the ini file.
+-- Compiling module piezo_drv_SM
+-- Compiling module piezo_drv
+
+Top level modules:
+	piezo_drv
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/d_ff.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/d_ff.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex19/Ex19.mpf' is used as the ini file.
+-- Compiling module d_ff
+
+Top level modules:
+	d_ff
+
+} {} {}}

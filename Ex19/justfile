@@ -1,0 +1,5 @@
+compile:
+	vlog *.sv
+
+run:
+	vlog *.sv && vsim -c -do "run -all; quit" piezo_drv_tb

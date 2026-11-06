@@ -36,7 +36,7 @@ module mult_accum_gated (
     assign gclk2 = clk & clk_en_lat_2;
 
     always_ff @(posedge gclk2)
-        if (clr) accum <= 64'h0000000000000000;
+        if (clr) accum <= 0;
         else accum <= accum + prod_reg;
 
 endmodule
