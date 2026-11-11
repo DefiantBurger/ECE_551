@@ -1,0 +1,38 @@
+# ** Note: (vsim-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# vsim -c -do "run -all; quit" A2D_tb 
+# Start time: 10:34:17 on Nov 11,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Note: (vopt-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.A2D_tb(fast)
+# run -all
+# conversion 0 (channel 0): c00 OK
+# conversion 1 (channel 4): bf4 OK
+# conversion 2 (channel 5): be5 OK
+# conversion 3 (channel 6): bd6 OK
+# conversion 4 (channel 0): bc0 OK
+# conversion 5 (channel 4): bb4 OK
+# conversion 6 (channel 5): ba5 OK
+# conversion 7 (channel 6): b96 OK
+# YAHOO! All tests passed
+# ** Note: $stop    : A2D_tb.sv(101)
+#    Time: 42280 ns  Iteration: 1  Instance: /A2D_tb
+# Break at A2D_tb.sv line 101
+# Stopped at A2D_tb.sv line 101
+#  quit
+# End time: 10:34:18 on Nov 11,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

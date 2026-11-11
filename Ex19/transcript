@@ -1,0 +1,53 @@
+# ** Note: (vsim-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# vsim -c -voptargs="+acc" short_tf_tb -do "do /tmp/claude-1000/-home-joseph-cicalese-SynologyDrive-School-ECE-551/a967600c-86c7-4367-9e1e-dab1651f0f9a/scratchpad/mon2.do" 
+# Start time: 10:33:11 on Nov 06,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10908) Some optimizations are turned off because the +acc switch is in effect.
+# ** Note: (vopt-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# ** Note: (vopt-143) Recognized 1 FSM in module "piezo_drv_SM(fast)".
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.short_tf_tb(fast)
+# Loading work.piezo_drv(fast)
+# Loading work.piezo_drv_SM(fast)
+# do /tmp/claude-1000/-home-joseph-cicalese-SynologyDrive-School-ECE-551/a967600c-86c7-4367-9e1e-dab1651f0f9a/scratchpad/mon2.do
+# 0 OFF en=1'h0 tf=1'h0 bl=1'h0
+# 2 G6_1 en=1'h1 tf=1'h0 bl=1'h0
+# 16387 C7_2 en=1'h1 tf=1'h0 bl=1'h0
+# 32772 E7_3 en=1'h1 tf=1'h1 bl=1'h0
+# 49157 G6_1 en=1'h1 tf=1'h1 bl=1'h0
+# 58594 OFF en=1'h1 tf=1'h0 bl=1'h1
+# 58595 G7_6 en=1'h1 tf=1'h0 bl=1'h1
+# 91364 E7_5 en=1'h1 tf=1'h0 bl=1'h1
+# 99557 G7_4 en=1'h1 tf=1'h0 bl=1'h1
+# 124134 E7_3 en=1'h1 tf=1'h0 bl=1'h1
+# 140519 C7_2 en=1'h1 tf=1'h0 bl=1'h1
+# 156904 G6_1 en=1'h1 tf=1'h0 bl=1'h1
+# 173289 OFF en=1'h1 tf=1'h0 bl=1'h1
+# 351565 G7_6 en=1'h1 tf=1'h0 bl=1'h1
+# 384334 E7_5 en=1'h1 tf=1'h0 bl=1'h1
+# 392527 G7_4 en=1'h1 tf=1'h0 bl=1'h1
+# 417104 E7_3 en=1'h1 tf=1'h0 bl=1'h1
+# 433489 C7_2 en=1'h1 tf=1'h0 bl=1'h1
+# 449874 G6_1 en=1'h1 tf=1'h0 bl=1'h1
+# 466259 OFF en=1'h1 tf=1'h0 bl=1'h1
+# ** Note: $stop    : /tmp/claude-1000/-home-joseph-cicalese-SynologyDrive-School-ECE-551/a967600c-86c7-4367-9e1e-dab1651f0f9a/scratchpad/short_tf_tb.sv(14)
+#    Time: 6445295 ns  Iteration: 1  Instance: /short_tf_tb
+# Break in Module short_tf_tb at /tmp/claude-1000/-home-joseph-cicalese-SynologyDrive-School-ECE-551/a967600c-86c7-4367-9e1e-dab1651f0f9a/scratchpad/short_tf_tb.sv line 14
+# Stopped at /tmp/claude-1000/-home-joseph-cicalese-SynologyDrive-School-ECE-551/a967600c-86c7-4367-9e1e-dab1651f0f9a/scratchpad/short_tf_tb.sv line 14
+# End time: 10:33:13 on Nov 06,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1

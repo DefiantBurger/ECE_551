@@ -38,6 +38,15 @@ module piezo_drv_SM (
         else if (ld_dir) backward <= dir_in;
     end
 
+    // set while too_fast is looping the first 3 notes, so when too_fast
+    // drops we stop instead of finishing the rest of the forward tune
+    logic fast_mode;
+    always_ff @(negedge rst_n or posedge clk) begin
+        if (!rst_n) fast_mode <= 0;
+        else if (too_fast) fast_mode <= 1;
+        else if (current_note == OFF) fast_mode <= 0;
+    end
+
     // next state logic
     always_comb begin
         next_note = current_note;
@@ -52,7 +61,9 @@ module piezo_drv_SM (
                     next_note = G6_1;
                     clr_dur = 1;
                     ld_dir = 1;  // dir_in = 0 -> forward
-                end else if ((en_steer || batt_low) && rpt_done) begin
+                // fast_mode is still set on the first OFF clock after too_fast
+                // drops, so the next tune starts right away without the 3s wait
+                end else if ((en_steer || batt_low) && (rpt_done || fast_mode)) begin
                     next_note = batt_low ? G7_6 : G6_1;
                     clr_dur = 1;
                     clr_rpt = 1;
@@ -60,18 +71,22 @@ module piezo_drv_SM (
                     dir_in = batt_low;
                 end
             end
-            G6_1:
-            if (dur_done) begin
-                next_note = (too_fast || !backward) ? C7_2 : OFF;
+            // too_fast just dropped: stop so OFF can pick the next tune
+            G6_1, C7_2, E7_3:
+            if (fast_mode && !too_fast) begin
+                next_note = OFF;
                 clr_dur   = 1;
-            end
-            C7_2:
-            if (dur_done) begin
-                next_note = (too_fast || !backward) ? E7_3 : G6_1;
-                clr_dur   = 1;
-            end
-            E7_3:
-            if (dur_done) begin
+            end else if (current_note == G6_1) begin
+                if (dur_done) begin
+                    next_note = (too_fast || !backward) ? C7_2 : OFF;
+                    clr_dur   = 1;
+                end
+            end else if (current_note == C7_2) begin
+                if (dur_done) begin
+                    next_note = (too_fast || !backward) ? E7_3 : G6_1;
+                    clr_dur   = 1;
+                end
+            end else if (dur_done) begin
                 if (too_fast) next_note = G6_1;
                 else if (backward) next_note = C7_2;
                 else next_note = G7_4;
