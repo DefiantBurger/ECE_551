@@ -1,5 +1,8 @@
 compile:
 	vlog *.sv
 
-run:
+run-a2d:
 	vlog *.sv && vsim -c -do "run -all; quit" A2D_tb
+
+run-ii:
+    vlog *.sv && vsim -c -do "run -all; quit" inertial_integrator_tb

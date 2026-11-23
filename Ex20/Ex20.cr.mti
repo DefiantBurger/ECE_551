@@ -1,0 +1,91 @@
+/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/SPI_main.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/SPI_main.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module SPI_SM
+-- Compiling module SPI_main
+
+Top level modules:
+	SPI_main
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/A2D_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/A2D_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module A2D_tb
+
+Top level modules:
+	A2D_tb
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/SPI_ADC128S.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/SPI_ADC128S.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module SPI_ADC128S
+
+Top level modules:
+	SPI_ADC128S
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/rst_synch.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/rst_synch.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module rst_synch
+
+Top level modules:
+	rst_synch
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/PB_release.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/PB_release.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module PB_release
+
+Top level modules:
+	PB_release
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/inertial_integrator.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/inertial_integrator.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module inertial_integrator
+
+Top level modules:
+	inertial_integrator
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/ADC128S.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/ADC128S.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module ADC128S
+
+Top level modules:
+	ADC128S
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/A2D_test.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/A2D_test.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module A2D_test
+
+Top level modules:
+	A2D_test
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/inertial_integrator_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/inertial_integrator_tb.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module inertial_integrator_tb
+
+Top level modules:
+	inertial_integrator_tb
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/d_ff.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/d_ff.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module d_ff
+
+Top level modules:
+	d_ff
+
+} {} {}} /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/A2D_intf.sv {1 {vlog -work work -vopt -sv -stats=none /home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/A2D_intf.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/joseph-cicalese/SynologyDrive/School/ECE_551/Ex20/Ex20.mpf' is used as the ini file.
+-- Compiling module A2D_Intf_SM
+-- Compiling module A2D_intf
+
+Top level modules:
+	A2D_intf
+
+} {} {}}
