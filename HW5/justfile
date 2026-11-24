@@ -1,0 +1,13 @@
+compile:
+	vlog -sv balance_cntrl_chk_tb.sv balance_cntrl.sv PID.sv SegwayMath.sv saturate.sv
+
+run: compile
+	vsim -c balance_cntrl_chk_tb -do "run -all; quit"
+
+# Post-synthesis sim: netlist + TB go in gate_work so the RTL in work isn't clobbered.
+# SAED32_lib_RVT was copied from CAE and refreshed (vlog -refresh) for this Questa version.
+gate:
+	/home/joseph-cicalese/altera_lite/25.1std/questa_fse/bin/vlib gate_work
+	vlog -work gate_work balance_cntrl.vg
+	vlog -sv -work gate_work balance_cntrl_chk_tb.sv
+	vsim -c -lib gate_work -L SAED32_lib_RVT +notimingchecks -voptargs=+acc -t ns balance_cntrl_chk_tb -do "run -all; quit"

@@ -1,0 +1,70 @@
+# ** Note: (vsim-220) '/home/joseph-cicalese/altera_lite/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# vsim -c -lib gate_work -L SAED32_lib_RVT "+notimingchecks" -voptargs="+acc" -t ns balance_cntrl_chk_tb -do "run -all; quit" 
+# Start time: 11:20:02 on Nov 24,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.balance_cntrl_chk_tb(fast)
+# Loading work.balance_cntrl(fast)
+# Loading SAED32_lib_RVT.INVX1_RVT(fast)
+# Loading SAED32_lib_RVT.INVX2_RVT(fast)
+# Loading SAED32_lib_RVT.AOI21X2_RVT(fast)
+# Loading SAED32_lib_RVT.AND3X2_RVT(fast)
+# Loading SAED32_lib_RVT.NBUFFX4_RVT(fast)
+# Loading SAED32_lib_RVT.NBUFFX2_RVT(fast)
+# Loading SAED32_lib_RVT.NAND2X0_RVT(fast)
+# Loading SAED32_lib_RVT.XOR2X1_RVT(fast)
+# Loading SAED32_lib_RVT.XNOR2X1_RVT(fast)
+# Loading SAED32_lib_RVT.NAND4X1_RVT(fast)
+# Loading SAED32_lib_RVT.DFFARX2_RVT(fast)
+# Loading SAED32_lib_RVT.FADDX1_RVT(fast)
+# Loading SAED32_lib_RVT.OR2X1_RVT(fast)
+# Loading SAED32_lib_RVT.AO22X1_RVT(fast)
+# Loading SAED32_lib_RVT.AND2X1_RVT(fast)
+# Loading SAED32_lib_RVT.DFFARX1_RVT(fast)
+# Loading SAED32_lib_RVT.AO21X1_RVT(fast)
+# Loading SAED32_lib_RVT.OR4X1_RVT(fast)
+# Loading SAED32_lib_RVT.NOR2X1_RVT(fast)
+# Loading SAED32_lib_RVT.OAI22X1_RVT(fast)
+# Loading SAED32_lib_RVT.NAND4X0_RVT(fast)
+# Loading SAED32_lib_RVT.NAND3X0_RVT(fast)
+# Loading SAED32_lib_RVT.OR3X1_RVT(fast)
+# Loading SAED32_lib_RVT.NOR2X2_RVT(fast)
+# Loading SAED32_lib_RVT.OAI22X2_RVT(fast)
+# Loading SAED32_lib_RVT.AO21X2_RVT(fast)
+# Loading SAED32_lib_RVT.AND2X4_RVT(fast)
+# Loading SAED32_lib_RVT.OA21X1_RVT(fast)
+# Loading SAED32_lib_RVT.XOR3X1_RVT(fast)
+# Loading SAED32_lib_RVT.INVX0_RVT(fast)
+# Loading SAED32_lib_RVT.MUX21X1_RVT(fast)
+# Loading SAED32_lib_RVT.AOI21X1_RVT(fast)
+# Loading SAED32_lib_RVT.AO222X1_RVT(fast)
+# Loading SAED32_lib_RVT.AND3X1_RVT(fast)
+# Loading SAED32_lib_RVT.NOR4X1_RVT(fast)
+# Loading SAED32_lib_RVT.NOR3X0_RVT(fast)
+# Loading SAED32_lib_RVT.AND4X1_RVT(fast)
+# Loading SAED32_lib_RVT.NOR2X0_RVT(fast)
+# Loading SAED32_lib_RVT.NOR2X4_RVT(fast)
+# Loading SAED32_lib_RVT.XNOR3X1_RVT(fast)
+# run -all
+# PASS: all test vectors matched.
+# ** Note: $stop    : balance_cntrl_chk_tb.sv(91)
+#    Time: 15 us  Iteration: 1  Instance: /balance_cntrl_chk_tb
+# Break in Module balance_cntrl_chk_tb at balance_cntrl_chk_tb.sv line 91
+# Stopped at balance_cntrl_chk_tb.sv line 91
+#  quit
+# End time: 11:20:14 on Nov 24,2026, Elapsed time: 0:00:12
+# Errors: 0, Warnings: 0
